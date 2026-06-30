@@ -9,3 +9,6 @@ tsconfig.tsbuildinfo
 *.log
 logs
 .DS_Store
+**/bin/
+**/obj/
+DineCue.Api/appsettings.Development.json
