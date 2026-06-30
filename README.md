@@ -1,82 +1,205 @@
-# DineCue UI
+# DineCue API
 
-Production-quality Next.js frontend for DineCue, a smart dining assistant that helps people decide where to eat by mood, location, preferences, and context.
+DineCue API is the backend for the DineCue mobile experience. It handles authentication, profiles, restaurant/recommendation workflows, async recommendation generation, and realtime status notifications.
 
-## Stack
+## Tech Stack
 
-- Next.js App Router
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- TanStack Query
-- Zod
-- BFF route handlers under `/api`
+- ASP.NET Core
+- PostgreSQL
+- Entity Framework Core
+- JWT authentication
+- SignalR
+- Resend transactional email
+- Google Places API New
+- OpenAI API
 
-## Setup
+## Local Prerequisites
 
-Create `.env.local` from `.env.example`:
+- .NET SDK compatible with the solution target framework
+- Docker Desktop or a local PostgreSQL instance
+- Google Cloud project with Places API New enabled
+- OpenAI API access
+- Resend account for production email delivery
 
-```env
-DINECUE_API_BASE_URL=http://localhost:5000
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
+## Configuration And Secrets
 
-Run locally:
+Do not commit real secrets. Configure local secrets with `dotnet user-secrets`, environment variables, or a cloud secret manager.
+
+Required configuration keys:
+
+- `ConnectionStrings:DefaultConnection`
+- `Jwt:SigningKey`
+- `Jwt:Issuer`
+- `Jwt:Audience`
+- `GooglePlaces:ApiKey`
+- `OpenAI:ApiKey`
+- `OpenAI:Model`
+- `GooglePlaces:RequestTimeoutSeconds`
+- `OpenAI:RequestTimeoutSeconds`
+- `Quotas:MonthlyFree`
+- `Quotas:MonthlyPro`
+- `Email:Provider`
+- `Email:FromEmail`
+- `Email:FromName`
+- `Email:ResendApiKey`
+- `Email:AppBaseUrl`
+- `Email:Enabled`
+- `Email:TimeoutSeconds`
+- `AbuseProtection:DisposableEmailDomains`
+- `AbuseProtection:AccountCreationLimitPerEmailWindow`
+- `AbuseProtection:AccountCreationLimitPerProviderWindow`
+- `AbuseProtection:AccountCreationWindowMinutes`
+
+Local user-secrets example:
 
 ```bash
-npm install
-npm run dev
+dotnet user-secrets init --project DineCue.Api
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "<postgres-connection-string>" --project DineCue.Api
+dotnet user-secrets set "Jwt:SigningKey" "<long-random-secret-at-least-32-characters>" --project DineCue.Api
+dotnet user-secrets set "Jwt:Issuer" "DineCue" --project DineCue.Api
+dotnet user-secrets set "Jwt:Audience" "DineCue.Mobile" --project DineCue.Api
+dotnet user-secrets set "GooglePlaces:ApiKey" "<google-places-api-key>" --project DineCue.Api
+dotnet user-secrets set "OpenAI:ApiKey" "<openai-api-key>" --project DineCue.Api
+dotnet user-secrets set "OpenAI:Model" "<openai-model>" --project DineCue.Api
+dotnet user-secrets set "GooglePlaces:RequestTimeoutSeconds" "12" --project DineCue.Api
+dotnet user-secrets set "OpenAI:RequestTimeoutSeconds" "30" --project DineCue.Api
+dotnet user-secrets set "Quotas:MonthlyFree" "5" --project DineCue.Api
+dotnet user-secrets set "Quotas:MonthlyPro" "50" --project DineCue.Api
+dotnet user-secrets set "Email:Provider" "resend" --project DineCue.Api
+dotnet user-secrets set "Email:FromEmail" "<verified-sender-email>" --project DineCue.Api
+dotnet user-secrets set "Email:FromName" "DineCue" --project DineCue.Api
+dotnet user-secrets set "Email:ResendApiKey" "<resend-api-key>" --project DineCue.Api
+dotnet user-secrets set "Email:AppBaseUrl" "<app-base-url>" --project DineCue.Api
+dotnet user-secrets set "Email:Enabled" "false" --project DineCue.Api
+dotnet user-secrets set "Email:TimeoutSeconds" "10" --project DineCue.Api
+dotnet user-secrets set "AbuseProtection:AccountCreationLimitPerEmailWindow" "3" --project DineCue.Api
+dotnet user-secrets set "AbuseProtection:AccountCreationLimitPerProviderWindow" "3" --project DineCue.Api
+dotnet user-secrets set "AbuseProtection:AccountCreationWindowMinutes" "60" --project DineCue.Api
 ```
 
-The sibling backend project `../dinecue` must be running on the configured backend URL.
+For local mock recommendation development, set:
 
-## BFF Architecture
+```bash
+dotnet user-secrets set "Recommendation:UseMockProvider" "true" --project DineCue.Api
+```
 
-The browser only calls same-origin Next.js routes such as `/api/auth/email/start`, `/api/me`, and `/api/recommendation-sessions`. Next.js route handlers call the DineCue backend API server-side.
+For real Google Places + OpenAI recommendations, set:
 
-The browser must not call the ASP.NET backend, Google Places, OpenAI, or provider APIs directly.
+```bash
+dotnet user-secrets set "Recommendation:UseMockProvider" "false" --project DineCue.Api
+```
 
-## Auth Flow
+## Local Database
 
-Email OTP login uses:
+With Docker Compose, set `POSTGRES_PASSWORD` in your local shell or a local `.env` file that is not committed, then run:
 
-- Browser -> `POST /api/auth/email/start`
-- BFF -> `POST /auth/email/start`
-- Browser -> `POST /api/auth/email/verify`
-- BFF -> `POST /auth/email/verify`
+```bash
+docker compose up -d
+```
 
-The BFF stores backend `accessToken` and `refreshToken` in httpOnly cookies and never returns token values to browser JavaScript.
+Run migrations:
 
-## Recommendation Flow
+```bash
+dotnet ef database update --project DineCue.Infrastructure --startup-project DineCue.Api
+```
 
-- Browser posts to `/api/recommendation-sessions`.
-- BFF posts to backend `/recommendation-sessions`.
-- Backend returns `202 Accepted`.
-- UI navigates to `/app/recommendations/[sessionId]`.
-- UI polls `/api/recommendation-sessions/[sessionId]`.
-- BFF reads backend `/recommendation-sessions/{sessionId}`.
+## Run The API
 
-The backend GET session detail endpoint is the source of truth.
+```bash
+dotnet run --project DineCue.Api
+```
 
-## Polling and SignalR
+Swagger is available in development when enabled:
 
-Backend SignalR exists at `/hubs/recommendations`, but direct browser-to-backend SignalR is intentionally not used in this BFF-first version. Polling through the BFF is the reliable default until a safe realtime proxy exists.
+```text
+http://localhost:5000/swagger
+```
 
-## SEO
+## Async Recommendation Flow
 
-The public landing page uses App Router metadata, canonical URLs, Open Graph, Twitter metadata, sitemap, robots, semantic HTML, and safe JSON-LD. Authenticated app pages are `noindex`.
+- `POST /recommendation-sessions` authenticates the user, validates the request, creates a session, queues a background job, and returns `202 Accepted`.
+- The background worker calls backend-only Google Places and OpenAI providers, then persists recommendations.
+- `GET /recommendation-sessions/{id}` is the source of truth for status, errors, and results.
+- SignalR at `/hubs/recommendations` only sends status notifications. It does not send full recommendation data.
 
-The landing page supports client-side language switching for `en`, `tr`, and `de` without locale-prefixed routes. The hero carousel uses fictional presentation-only examples, not real restaurant claims.
+## Monthly Quotas
 
-## Security
+DineCue uses backend-enforced monthly usage credits. The default free plan has 5 credits per calendar month and the future/manual Pro plan has 50 credits per calendar month. Public upgrade, checkout, Stripe, and billing flows are not implemented yet.
 
-- No real secrets are committed.
-- No provider keys are stored in frontend code.
-- No `NEXT_PUBLIC_API_BASE_URL`.
-- Tokens stay in httpOnly cookies.
-- BFF errors are sanitized.
-- Private app pages are not SEO landing pages.
+Quota-consuming actions share one monthly pool:
 
-## Documentation
+- Recommendation sessions
+- Menu scans
+- Restaurant fit checks
 
-See `docs/` for product, design, SEO, API integration, security, and i18n decisions.
+The client can read safe quota state with:
+
+```text
+GET /quota
+```
+
+The response includes the current plan, monthly limit, used credits, remaining credits, period key, and period end. The client cannot set plan or quota values. Provider failures during recommendation generation release the reserved recommendation credit, so failed Google Places/OpenAI jobs do not consume the user's monthly allowance.
+
+Free-plan usage is also associated with privacy-conscious identity hashes such as normalized email and OAuth provider subject. This helps prevent deleted or recreated accounts from receiving a fresh Free allowance in the same month without storing raw abuse-tracking identity data.
+
+Basic abuse protection is configurable:
+
+- OTP starts and verification attempts are rate limited.
+- First-account creation is throttled per normalized email hash and provider identity hash.
+- Disposable email domains can be added to `AbuseProtection:DisposableEmailDomains`.
+- User-facing responses stay generic and do not expose whether an account exists or which internal rule applied.
+
+## Email Delivery
+
+DineCue uses backend-only transactional email delivery. The first production provider is Resend.
+
+Supported email template scope:
+
+- Welcome email
+- Existing email verification code emails
+- Account notification emails when supported by an existing backend flow
+- Contact or feedback form notification emails
+
+Local development mode:
+
+```bash
+dotnet user-secrets set "Email:Enabled" "false" --project DineCue.Api
+```
+
+When email delivery is disabled, the backend suppresses real delivery and logs only safe delivery metadata. It does not log OTP codes.
+
+Production Resend setup:
+
+```bash
+dotnet user-secrets set "Email:Provider" "resend" --project DineCue.Api
+dotnet user-secrets set "Email:Enabled" "true" --project DineCue.Api
+dotnet user-secrets set "Email:FromEmail" "<verified-sender-email>" --project DineCue.Api
+dotnet user-secrets set "Email:FromName" "DineCue" --project DineCue.Api
+dotnet user-secrets set "Email:ResendApiKey" "<resend-api-key>" --project DineCue.Api
+dotnet user-secrets set "Email:AppBaseUrl" "<app-base-url>" --project DineCue.Api
+```
+
+Resend domain/DNS notes:
+
+- Verify the sending domain in Resend before enabling production email.
+- Add the DNS records Resend provides for SPF, DKIM, and bounce handling.
+- Use a restricted backend-only API key.
+- Keep the sender address on a verified domain.
+
+## Security Notes
+
+- Provider keys never go to the frontend or mobile app.
+- Email provider keys never go to the frontend or mobile app.
+- OpenAI and Google Places calls happen only on the backend.
+- Store secrets in user-secrets locally and a cloud secret manager in deployed environments.
+- Never commit `.env`, real `appsettings` secrets, user-secrets exports, logs, refresh tokens, access tokens, OTP codes, OTP hashes, or provider credentials.
+- Refresh tokens and OTP codes must never be persisted in raw form.
+- Logs must not include provider keys, authorization headers, prompts with sensitive user data, raw provider responses, or secret values.
+
+## Google Places
+
+Enable Places API New for the Google Cloud project. Restrict the API key to Places API New and only to the environments that need it.
+
+## OpenAI
+
+The OpenAI API key is backend-only. Do not expose it to clients, Swagger examples, logs, or SignalR payloads.
