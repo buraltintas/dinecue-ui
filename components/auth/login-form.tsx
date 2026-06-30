@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Mail, ShieldCheck } from "lucide-react";
 import { startEmailLogin, verifyEmailLogin } from "@/lib/api/auth";
@@ -15,6 +16,7 @@ import { resolvePostLoginLanguage } from "@/lib/i18n";
 
 export function LoginForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { language, setLanguage, applyAuthenticatedLanguage, t } = useI18n();
   const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("");
@@ -47,6 +49,7 @@ export function LoginForm() {
         } else {
           applyAuthenticatedLanguage(nextLanguage);
         }
+        queryClient.setQueryData(["me"], response.user);
         router.push("/app/find");
       }
     } catch (caught) {
@@ -60,7 +63,7 @@ export function LoginForm() {
     <form onSubmit={submit} className="glass w-full max-w-md rounded-[2rem] p-6 sm:p-8">
       <div className="mb-7 flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm uppercase tracking-[0.24em] text-amber">{t.auth.secureSignIn}</p>
+          <p className="text-sm tracking-[0.24em] text-amber">{t.auth.secureSignIn}</p>
           <h1 className="mt-2 font-display text-3xl text-ivory">{t.auth.enterByEmail}</h1>
         </div>
         <LanguageSwitcher compact />

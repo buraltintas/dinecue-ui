@@ -4,8 +4,8 @@
 
 :root {
   color-scheme: dark;
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: var(--font-nunito-sans, "Nunito Sans"), system-ui, sans-serif;
+  --font-display: var(--font-nunito-sans, "Nunito Sans"), system-ui, sans-serif;
 }
 
 * {
@@ -23,6 +23,7 @@ body {
   background: #0d0d0f;
   color: #f4efe4;
   font-family: var(--font-sans);
+  font-weight: 500;
   text-rendering: optimizeLegibility;
 }
 
@@ -68,6 +69,11 @@ a {
 
 .text-balance {
   text-wrap: balance;
+}
+
+.font-display {
+  font-weight: 850;
+  letter-spacing: -0.025em;
 }
 
 .plate-ring {

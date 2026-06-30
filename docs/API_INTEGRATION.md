@@ -48,6 +48,10 @@ Profile updates should use backend-compatible stable values. The UI can display 
 - BFF calls backend `GET /recommendation-sessions/{sessionId}`.
 - Backend GET detail remains the source of truth.
 
+If backend returns a stable `quota_exceeded` error while starting a recommendation session, the UI should show a natural monthly decision-limit message. Do not expose technical quota/request wording to users.
+
+The current frontend does not invent remaining monthly decision counts. If a backend usage-status endpoint is added later, expose it through a same-origin BFF route and localize the remaining/reset copy.
+
 ## Polling Behavior
 
 Polling is used while session status is queued or running. Polling stops when status is completed or failed.

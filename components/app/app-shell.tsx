@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { Bookmark, History, Home, LogOut, ScanLine, Search, Settings, Sparkles, Utensils } from "lucide-react";
+import { Bookmark, History, Home, LogOut, ScanLine, Search, Settings, Utensils } from "lucide-react";
 import { getMe, logout } from "@/lib/api/auth";
 import { updatePreferredLanguage } from "@/lib/api/profile";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/components/providers/i18n-provider";
 import type { UserDto } from "@/lib/types";
+import { BrandLink } from "@/components/brand/brand-link";
 
 const items = [
   { href: "/app", key: "home", icon: Home },
@@ -58,18 +59,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   async function signOut() {
     await logout().catch(() => null);
-    router.push("/");
+    queryClient.clear();
+    router.replace("/");
+    router.refresh();
   }
 
   return (
     <div className="min-h-screen bg-graphite text-ivory">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-ivory/10 bg-black/25 px-5 py-6 backdrop-blur-xl lg:block">
-        <Link href="/app/find" className="flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-amber/15 text-amber">
-            <Sparkles size={20} aria-hidden />
-          </span>
-          <span className="font-display text-2xl">DineCue</span>
-        </Link>
+        <BrandLink href="/app/find" iconSize={38} />
         <nav className="mt-10 space-y-1" aria-label={t.common.appNavigation}>
           {items.map((item) => {
             const active = pathname === item.href;

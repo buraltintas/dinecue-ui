@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from "next";
 import { cookies, headers } from "next/headers";
+import { Nunito_Sans } from "next/font/google";
 import { AppProviders } from "@/components/providers/app-providers";
 import { JsonLd } from "@/components/seo/json-ld";
 import { absoluteUrl } from "@/lib/utils";
 import { languageCookieKey, resolveLanguagePriority } from "@/lib/i18n";
 import en from "@/messages/en.json";
 import "./globals.css";
+
+const nunitoSans = Nunito_Sans({
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+  adjustFontFallback: false,
+  variable: "--font-nunito-sans"
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -22,6 +30,10 @@ export const metadata: Metadata = {
   description: en.landing.seoDescription,
   applicationName: "DineCue",
   authors: [{ name: "DineCue" }],
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }]
+  },
   alternates: { canonical: absoluteUrl("/") },
   openGraph: {
     type: "website",
@@ -49,7 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang={initialLanguage}>
-      <body>
+      <body className={`${nunitoSans.variable} ${nunitoSans.className}`}>
         <JsonLd />
         <AppProviders initialLanguage={initialLanguage} hasLanguageCookie={hasLanguageCookie}>
           {children}

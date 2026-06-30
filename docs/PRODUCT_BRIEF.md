@@ -8,6 +8,13 @@ DineCue is not a generic restaurant directory or an admin panel. It should feel 
 
 Core slogan: **Eat by mood.**
 
+## Plans
+
+- Free: 5 dining decisions per month.
+- Pro: 50 dining decisions per month, coming soon.
+- Do not implement payments, checkout, or fake upgrade flows until the product explicitly supports them.
+- A dining decision is a meaningful DineCue action such as finding a place, scanning a menu, or checking whether a restaurant fits the moment.
+
 ## Main User Flows
 
 - Public visitor lands on the SEO-friendly homepage, understands the product, and starts with email.
@@ -18,6 +25,7 @@ Core slogan: **Eat by mood.**
 - When completed, the user receives up to three decision-friendly recommendation cards.
 - User can save places, share returned share text, open reservation/map URLs, and revisit history.
 - User can update profile and language preferences.
+- User can see honest plan positioning. Remaining monthly decisions should only be shown when the backend exposes reliable status data.
 
 ## Current Backend Capabilities
 

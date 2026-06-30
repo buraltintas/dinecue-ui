@@ -16,8 +16,8 @@ const config: Config = {
         wine: "#6F363D"
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "Inter", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "Georgia", "serif"]
+        sans: ["var(--font-sans)", "Nunito Sans", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Nunito Sans", "system-ui", "sans-serif"]
       },
       boxShadow: {
         glow: "0 24px 90px rgba(212, 138, 69, 0.22)",

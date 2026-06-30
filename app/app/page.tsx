@@ -18,7 +18,7 @@ export default function AppHomePage() {
   return (
     <div>
       <section className="rounded-[2rem] bg-radial-table p-8 sm:p-10">
-        <p className="text-sm uppercase tracking-[0.26em] text-amber">{t.home.eyebrow}</p>
+        <p className="text-sm tracking-[0.26em] text-amber">{t.home.eyebrow}</p>
         <h1 className="mt-4 max-w-3xl font-display text-5xl leading-tight text-ivory">{t.home.title}</h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">{t.home.body}</p>
         <Link href="/app/find" className="mt-8 inline-block">

@@ -1,0 +1,36 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">DineCue transparent icon</title>
+  <desc id="desc">A minimalist DineCue fork icon with an open circular dining cue mark on a transparent background.</desc>
+
+  <!-- Transparent background intentionally omitted -->
+
+  <path d="M310 684 A268 268 0 1 1 714 684"
+        stroke="#F5B84C"
+        stroke-width="92"
+        stroke-linecap="round"/>
+
+  <g fill="#F5B84C">
+    <!-- fork tines -->
+    <rect x="430" y="292" width="44" height="210" rx="22"/>
+    <rect x="500" y="292" width="44" height="210" rx="22"/>
+    <rect x="570" y="292" width="44" height="210" rx="22"/>
+
+    <!-- fork shoulders/bowl -->
+    <path d="M430 452
+             C430 544 466 602 512 602
+             C558 602 594 544 594 452
+             H614
+             C614 572 562 650 512 650
+             C462 650 410 572 410 452
+             H430Z"/>
+
+    <!-- fork handle -->
+    <path d="M486 600
+             C486 586 497 575 512 575
+             C527 575 538 586 538 600
+             V790
+             C538 815 526 835 512 835
+             C498 835 486 815 486 790
+             V600Z"/>
+  </g>
+</svg>

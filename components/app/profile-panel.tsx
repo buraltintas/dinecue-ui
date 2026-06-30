@@ -9,9 +9,17 @@ import { Input } from "@/components/ui/input";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { countryOptions, getCountryLabel, sanitizeProfileForUpdate } from "@/lib/profile-values";
 import { ApiClientError } from "@/lib/api/http";
+import { DEFAULT_DISTANCE_METERS, DEFAULT_SPICE_TOLERANCE, cleanList, formatDistance, hasIncompletePreferences } from "@/lib/profile-preferences";
+
+type PreferenceItem = {
+  label: string;
+  value: string;
+  source?: "default" | "unset";
+};
 
 export function ProfilePanel() {
   const { language, t } = useI18n();
+  const [showPreferenceNote, setShowPreferenceNote] = useState(false);
   const profile = useQuery({
     queryKey: ["profile"],
     queryFn: getProfile,
@@ -58,6 +66,49 @@ export function ProfilePanel() {
     event.preventDefault();
     mutation.mutate(sanitizeProfileForUpdate(form));
   }
+
+  const favoriteCuisines = cleanList(taste.data?.favoriteCuisines);
+  const dietaryRestrictions = cleanList(taste.data?.dietaryRestrictions);
+  const tasteItems: PreferenceItem[] = [
+    {
+      label: t.profile.cuisines,
+      value: favoriteCuisines.length ? favoriteCuisines.join(", ") : t.common.notSet,
+      source: favoriteCuisines.length ? undefined : "unset"
+    },
+    {
+      label: t.profile.spice,
+      value: taste.data && taste.data.spiceTolerance !== DEFAULT_SPICE_TOLERANCE ? `${taste.data.spiceTolerance}/5` : t.common.notSet,
+      source: taste.data && taste.data.spiceTolerance !== DEFAULT_SPICE_TOLERANCE ? undefined : "unset"
+    },
+    {
+      label: t.profile.dietary,
+      value: dietaryRestrictions.length ? dietaryRestrictions.join(", ") : t.common.notSet,
+      source: dietaryRestrictions.length ? undefined : "unset"
+    }
+  ];
+  const diningItems: PreferenceItem[] = [
+    {
+      label: t.profile.usuallyWithKids,
+      value: dining.data?.usuallyWithKids ? t.common.yes : t.common.flexible,
+      source: dining.data?.usuallyWithKids ? undefined : "unset"
+    },
+    {
+      label: t.profile.quietPlaces,
+      value: dining.data?.prefersQuietPlaces ? t.common.preferred : t.common.notSet,
+      source: dining.data?.prefersQuietPlaces ? undefined : "unset"
+    },
+    {
+      label: t.profile.outdoor,
+      value: dining.data?.prefersOutdoor ? t.common.preferred : t.common.notSet,
+      source: dining.data?.prefersOutdoor ? undefined : "unset"
+    },
+    {
+      label: t.profile.distance,
+      value: dining.data ? formatDistance(dining.data.defaultDistanceMeters, form.distanceUnit) : t.common.notSet,
+      source: dining.data?.defaultDistanceMeters === DEFAULT_DISTANCE_METERS ? "default" : dining.data ? undefined : "unset"
+    }
+  ];
+  const preferencesIncomplete = hasIncompletePreferences(taste.data, dining.data);
 
   if (profile.isLoading || profile.isFetching) {
     return (
@@ -110,6 +161,17 @@ export function ProfilePanel() {
             <span className="text-sm text-muted">{t.profile.currency}</span>
             <Input className="mt-2" value={form.currency} onChange={(event) => setForm({ ...form, currency: event.target.value.toUpperCase() })} />
           </label>
+          <label>
+            <span className="text-sm text-muted">{t.profile.distanceUnit}</span>
+            <select
+              className="mt-2 min-h-12 w-full rounded-2xl border border-ivory/12 bg-black/25 px-4 text-ivory"
+              value={form.distanceUnit || "km"}
+              onChange={(event) => setForm({ ...form, distanceUnit: event.target.value })}
+            >
+              <option value="km">{t.profile.kilometers}</option>
+              <option value="mi">{t.profile.miles}</option>
+            </select>
+          </label>
         </div>
         {saveError ? <p className="mt-5 rounded-2xl border border-wine/40 bg-wine/20 px-4 py-3 text-sm text-ivory">{saveError}</p> : null}
         <Button className="mt-6" disabled={mutation.isPending}>
@@ -118,32 +180,48 @@ export function ProfilePanel() {
       </form>
 
       <div className="space-y-4">
-        <ProfileSummary title={t.profile.taste} loading={taste.isLoading || taste.isFetching} items={[
-          [t.profile.cuisines, taste.data?.favoriteCuisines?.join(", ") || t.common.notSet],
-          [t.profile.spice, taste.data ? `${taste.data.spiceTolerance}/10` : t.common.notSet],
-          [t.profile.dietary, taste.data?.dietaryRestrictions?.join(", ") || t.common.notSet]
-        ]} />
-        <ProfileSummary title={t.profile.dining} loading={dining.isLoading || dining.isFetching} items={[
-          [t.profile.usuallyWithKids, dining.data?.usuallyWithKids ? t.common.yes : t.common.no],
-          [t.profile.quietPlaces, dining.data?.prefersQuietPlaces ? t.common.preferred : t.common.flexible],
-          [t.profile.outdoor, dining.data?.prefersOutdoor ? t.common.preferred : t.common.flexible],
-          [t.profile.distance, dining.data ? `${dining.data.defaultDistanceMeters}m` : t.common.notSet]
-        ]} />
+        <section className="glass rounded-[1.5rem] p-5">
+          <p className="text-sm tracking-[0.22em] text-amber">{t.profile.planEyebrow}</p>
+          <h2 className="mt-3 text-xl font-semibold text-ivory">{t.profile.freePlan}</h2>
+          <p className="mt-2 text-sm leading-6 text-muted">{t.profile.freePlanBody}</p>
+          <p className="mt-4 text-sm leading-6 text-muted">{t.profile.proSoon}</p>
+        </section>
+        <section className="glass rounded-[1.5rem] p-5">
+          <p className="text-sm tracking-[0.22em] text-amber">{t.profile.preferencesEyebrow}</p>
+          <h2 className="mt-2 text-xl font-semibold text-ivory">{t.profile.preferencesTitle}</h2>
+          <p className="mt-3 text-sm leading-6 text-muted">{t.profile.preferencesBody}</p>
+          {preferencesIncomplete ? (
+            <div className="mt-5 rounded-2xl border border-amber/20 bg-amber/10 p-4">
+              <p className="text-sm text-ivory">{t.profile.preferencesIncomplete}</p>
+              <Button className="mt-4" variant="secondary" type="button" onClick={() => setShowPreferenceNote(true)}>
+                {t.profile.completePreferences}
+              </Button>
+              {showPreferenceNote ? <p className="mt-3 text-sm leading-6 text-muted">{t.profile.preferencesComingSoon}</p> : null}
+            </div>
+          ) : null}
+        </section>
+        <ProfileSummary title={t.profile.taste} loading={taste.isLoading || taste.isFetching} items={tasteItems} />
+        <ProfileSummary title={t.profile.dining} loading={dining.isLoading || dining.isFetching} items={diningItems} />
       </div>
     </div>
   );
 }
 
-function ProfileSummary({ title, loading, items }: { title: string; loading: boolean; items: string[][] }) {
+function ProfileSummary({ title, loading, items }: { title: string; loading: boolean; items: PreferenceItem[] }) {
+  const { t } = useI18n();
+
   return (
     <section className="glass rounded-[1.5rem] p-5">
       <h2 className="text-xl font-semibold text-ivory">{title}</h2>
       {loading ? <div className="mt-4 h-20 animate-pulse rounded-2xl bg-ivory/7" /> : (
         <dl className="mt-4 space-y-3">
-          {items.map(([label, value]) => (
-            <div key={label} className="flex justify-between gap-4 text-sm">
-              <dt className="text-muted">{label}</dt>
-              <dd className="text-right text-ivory">{value}</dd>
+          {items.map((item) => (
+            <div key={item.label} className="flex items-start justify-between gap-4 text-sm">
+              <dt className="text-muted">{item.label}</dt>
+              <dd className="text-right text-ivory">
+                <span>{item.value}</span>
+                {item.source === "default" ? <span className="ml-2 rounded-full bg-ivory/7 px-2 py-0.5 text-xs text-muted">{t.profile.defaultBadge}</span> : null}
+              </dd>
             </div>
           ))}
         </dl>

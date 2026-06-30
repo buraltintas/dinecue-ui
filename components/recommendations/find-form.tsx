@@ -44,7 +44,13 @@ export function FindForm() {
       });
       router.push(`/app/recommendations/${response.sessionId}`);
     } catch (caught) {
-      setError(caught instanceof ApiClientError && caught.status === 401 ? t.errors.signInAgain : t.errors.startRecommendation);
+      if (caught instanceof ApiClientError && caught.status === 401) {
+        setError(t.errors.signInAgain);
+      } else if (caught instanceof ApiClientError && caught.code === "quota_exceeded") {
+        setError(`${t.errors.quotaExceeded} ${t.errors.proComingSoon}`);
+      } else {
+        setError(t.errors.startRecommendation);
+      }
     } finally {
       setLoading(false);
     }
@@ -54,7 +60,7 @@ export function FindForm() {
     <motion.form initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} onSubmit={submit} className="glass rounded-[2rem] p-5 sm:p-7">
       <div className="flex flex-col justify-between gap-4 sm:flex-row">
         <div>
-          <p className="text-sm uppercase tracking-[0.26em] text-amber">{t.find.eyebrow}</p>
+          <p className="text-sm tracking-[0.26em] text-amber">{t.find.eyebrow}</p>
           <h1 className="mt-3 font-display text-4xl text-ivory sm:text-5xl">{t.find.title}</h1>
           <p className="mt-3 max-w-2xl text-muted">{t.find.prompt}</p>
         </div>
