@@ -1,16 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
-import Image from "next/image";
-import { MapPin, Minus, Plus } from "lucide-react";
+import { useEffect, useRef, type MutableRefObject } from "react";
+import type { DivIcon, LeafletMouseEvent, Map as LeafletMap, Marker as LeafletMarker } from "leaflet";
 
 export type MapCoordinates = {
   lat: number;
   lng: number;
 };
 
-const tileSize = 256;
-const defaultSize = { width: 640, height: 260 };
+type LeafletModule = typeof import("leaflet");
 
 export function LocationMapPicker({
   center,
@@ -29,143 +27,140 @@ export function LocationMapPicker({
   zoomInLabel: string;
   zoomOutLabel: string;
 }) {
-  const rootRef = useRef<HTMLButtonElement>(null);
-  const [zoom, setZoom] = useState(14);
-  const [size, setSize] = useState(defaultSize);
-  const [mapCenter, setMapCenter] = useState(center);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const leafletRef = useRef<LeafletModule | null>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
+  const markerRef = useRef<LeafletMarker | null>(null);
+  const markerIconRef = useRef<DivIcon | null>(null);
+  const onSelectRef = useRef(onSelect);
+  const latestCenterRef = useRef(center);
+  const selectedRef = useRef(selected);
 
   useEffect(() => {
-    setMapCenter(center);
+    onSelectRef.current = onSelect;
+  }, [onSelect]);
+
+  useEffect(() => {
+    latestCenterRef.current = center;
+    if (!mapRef.current) return;
+    mapRef.current.setView([center.lat, center.lng], mapRef.current.getZoom(), { animate: true });
   }, [center]);
 
   useEffect(() => {
-    if (!rootRef.current) return;
-    const observer = new ResizeObserver(([entry]) => {
-      setSize({
-        width: Math.max(280, entry.contentRect.width),
-        height: Math.max(220, entry.contentRect.height)
+    selectedRef.current = selected;
+  }, [selected]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function initMap() {
+      if (!containerRef.current || mapRef.current) return;
+      const leaflet = await import("leaflet");
+      if (cancelled || !containerRef.current) return;
+
+      leafletRef.current = leaflet;
+      markerIconRef.current = createMarkerIcon(leaflet);
+
+      const map = leaflet.map(containerRef.current, {
+        attributionControl: false,
+        center: [latestCenterRef.current.lat, latestCenterRef.current.lng],
+        keyboard: true,
+        scrollWheelZoom: true,
+        touchZoom: true,
+        zoom: 15,
+        zoomControl: false
       });
-    });
-    observer.observe(rootRef.current);
-    return () => observer.disconnect();
-  }, []);
 
-  const centerPoint = latLngToPoint(mapCenter, zoom);
-  const selectedPoint = selected ? latLngToPoint(selected, zoom) : null;
+      leaflet
+        .tileLayer("/api/map/tiles/{z}/{x}/{y}", {
+          maxZoom: 19,
+          minZoom: 3,
+          tileSize: 256
+        })
+        .addTo(map);
 
-  const tiles = useMemo(() => {
-    const startX = Math.floor((centerPoint.x - size.width / 2) / tileSize);
-    const endX = Math.floor((centerPoint.x + size.width / 2) / tileSize);
-    const startY = Math.floor((centerPoint.y - size.height / 2) / tileSize);
-    const endY = Math.floor((centerPoint.y + size.height / 2) / tileSize);
-    const maxTile = 2 ** zoom;
-    const nextTiles: { key: string; src: string; left: number; top: number }[] = [];
+      leaflet.control
+        .zoom({
+          position: "topright",
+          zoomInTitle: zoomInLabel,
+          zoomOutTitle: zoomOutLabel
+        })
+        .addTo(map);
 
-    for (let x = startX; x <= endX; x += 1) {
-      for (let y = startY; y <= endY; y += 1) {
-        if (y < 0 || y >= maxTile) continue;
-        const wrappedX = ((x % maxTile) + maxTile) % maxTile;
-        nextTiles.push({
-          key: `${zoom}-${wrappedX}-${y}`,
-          src: `/api/map/tiles/${zoom}/${wrappedX}/${y}`,
-          left: x * tileSize - centerPoint.x + size.width / 2,
-          top: y * tileSize - centerPoint.y + size.height / 2
-        });
+      const handlePick = (event: LeafletMouseEvent) => {
+        const coordinates = { lat: event.latlng.lat, lng: event.latlng.lng };
+        setMarker(leaflet, map, markerRef, markerIconRef.current, coordinates, onSelectRef.current);
+        onSelectRef.current(coordinates);
+      };
+
+      map.on("click", handlePick);
+      mapRef.current = map;
+
+      if (selectedRef.current) {
+        setMarker(leaflet, map, markerRef, markerIconRef.current, selectedRef.current, onSelectRef.current);
       }
+
+      window.setTimeout(() => map.invalidateSize(), 80);
     }
 
-    return nextTiles;
-  }, [centerPoint.x, centerPoint.y, size.height, size.width, zoom]);
+    void initMap();
 
-  function pick(event: MouseEvent<HTMLButtonElement>) {
-    if (event.defaultPrevented) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    const point = {
-      x: centerPoint.x - rect.width / 2 + (event.clientX - rect.left),
-      y: centerPoint.y - rect.height / 2 + (event.clientY - rect.top)
+    return () => {
+      cancelled = true;
+      mapRef.current?.remove();
+      mapRef.current = null;
+      markerRef.current = null;
+      markerIconRef.current = null;
     };
-    const next = pointToLatLng(point, zoom);
-    setMapCenter(next);
-    onSelect(next);
-  }
+  }, [zoomInLabel, zoomOutLabel]);
 
-  const markerPoint = selectedPoint
-    ? {
-        left: selectedPoint.x - centerPoint.x + size.width / 2,
-        top: selectedPoint.y - centerPoint.y + size.height / 2
-      }
-    : { left: size.width / 2, top: size.height / 2 };
+  useEffect(() => {
+    if (!leafletRef.current || !mapRef.current || !selected) return;
+    setMarker(leafletRef.current, mapRef.current, markerRef, markerIconRef.current, selected, onSelectRef.current);
+  }, [selected]);
 
   return (
-    <div className="relative">
-      <button
-        ref={rootRef}
-        type="button"
-        onClick={pick}
-        className="relative h-64 w-full overflow-hidden rounded-[1.15rem] border border-ivory/10 bg-black/30 text-left"
-        aria-label={label}
-      >
-        {tiles.map((tile) => (
-          <Image
-            key={tile.key}
-            alt=""
-            aria-hidden
-            src={tile.src}
-            width={tileSize}
-            height={tileSize}
-            unoptimized
-            className="absolute h-64 w-64 select-none"
-            draggable={false}
-            style={{ left: tile.left, top: tile.top }}
-          />
-        ))}
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20" aria-hidden />
-        <span
-          className="pointer-events-none absolute -ml-4 -mt-8 grid h-9 w-9 place-items-center rounded-full bg-amber text-graphite shadow-glow"
-          style={{ left: markerPoint.left, top: markerPoint.top }}
-          aria-hidden
-        >
-          <MapPin size={19} />
-        </span>
-        <span className="absolute bottom-3 left-3 right-3 rounded-full bg-black/65 px-3 py-2 text-xs text-ivory backdrop-blur">
-          {hint}
-        </span>
-      </button>
-      <div className="absolute right-3 top-3 flex overflow-hidden rounded-full border border-ivory/10 bg-black/70 backdrop-blur">
-        <button
-          type="button"
-          onClick={() => setZoom((value) => Math.min(18, value + 1))}
-          className="grid h-9 w-9 place-items-center text-ivory transition hover:bg-ivory/10"
-          aria-label={zoomInLabel}
-        >
-          <Plus size={16} aria-hidden />
-        </button>
-        <button
-          type="button"
-          onClick={() => setZoom((value) => Math.max(3, value - 1))}
-          className="grid h-9 w-9 place-items-center border-l border-ivory/10 text-ivory transition hover:bg-ivory/10"
-          aria-label={zoomOutLabel}
-        >
-          <Minus size={16} aria-hidden />
-        </button>
+    <div className="relative overflow-hidden rounded-[1.15rem] border border-ivory/10 bg-black/30">
+      <div ref={containerRef} aria-label={label} className="h-72 w-full sm:h-80" />
+      <div className="pointer-events-none absolute inset-x-3 bottom-3 rounded-full bg-black/70 px-3 py-2 text-xs font-semibold text-ivory shadow-soft backdrop-blur">
+        {hint}
       </div>
     </div>
   );
 }
 
-function latLngToPoint(coordinates: MapCoordinates, zoom: number) {
-  const scale = tileSize * 2 ** zoom;
-  const sinLat = Math.sin((coordinates.lat * Math.PI) / 180);
-  return {
-    x: ((coordinates.lng + 180) / 360) * scale,
-    y: (0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) * scale
-  };
+function setMarker(
+  leaflet: LeafletModule,
+  map: LeafletMap,
+  markerRef: MutableRefObject<LeafletMarker | null>,
+  icon: DivIcon | null,
+  coordinates: MapCoordinates,
+  onSelect: (coordinates: MapCoordinates) => void
+) {
+  if (!markerRef.current) {
+    markerRef.current = leaflet
+      .marker([coordinates.lat, coordinates.lng], {
+        draggable: true,
+        icon: icon || undefined,
+        keyboard: true
+      })
+      .addTo(map);
+
+    markerRef.current.on("dragend", () => {
+      const next = markerRef.current?.getLatLng();
+      if (!next) return;
+      onSelect({ lat: next.lat, lng: next.lng });
+    });
+  }
+
+  markerRef.current.setLatLng([coordinates.lat, coordinates.lng]);
 }
 
-function pointToLatLng(point: { x: number; y: number }, zoom: number): MapCoordinates {
-  const scale = tileSize * 2 ** zoom;
-  const lng = (point.x / scale) * 360 - 180;
-  const n = Math.PI - (2 * Math.PI * point.y) / scale;
-  const lat = (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
-  return { lat, lng };
+function createMarkerIcon(leaflet: LeafletModule) {
+  return leaflet.divIcon({
+    className: "dinecue-map-marker",
+    html: '<span class="dinecue-map-marker-pin" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a.92.92 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>',
+    iconAnchor: [20, 40],
+    iconSize: [40, 40]
+  });
 }

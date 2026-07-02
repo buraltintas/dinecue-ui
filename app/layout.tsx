@@ -7,6 +7,7 @@ import { absoluteUrl } from "@/lib/utils";
 import { languageCookieKey, resolveLanguagePriority } from "@/lib/i18n";
 import { hasAuthCookies } from "@/lib/server/authCookies";
 import en from "@/messages/en.json";
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
 const nunitoSans = Nunito_Sans({
