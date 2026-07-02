@@ -8,11 +8,10 @@ const schema = z.object({
   rawText: z.string().min(4).max(600),
   location: z
     .object({
-      mode: z.string(),
+      mode: z.enum(["text", "current", "map_pin"]),
       text: z.string().max(200).nullable().optional(),
       lat: z.number().nullable().optional(),
-      lng: z.number().nullable().optional(),
-      placeId: z.string().max(200).nullable().optional()
+      lng: z.number().nullable().optional()
     })
     .nullable()
     .optional(),

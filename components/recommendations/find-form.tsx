@@ -147,10 +147,10 @@ export function FindForm() {
 
   function buildLocationInput(): LocationInput {
     if (locationMode === "current" && currentCoordinates) {
-      return { mode: "current", text: null, lat: currentCoordinates.lat, lng: currentCoordinates.lng, placeId: null };
+      return { mode: "current", text: null, lat: currentCoordinates.lat, lng: currentCoordinates.lng };
     }
     if (locationMode === "map" && mapCoordinates) {
-      return { mode: "place", text: null, lat: mapCoordinates.lat, lng: mapCoordinates.lng, placeId: null };
+      return { mode: "map_pin", text: location.trim() || null, lat: mapCoordinates.lat, lng: mapCoordinates.lng };
     }
     return location ? { mode: "text", text: location } : { mode: "text", text: null };
   }

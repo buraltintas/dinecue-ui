@@ -61,11 +61,10 @@ export type DiningProfileDto = {
 };
 
 export type LocationInput = {
-  mode: "text" | "current" | "place";
+  mode: "text" | "current" | "map_pin";
   text?: string | null;
   lat?: number | null;
   lng?: number | null;
-  placeId?: string | null;
 };
 
 export type RecommendationSessionRequest = {
