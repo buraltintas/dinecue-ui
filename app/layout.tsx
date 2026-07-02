@@ -5,6 +5,7 @@ import { AppProviders } from "@/components/providers/app-providers";
 import { JsonLd } from "@/components/seo/json-ld";
 import { absoluteUrl } from "@/lib/utils";
 import { languageCookieKey, resolveLanguagePriority } from "@/lib/i18n";
+import { hasAuthCookies } from "@/lib/server/authCookies";
 import en from "@/messages/en.json";
 import "./globals.css";
 
@@ -58,12 +59,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     browserLanguage: headers().get("accept-language")
   });
   const hasLanguageCookie = Boolean(languageCookie);
+  const initialHasAuthSession = hasAuthCookies();
 
   return (
     <html lang={initialLanguage}>
       <body className={`${nunitoSans.variable} ${nunitoSans.className}`}>
         <JsonLd />
-        <AppProviders initialLanguage={initialLanguage} hasLanguageCookie={hasLanguageCookie}>
+        <AppProviders initialLanguage={initialLanguage} hasLanguageCookie={hasLanguageCookie} initialHasAuthSession={initialHasAuthSession}>
           {children}
         </AppProviders>
       </body>

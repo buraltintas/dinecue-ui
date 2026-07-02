@@ -15,6 +15,7 @@ import { useI18n } from "@/components/providers/i18n-provider";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { resolvePostLoginLanguage } from "@/lib/i18n";
 import type { UserDto } from "@/lib/types";
+import { useSessionHint } from "@/components/providers/session-hint-provider";
 
 type GoogleCredentialResponse = {
   credential?: string;
@@ -37,6 +38,7 @@ export function LoginForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { language, setLanguage, applyAuthenticatedLanguage, t } = useI18n();
+  const { setAuthSessionHint } = useSessionHint();
   const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -63,10 +65,11 @@ export function LoginForm() {
       } else {
         applyAuthenticatedLanguage(nextLanguage);
       }
+      setAuthSessionHint(true);
       queryClient.setQueryData(["me"], response.user);
       router.push("/app/find");
     },
-    [applyAuthenticatedLanguage, language, queryClient, router, setLanguage]
+    [applyAuthenticatedLanguage, language, queryClient, router, setAuthSessionHint, setLanguage]
   );
 
   const handleGoogleCredential = useCallback(

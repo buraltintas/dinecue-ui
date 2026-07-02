@@ -10,18 +10,24 @@ import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { getMe } from "@/lib/api/auth";
 import { BrandLink } from "@/components/brand/brand-link";
+import { useSessionHint } from "@/components/providers/session-hint-provider";
 
 export function LandingHero() {
   const { language, t } = useI18n();
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false });
+  const { hasAuthSessionHint, setAuthSessionHint } = useSessionHint();
+  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false, enabled: hasAuthSessionHint });
   const examples = t.landing.examples;
   const current = examples[index % examples.length];
   const reasons = useMemo(() => [current.vibe, current.reason, current.prompt].filter(Boolean).slice(0, 3), [current]);
   const isSignedIn = me.isSuccess && Boolean(me.data);
   const primaryHref = isSignedIn ? "/app/find" : "/login";
   const primaryLabel = isSignedIn ? t.landing.findPlaceCta : t.landing.start;
+
+  useEffect(() => {
+    if (me.isError) setAuthSessionHint(false);
+  }, [me.isError, setAuthSessionHint]);
 
   useEffect(() => {
     setIndex(0);

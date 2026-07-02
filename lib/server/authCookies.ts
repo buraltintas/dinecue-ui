@@ -31,3 +31,8 @@ export function getAccessToken() {
 export function getRefreshToken() {
   return cookies().get(refreshCookie)?.value;
 }
+
+export function hasAuthCookies() {
+  const jar = cookies();
+  return Boolean(jar.get(accessCookie)?.value || jar.get(refreshCookie)?.value);
+}

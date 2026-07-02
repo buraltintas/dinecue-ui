@@ -12,6 +12,7 @@ import { useI18n } from "@/components/providers/i18n-provider";
 import type { UserDto } from "@/lib/types";
 import { BrandLink } from "@/components/brand/brand-link";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
+import { useSessionHint } from "@/components/providers/session-hint-provider";
 
 const items = [
   { href: "/app", key: "home", icon: Home },
@@ -28,7 +29,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { language, t, applyAuthenticatedLanguage, lastChangeSource } = useI18n();
-  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false });
+  const { hasAuthSessionHint, setAuthSessionHint } = useSessionHint();
+  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false, enabled: hasAuthSessionHint });
   const languageMutation = useMutation({
     mutationFn: updatePreferredLanguage,
     onSuccess: (profile) => {
@@ -58,8 +60,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     if (me.isError) router.push("/login");
   }, [me.isError, router]);
 
+  useEffect(() => {
+    if (me.isError) setAuthSessionHint(false);
+  }, [me.isError, setAuthSessionHint]);
+
   async function signOut() {
     await logout().catch(() => null);
+    setAuthSessionHint(false);
     queryClient.clear();
     router.replace("/");
     router.refresh();

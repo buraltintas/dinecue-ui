@@ -6,17 +6,23 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { getMe } from "@/lib/api/auth";
 import { useI18n } from "@/components/providers/i18n-provider";
+import { useSessionHint } from "@/components/providers/session-hint-provider";
 
 export function LoginGate({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { t } = useI18n();
-  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false });
+  const { hasAuthSessionHint, setAuthSessionHint } = useSessionHint();
+  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false, enabled: hasAuthSessionHint });
 
   useEffect(() => {
     if (me.data) {
       router.replace("/app/find");
     }
   }, [me.data, router]);
+
+  useEffect(() => {
+    if (me.isError) setAuthSessionHint(false);
+  }, [me.isError, setAuthSessionHint]);
 
   if (me.isLoading || me.data) {
     return (

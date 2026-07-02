@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { ArrowRight, Check, Compass, MapPin, MessageCircle, ScanLine, Search, ShieldCheck, Utensils } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { getMe } from "@/lib/api/auth";
+import { useSessionHint } from "@/components/providers/session-hint-provider";
 
 const icons = [Compass, MapPin, Check];
 const capabilityIcons = [Search, ScanLine, Utensils];
@@ -14,10 +16,15 @@ const differenceIcons = [MapPin, MessageCircle, Utensils];
 
 export function LandingSections() {
   const { t } = useI18n();
-  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false });
+  const { hasAuthSessionHint, setAuthSessionHint } = useSessionHint();
+  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false, enabled: hasAuthSessionHint });
   const isSignedIn = me.isSuccess && Boolean(me.data);
   const primaryHref = isSignedIn ? "/app/find" : "/login";
   const primaryLabel = isSignedIn ? t.landing.findPlaceCta : t.landing.sections.cta;
+
+  useEffect(() => {
+    if (me.isError) setAuthSessionHint(false);
+  }, [me.isError, setAuthSessionHint]);
 
   return (
     <>
