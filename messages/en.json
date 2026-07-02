@@ -30,7 +30,8 @@
     "mockPreview": "Product preview",
     "notSpecified": "Not specified.",
     "appNavigation": "App navigation",
-    "mobileNavigation": "Mobile navigation"
+    "mobileNavigation": "Mobile navigation",
+    "signedInAs": "Signed in as"
   },
   "nav": {
     "home": "Home",

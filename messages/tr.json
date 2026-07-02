@@ -30,7 +30,8 @@
     "mockPreview": "Ürün önizlemesi",
     "notSpecified": "Belirtilmemiş.",
     "appNavigation": "Uygulama gezinmesi",
-    "mobileNavigation": "Mobil gezinme"
+    "mobileNavigation": "Mobil gezinme",
+    "signedInAs": "Giriş yapılan hesap"
   },
   "nav": {
     "home": "Başlangıç",

@@ -7,6 +7,7 @@ import type { ProfileDto } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useI18n } from "@/components/providers/i18n-provider";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { countryOptions, getCountryLabel, sanitizeProfileForUpdate } from "@/lib/profile-values";
 import { ApiClientError } from "@/lib/api/http";
 import { DEFAULT_DISTANCE_METERS, DEFAULT_SPICE_TOLERANCE, cleanList, formatDistance, hasIncompletePreferences } from "@/lib/profile-preferences";
@@ -51,6 +52,12 @@ export function ProfilePanel() {
   useEffect(() => {
     if (profile.data) setForm(profile.data);
   }, [profile.data]);
+
+  useEffect(() => {
+    setForm((current) => (
+      current.preferredLanguage === language ? current : { ...current, preferredLanguage: language }
+    ));
+  }, [language]);
 
   const mutation = useMutation({
     mutationFn: updateProfile,
@@ -135,15 +142,9 @@ export function ProfilePanel() {
           </label>
           <label>
             <span className="text-sm text-muted">{t.profile.preferredLanguage}</span>
-            <select
-              className="mt-2 min-h-12 w-full rounded-2xl border border-ivory/12 bg-black/25 px-4 text-ivory"
-              value={form.preferredLanguage}
-              onChange={(event) => setForm({ ...form, preferredLanguage: event.target.value as "en" | "tr" | "de" })}
-            >
-              <option value="en">en</option>
-              <option value="tr">tr</option>
-              <option value="de">de</option>
-            </select>
+            <div className="mt-2">
+              <LanguageSwitcher compact />
+            </div>
           </label>
           <label>
             <span className="text-sm text-muted">{t.profile.country}</span>

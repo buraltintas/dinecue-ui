@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { Bookmark, History, Home, LogOut, ScanLine, Search, Settings, Utensils } from "lucide-react";
+import { Bookmark, History, Home, LogOut, Mail, ScanLine, Search, Settings, Utensils } from "lucide-react";
 import { getMe, logout } from "@/lib/api/auth";
 import { updatePreferredLanguage } from "@/lib/api/profile";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/components/providers/i18n-provider";
 import type { UserDto } from "@/lib/types";
 import { BrandLink } from "@/components/brand/brand-link";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 
 const items = [
   { href: "/app", key: "home", icon: Home },
@@ -86,12 +87,44 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
-        <button onClick={signOut} className="absolute bottom-6 left-5 right-5 flex items-center gap-3 rounded-2xl px-4 py-3 text-sm text-muted hover:bg-ivory/7 hover:text-ivory">
-          <LogOut size={18} aria-hidden /> {t.common.signOut}
-        </button>
+        <div className="absolute bottom-6 left-5 right-5 space-y-3">
+          {me.data?.email ? (
+            <div className="rounded-2xl border border-ivory/10 bg-ivory/5 px-4 py-3">
+              <p className="text-xs text-muted">{t.common.signedInAs}</p>
+              <p className="mt-1 truncate text-sm font-semibold text-ivory">{me.data.email}</p>
+            </div>
+          ) : null}
+          <LanguageSwitcher compact />
+          <button onClick={signOut} className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm text-muted hover:bg-ivory/7 hover:text-ivory">
+            <LogOut size={18} aria-hidden /> {t.common.signOut}
+          </button>
+        </div>
       </aside>
 
       <main className="pb-24 lg:pl-72">
+        <div className="sticky top-0 z-20 border-b border-ivory/10 bg-graphite/82 px-5 py-4 backdrop-blur-xl lg:hidden">
+          <div className="mx-auto max-w-6xl">
+            <div className="flex items-center justify-between gap-4">
+              <BrandLink href="/app/find" iconSize={32} />
+              <div className="flex min-w-0 items-center gap-3">
+                {me.data?.email ? (
+                  <div className="hidden min-w-0 items-center gap-2 rounded-full border border-ivory/10 bg-ivory/5 px-3 py-2 text-xs text-muted sm:flex">
+                    <Mail size={14} className="shrink-0 text-amber" aria-hidden />
+                    <span className="max-w-[13rem] truncate text-ivory">{me.data.email}</span>
+                  </div>
+                ) : null}
+                <LanguageSwitcher compact />
+              </div>
+            </div>
+            {me.data?.email ? (
+              <p className="mt-3 flex min-w-0 items-center gap-2 text-xs text-muted sm:hidden">
+                <Mail size={13} className="shrink-0 text-amber" aria-hidden />
+                <span className="shrink-0">{t.common.signedInAs}</span>
+                <span className="truncate text-ivory">{me.data.email}</span>
+              </p>
+            ) : null}
+          </div>
+        </div>
         <div className="mx-auto max-w-6xl px-5 py-6 sm:px-8 lg:py-10">{children}</div>
       </main>
 
