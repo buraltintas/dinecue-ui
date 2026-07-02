@@ -36,7 +36,7 @@ declare global {
   }
 }
 
-export function LoginForm() {
+export function LoginForm({ googleClientId }: { googleClientId?: string }) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { language, setLanguage, applyAuthenticatedLanguage, t } = useI18n();
@@ -48,7 +48,6 @@ export function LoginForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleReady, setGoogleReady] = useState(false);
-  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   const hasGoogleClientId = Boolean(googleClientId && googleClientId !== "replace-with-google-web-client-id");
   const showGoogleDevelopmentWarning = process.env.NODE_ENV === "development" && !hasGoogleClientId;
 
