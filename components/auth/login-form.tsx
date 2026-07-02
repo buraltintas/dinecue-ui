@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import type { Route } from "next";
 import Script from "next/script";
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -189,6 +191,18 @@ export function LoginForm() {
       >
         {googleButtonLabel}
       </Button>
+      <p className="mt-4 text-center text-xs leading-5 text-muted">
+        {t.auth.legalPrefix}{" "}
+        <Link href={"/terms" as Route} className="font-semibold text-ivory underline decoration-amber/50 underline-offset-4 transition hover:text-amber">
+          {t.auth.termsLink}
+        </Link>{" "}
+        {t.auth.legalAnd}{" "}
+        <Link href={"/privacy" as Route} className="font-semibold text-ivory underline decoration-amber/50 underline-offset-4 transition hover:text-amber">
+          {t.auth.privacyLink}
+        </Link>
+        {t.auth.legalSuffix ? ` ${t.auth.legalSuffix}` : null}
+        .
+      </p>
       {showGoogleDevelopmentWarning ? <p className="mt-3 rounded-2xl border border-amber/30 bg-amber/10 px-4 py-3 text-sm text-amber">{t.auth.googleDevelopmentWarning}</p> : null}
     </form>
   );

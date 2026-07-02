@@ -7,10 +7,11 @@ export function JsonLd() {
       "@id": absoluteUrl("/#website"),
       "url": absoluteUrl("/"),
       "name": "DineCue",
-      "description": "DineCue helps you decide where to eat by matching restaurants to your mood, location, preferences, and dining context."
+      "description": "DineCue helps you decide where to eat by matching restaurants to your mood, location, preferences, and dining context.",
+      "inLanguage": ["en", "tr", "de"]
     },
     {
-      "@type": "SoftwareApplication",
+      "@type": "WebApplication",
       "@id": absoluteUrl("/#software"),
       "name": "DineCue",
       "applicationCategory": "LifestyleApplication",
@@ -19,10 +20,18 @@ export function JsonLd() {
       "url": absoluteUrl("/")
     },
     {
-      "@type": "Organization",
+      "@type": "Brand",
       "@id": absoluteUrl("/#organization"),
       "name": "DineCue",
       "url": absoluteUrl("/")
+    },
+    {
+      "@type": "AboutPage",
+      "@id": absoluteUrl("/about#about"),
+      "url": absoluteUrl("/about"),
+      "name": "About DineCue",
+      "isPartOf": { "@id": absoluteUrl("/#website") },
+      "about": { "@id": absoluteUrl("/#software") }
     }
   ];
 

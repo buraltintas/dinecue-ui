@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, ChevronDown, Globe2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { cn } from "@/lib/utils";
@@ -12,7 +13,8 @@ const options: { value: SupportedLanguage; label: string }[] = [
   { value: "de", label: "de" }
 ];
 
-export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
+export function LanguageSwitcher({ compact = false, refreshOnChange = false }: { compact?: boolean; refreshOnChange?: boolean }) {
+  const router = useRouter();
   const { language, setLanguage, t } = useI18n();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -37,6 +39,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   function choose(next: SupportedLanguage) {
     setLanguage(next);
     setOpen(false);
+    if (refreshOnChange) router.refresh();
   }
 
   return (

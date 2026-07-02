@@ -3,15 +3,20 @@ import { LoginIntro } from "@/components/auth/login-intro";
 import { LoginForm } from "@/components/auth/login-form";
 import { LoginGate } from "@/components/auth/login-gate";
 import { BrandLink } from "@/components/brand/brand-link";
-import { absoluteUrl } from "@/lib/utils";
-import en from "@/messages/en.json";
+import { getDictionary } from "@/lib/i18n";
+import { publicPageMetadata } from "@/lib/seo";
+import { getRequestLanguage } from "@/lib/server/request-language";
 
-export const metadata: Metadata = {
-  title: en.auth.seoTitle,
-  description: en.auth.seoDescription,
-  alternates: { canonical: absoluteUrl("/login") },
-  robots: { index: false, follow: false }
-};
+export function generateMetadata(): Metadata {
+  const t = getDictionary(getRequestLanguage());
+  return publicPageMetadata({
+    title: t.auth.seoTitle,
+    description: t.auth.seoDescription,
+    path: "/login",
+    imageAlt: "DineCue sign in",
+    robots: { index: false, follow: false }
+  });
+}
 
 export default function LoginPage() {
   return (

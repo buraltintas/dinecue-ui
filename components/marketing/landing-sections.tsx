@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { getMe } from "@/lib/api/auth";
 import { useSessionHint } from "@/components/providers/session-hint-provider";
+import { SiteFooter } from "@/components/marketing/site-footer";
 
 const icons = [Compass, MapPin, Check];
 const capabilityIcons = [Search, ScanLine, Utensils];
@@ -196,6 +197,7 @@ export function LandingSections() {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </>
   );
 }

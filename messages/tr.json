@@ -181,7 +181,12 @@
     "googleSoon": "Google ile giriş yakında",
     "googleUnavailable": "Google ile giriş şu anda kullanılamıyor.",
     "googleDevelopmentWarning": "Yerelde Google ile girişi açmak için Google client ID ekle.",
-    "developmentOtp": "Geliştirme OTP"
+    "developmentOtp": "Geliştirme OTP",
+    "legalPrefix": "Devam ederek",
+    "legalAnd": "ve",
+    "termsLink": "Kullanım Şartları",
+    "privacyLink": "Gizlilik Politikası",
+    "legalSuffix": "kabul etmiş olursun"
   },
   "find": {
     "eyebrow": "Mekan bul",
@@ -310,6 +315,83 @@
     "quietPlaces": "Sakin yerler",
     "outdoor": "Açık hava",
     "distance": "Mesafe"
+  },
+  "footer": {
+    "tagline": "Eat by mood.",
+    "body": "DineCue, bağlamı, tercihleri ve uygunluk hissini bir araya getirerek nerede yiyeceğine karar vermeni kolaylaştırır.",
+    "product": "Ürün",
+    "legal": "Yasal",
+    "about": "Hakkında",
+    "terms": "Kullanım Şartları",
+    "privacy": "Gizlilik",
+    "home": "Ana sayfa",
+    "login": "Giriş yap",
+    "copyright": "DineCue. Tüm hakları saklıdır."
+  },
+  "legal": {
+    "lastUpdatedLabel": "Son güncelleme",
+    "lastUpdated": "2 Temmuz 2026",
+    "contactEmail": "hello@dinecue.com",
+    "terms": {
+      "seoTitle": "Kullanım Şartları | DineCue",
+      "seoDescription": "DineCue Kullanım Şartları: hesap kullanımı, öneriler, kotalar, üçüncü taraf verileri ve önemli yemek kararı uyarıları.",
+      "eyebrow": "Yasal",
+      "title": "Kullanım Şartları",
+      "intro": "Bu şartlar, restoran ve yemek seçeneklerini bağlama göre değerlendirmenize yardımcı olan DineCue’yu nasıl kullanabileceğinizi açıklar.",
+      "sections": [
+        { "title": "Şartların Kabulü", "body": "DineCue’yu kullanarak bu şartları kabul etmiş olursun. Kabul etmiyorsan lütfen hizmeti kullanma." },
+        { "title": "DineCue Ne Yapar?", "body": "DineCue ruh halini, konumunu, tercihlerini, yemek bağlamını ve bulunabilen mekan bilgilerini dikkate alarak nerede yiyeceğine karar vermene yardım eder." },
+        { "title": "Hesaplar ve Giriş", "body": "E-posta tek kullanımlık kodu veya Google ile giriş yapabilirsin. Bu sürümde şifreyle giriş yoktur." },
+        { "title": "Öneriler ve Üçüncü Taraf Verileri", "body": "Öneriler üçüncü taraf servislerden ve herkese açık mekan bilgilerinden yararlanabilir. DineCue her restoran, menü, fiyat, rezervasyon veya müsaitlik detayını bilemeyebilir." },
+        { "title": "Kullanıcı Girdileri ve Tercihler", "body": "Konum, tercih, yemek bağlamı, menü veya restoran detayları dahil girdiğin bilgilerden sen sorumlusun." },
+        { "title": "Adil Kullanım ve Kotalar", "body": "Free plan aylık sınırlı kullanım içerir. Pro daha sonra sunulabilir; şu anda ücretli yükseltme veya ödeme akışı taahhüdü yoktur." },
+        { "title": "Garanti Yoktur", "body": "DineCue bir önerinin kusursuz, açık, müsait, uygun fiyatlı, her diyet için güvenli veya her duruma uygun olacağını garanti etmez." },
+        { "title": "Sağlık, Diyet ve Alerji Uyarısı", "body": "DineCue tıbbi tavsiye vermez. Alerji, diyet kısıtı, hamilelik, sağlık durumu veya dini gereklilikler için bilgileri restoranla ya da yetkin bir uzmanla doğrula." },
+        { "title": "Sorumluluğun Sınırlandırılması", "body": "Yasanın izin verdiği en geniş ölçüde DineCue; restoran ziyaretleri, üçüncü taraf bilgileri veya kullanıcı girdilerinden doğan karar, kayıp ya da sorunlardan sorumlu değildir." },
+        { "title": "Hizmette Değişiklikler", "body": "DineCue ürün geliştikçe özellikleri, limitleri, erişilebilirliği ve bu şartları değiştirebilir." },
+        { "title": "İletişim", "body": "Bu şartlarla ilgili sorularını hello@dinecue.com adresine gönderebilirsin." }
+      ]
+    },
+    "privacy": {
+      "seoTitle": "Gizlilik Politikası | DineCue",
+      "seoDescription": "DineCue’nun hesap, tercih, konum, restoran bağlamı, çerez ve üçüncü taraf servis bilgilerini nasıl ele aldığını öğren.",
+      "eyebrow": "Gizlilik",
+      "title": "Gizlilik Politikası",
+      "intro": "Bu politika, DineCue’nun hangi bilgileri toplayabileceğini ve daha kullanışlı bir yemek kararı deneyimi sunmak için bunları nasıl kullandığını açıklar.",
+      "sections": [
+        { "title": "Topladığımız Bilgiler", "body": "DineCue e-posta, görünen ad, tercih edilen dil, ülke, para birimi ve mesafe birimi gibi hesap bilgilerini ve ürünü kullanırken sağladığın girdileri toplayabilir." },
+        { "title": "Bilgileri Nasıl Kullanırız?", "body": "Bilgileri giriş yapmak, önerileri kişiselleştirmek, tercihleri hatırlamak, kotaları yönetmek, güvenilirliği artırmak ve hizmeti güvenli tutmak için kullanırız." },
+        { "title": "Kimlik Doğrulama", "body": "E-posta girişi tek kullanımlık kodlarla çalışır. Google ile giriş, hesabını oluşturmak veya geri getirmek için e-posta ve temel profil bilgilerini sağlayabilir." },
+        { "title": "Restoran, Konum ve Tercih Verileri", "body": "Konum, restoran, menü, lezzet ve yemek tercihi bilgileri girebilirsin. Bunlar önerileri daha ilgili hale getirmek için kullanılır." },
+        { "title": "Çerezler ve Yerel Depolama", "body": "DineCue giriş için güvenli çerezler, giriş öncesi dil gibi zararsız arayüz tercihleri için yerel depolama kullanır." },
+        { "title": "Üçüncü Taraf Servisler", "body": "Öneriler mekan bilgisi ve dil temelli değerlendirme için üçüncü taraf servisleri içerebilir. Sağlayıcı anahtarları tarayıcıda gösterilmez." },
+        { "title": "Veri Saklama", "body": "DineCue hesap ve öneri bilgilerini ürünü çalıştırmak, geçmiş ve kaydedilen mekanları desteklemek, güvenlik ve güvenilirliği korumak için gerektiği sürece tutar." },
+        { "title": "Kullanıcı Seçimleri", "body": "Profil tercihlerini güncelleyebilir, çıkış yapabilir ve hangi bilgileri gireceğini seçebilirsin. Ürün olgunlaştıkça daha fazla hesap kontrolü eklenebilir." },
+        { "title": "Güvenlik", "body": "DineCue, hassas giriş token’larının httpOnly çerezlerde tutulacağı ve tarayıcı JavaScript’i tarafından erişilemeyeceği şekilde tasarlanmıştır." },
+        { "title": "Çocukların Gizliliği", "body": "DineCue çocuklar için tasarlanmamıştır. Bir çocuğun kişisel bilgi sağladığını düşünüyorsan bizimle iletişime geç." },
+        { "title": "Bu Politikadaki Değişiklikler", "body": "DineCue değiştikçe bu politikayı güncelleyebiliriz. En güncel sürüm burada yayınlanır." },
+        { "title": "İletişim", "body": "Gizlilik sorularını hello@dinecue.com adresine gönderebilirsin." }
+      ]
+    }
+  },
+  "about": {
+    "seoTitle": "DineCue Hakkında | Yemek ve Restoran Öneri Asistanı",
+    "seoDescription": "DineCue’nun ne olduğunu, neden var olduğunu ve gezginlerle yerel kullanıcıların daha iyi restoran kararları vermesine nasıl yardım ettiğini öğren.",
+    "eyebrow": "Hakkında",
+    "title": "Sadece nerede yiyeceğin değil, neden sana uyduğu.",
+    "intro": "DineCue daha az sekme, daha az tahmin ve restoran seçmek için daha sakin bir yol isteyen kişiler için tasarlanmış bir yemek kararı asistanıdır.",
+    "lastUpdatedLabel": "Son güncelleme",
+    "lastUpdated": "2 Temmuz 2026",
+    "creatorLabel": "İletişim / Geliştirici",
+    "creatorLink": "Burak Altıntaş tarafından oluşturuldu",
+    "creatorUrl": "https://burak-altintas.com",
+    "sections": [
+      { "title": "DineCue nedir?", "body": "DineCue, o anda ne istediğini konum, yanındakiler, bütçe, tercihler ve iştahla birleştirerek restoran ve yemek seçenekleri arasında karar vermene yardım eder." },
+      { "title": "Neden var?", "body": "Nerede yenileceğine karar vermek çoğu zaman yalnızca arama problemi değildir. DineCue, puanlar, fotoğraflar ve uzun listeler “burası bu akşama uygun mu?” sorusuna yetmediğinde devreye girer." },
+      { "title": "Nasıl çalışır?", "body": "İstediğin yemeği tarif edersin. DineCue bu bağlamı küçük bir mekan veya seçim setine dönüştürür, neden uygun olduklarını açıklar ve belirsiz olan şeylerde dürüst kalır." },
+      { "title": "Gezginler ve günlük yemek kararları için", "body": "DineCue seyahatteyken, akşam yemeği planlarken, yerel mekanları karşılaştırırken, bir restoranın ruh haline uyup uymadığını kontrol ederken veya menüyü anlamayı kolaylaştırmak istediğinde kullanışlıdır." },
+      { "title": "İletişim / Geliştirici", "body": "DineCue sıcak, pratik ve odaklı bir yemek ürünü olarak geliştirildi. İletişim veya geliştirici bilgisi için burak-altintas.com adresini ziyaret edebilirsin." }
+    ]
   },
   "placeholders": {
     "menuTitle": "Menü tarama sırada",

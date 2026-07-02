@@ -181,7 +181,12 @@
     "googleSoon": "Google login is coming soon",
     "googleUnavailable": "Google sign-in is unavailable right now.",
     "googleDevelopmentWarning": "Add a Google client ID to enable Google sign-in locally.",
-    "developmentOtp": "Development OTP"
+    "developmentOtp": "Development OTP",
+    "legalPrefix": "By continuing, you agree to the",
+    "legalAnd": "and",
+    "termsLink": "Terms",
+    "privacyLink": "Privacy Policy",
+    "legalSuffix": ""
   },
   "find": {
     "eyebrow": "Find a place",
@@ -310,6 +315,83 @@
     "quietPlaces": "Quiet places",
     "outdoor": "Outdoor",
     "distance": "Distance"
+  },
+  "footer": {
+    "tagline": "Eat by mood.",
+    "body": "DineCue helps you decide where to eat with context, preference and a clearer sense of fit.",
+    "product": "Product",
+    "legal": "Legal",
+    "about": "About",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "home": "Home",
+    "login": "Sign in",
+    "copyright": "DineCue. All rights reserved."
+  },
+  "legal": {
+    "lastUpdatedLabel": "Last updated",
+    "lastUpdated": "July 2, 2026",
+    "contactEmail": "hello@dinecue.com",
+    "terms": {
+      "seoTitle": "Terms of Service | DineCue",
+      "seoDescription": "Read the DineCue Terms of Service, including account use, recommendations, quotas, third-party data, and important dining decision notices.",
+      "eyebrow": "Legal",
+      "title": "Terms of Service",
+      "intro": "These terms explain how you may use DineCue, a dining decision assistant that helps you compare restaurants and meal options by context.",
+      "sections": [
+        { "title": "Acceptance of Terms", "body": "By using DineCue, you agree to these terms. If you do not agree, please do not use the service." },
+        { "title": "What DineCue Does", "body": "DineCue helps you decide where to eat by considering your mood, location, preferences, dining context and available place information." },
+        { "title": "Accounts and Sign-in", "body": "You can sign in with an email one-time code or Google Sign-In. DineCue does not offer password login in this version." },
+        { "title": "Recommendations and Third-Party Data", "body": "Recommendations may use third-party services and publicly available place information. DineCue may not know every detail about a restaurant, menu, price, reservation or availability." },
+        { "title": "User Inputs and Preferences", "body": "You are responsible for the information you enter, including location, preferences, dining context and menu or restaurant details." },
+        { "title": "Fair Use and Quotas", "body": "The Free plan includes limited monthly use. Pro may be offered later, but DineCue does not currently promise a paid upgrade or payment flow." },
+        { "title": "No Guarantees", "body": "DineCue does not guarantee that a recommendation will be perfect, available, open, affordable, safe for every diet, or suitable for every situation." },
+        { "title": "Health, Diet and Allergy Notice", "body": "DineCue is not medical advice. For allergies, dietary restrictions, pregnancy, medical conditions or religious requirements, confirm details directly with the restaurant or a qualified professional." },
+        { "title": "Limitation of Liability", "body": "To the maximum extent permitted by law, DineCue is not liable for decisions, losses or issues arising from restaurant visits, third-party information or user-provided inputs." },
+        { "title": "Changes to the Service", "body": "DineCue may change features, limits, availability and these terms as the product evolves." },
+        { "title": "Contact", "body": "Questions about these terms can be sent to hello@dinecue.com." }
+      ]
+    },
+    "privacy": {
+      "seoTitle": "Privacy Policy | DineCue",
+      "seoDescription": "Learn how DineCue handles account, preference, location, restaurant context, cookie, and third-party service information.",
+      "eyebrow": "Privacy",
+      "title": "Privacy Policy",
+      "intro": "This policy explains the information DineCue may collect and how it is used to provide a more useful dining decision experience.",
+      "sections": [
+        { "title": "Information We Collect", "body": "DineCue may collect account details such as email, display name, preferred language, country, currency and distance unit, along with inputs you provide while using the product." },
+        { "title": "How We Use Information", "body": "We use information to sign you in, personalize recommendations, remember preferences, manage quotas, improve reliability and keep the service secure." },
+        { "title": "Authentication", "body": "Email sign-in uses one-time codes. Google Sign-In may provide your email and basic profile details so DineCue can create or restore your account." },
+        { "title": "Restaurant, Location and Preference Data", "body": "You may enter location, restaurant, menu, taste and dining preference information. This is used to make recommendations more relevant." },
+        { "title": "Cookies and Local Storage", "body": "DineCue uses secure cookies for sign-in and local storage for harmless interface preferences such as language before sign-in." },
+        { "title": "Third-Party Services", "body": "Recommendations may involve third-party services for place information and language-based reasoning. Provider keys are not exposed in the browser." },
+        { "title": "Data Retention", "body": "DineCue keeps account and recommendation information only as needed to operate the product, support history and saved places, and maintain safety and reliability." },
+        { "title": "User Choices", "body": "You can update profile preferences, sign out, and choose what information you enter. More account controls may be added as the product matures." },
+        { "title": "Security", "body": "DineCue is designed so sensitive sign-in tokens are kept in httpOnly cookies and are not available to browser JavaScript." },
+        { "title": "Children’s Privacy", "body": "DineCue is not designed for children. If you believe a child has provided personal information, contact us." },
+        { "title": "Changes to This Policy", "body": "We may update this policy as DineCue changes. The latest version will be posted here." },
+        { "title": "Contact", "body": "Privacy questions can be sent to hello@dinecue.com." }
+      ]
+    }
+  },
+  "about": {
+    "seoTitle": "About DineCue | Dining Decision Assistant",
+    "seoDescription": "Learn what DineCue is, why it exists, and how it helps travelers and local diners make better restaurant decisions.",
+    "eyebrow": "About",
+    "title": "Not just where to eat, but why it fits you.",
+    "intro": "DineCue is a dining decision assistant for people who want fewer tabs, fewer guesses and a calmer way to choose a restaurant.",
+    "lastUpdatedLabel": "Last updated",
+    "lastUpdated": "July 2, 2026",
+    "creatorLabel": "Contact / Creator",
+    "creatorLink": "Created by Burak Altıntaş",
+    "creatorUrl": "https://burak-altintas.com",
+    "sections": [
+      { "title": "What is DineCue?", "body": "DineCue helps you choose restaurants and meal options by combining what you want right now with practical context such as location, company, budget, preferences and appetite." },
+      { "title": "Why it exists", "body": "Choosing where to eat is rarely just a search problem. DineCue exists for the moment when ratings, photos and endless lists are not enough to answer whether a place fits tonight." },
+      { "title": "How it works", "body": "You describe the meal you want. DineCue shapes that context into a small set of places or choices, explains why they fit, and stays honest when something is uncertain." },
+      { "title": "Built for travelers and everyday dining decisions", "body": "DineCue is useful when you are traveling, planning dinner, comparing local places, checking whether a restaurant fits your mood, or trying to make a menu easier to understand." },
+      { "title": "Contact / Creator", "body": "DineCue is created as a focused dining product with a warm, practical point of view. For contact or creator information, visit burak-altintas.com." }
+    ]
   },
   "placeholders": {
     "menuTitle": "Menu scan is coming next",
