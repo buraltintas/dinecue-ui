@@ -15,6 +15,13 @@ export function verifyEmailLogin(input: { email: string; code: string; preferred
   });
 }
 
+export function verifyGoogleLogin(input: { credential: string; preferredLanguage: SupportedLanguage }) {
+  return apiFetch<{ user: UserDto; isNewUser: boolean; onboardingCompleted: boolean }>("/api/auth/google", {
+    method: "POST",
+    body: JSON.stringify(input)
+  });
+}
+
 export function logout() {
   return apiFetch<{ ok: true }>("/api/auth/logout", { method: "POST" });
 }

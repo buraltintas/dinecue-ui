@@ -10,6 +10,7 @@ import { useI18n } from "@/components/providers/i18n-provider";
 import { countryOptions, getCountryLabel, sanitizeProfileForUpdate } from "@/lib/profile-values";
 import { ApiClientError } from "@/lib/api/http";
 import { DEFAULT_DISTANCE_METERS, DEFAULT_SPICE_TOLERANCE, cleanList, formatDistance, hasIncompletePreferences } from "@/lib/profile-preferences";
+import type { ProfileQuotaDto } from "@/lib/types";
 
 type PreferenceItem = {
   label: string;
@@ -109,6 +110,7 @@ export function ProfilePanel() {
     }
   ];
   const preferencesIncomplete = hasIncompletePreferences(taste.data, dining.data);
+  const quota = profile.data?.quota;
 
   if (profile.isLoading || profile.isFetching) {
     return (
@@ -180,12 +182,7 @@ export function ProfilePanel() {
       </form>
 
       <div className="space-y-4">
-        <section className="glass rounded-[1.5rem] p-5">
-          <p className="text-sm tracking-[0.22em] text-amber">{t.profile.planEyebrow}</p>
-          <h2 className="mt-3 text-xl font-semibold text-ivory">{t.profile.freePlan}</h2>
-          <p className="mt-2 text-sm leading-6 text-muted">{t.profile.freePlanBody}</p>
-          <p className="mt-4 text-sm leading-6 text-muted">{t.profile.proSoon}</p>
-        </section>
+        {quota ? <QuotaCard quota={quota} /> : null}
         <section className="glass rounded-[1.5rem] p-5">
           <p className="text-sm tracking-[0.22em] text-amber">{t.profile.preferencesEyebrow}</p>
           <h2 className="mt-2 text-xl font-semibold text-ivory">{t.profile.preferencesTitle}</h2>
@@ -204,6 +201,41 @@ export function ProfilePanel() {
         <ProfileSummary title={t.profile.dining} loading={dining.isLoading || dining.isFetching} items={diningItems} />
       </div>
     </div>
+  );
+}
+
+function QuotaCard({ quota }: { quota: ProfileQuotaDto }) {
+  const { t } = useI18n();
+  const isPro = quota.plan === "pro";
+  const limit = Math.max(0, quota.monthlyLimit);
+  const used = Math.max(0, quota.usedThisPeriod);
+  const remaining = Math.max(0, quota.remainingThisPeriod);
+  const progress = limit > 0 ? Math.min(100, Math.round((used / limit) * 100)) : 0;
+  const planLabel = isPro ? t.profile.proPlanStatus : t.profile.freePlanStatus;
+  const badge = isPro ? t.profile.proPlanBadge : t.profile.freePlanBadge;
+  const remainingText = t.profile.quotaRemaining.replace("{remaining}", String(remaining));
+  const usedText = t.profile.quotaUsed.replace("{used}", String(used)).replace("{limit}", String(limit));
+
+  return (
+    <section className="glass rounded-[1.5rem] p-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-sm tracking-[0.22em] text-amber">{t.profile.planEyebrow}</p>
+          <h2 className="mt-3 text-xl font-semibold text-ivory">{planLabel}</h2>
+          <p className="mt-2 text-sm leading-6 text-muted">{remainingText}</p>
+        </div>
+        <span className="w-fit rounded-full border border-amber/25 bg-amber/10 px-3 py-1.5 text-xs font-semibold text-amber">{badge}</span>
+      </div>
+      <div className="mt-5">
+        <div className="h-2 overflow-hidden rounded-full bg-ivory/10" aria-hidden>
+          <div className="h-full rounded-full bg-amber transition-all" style={{ width: `${progress}%` }} />
+        </div>
+        <div className="mt-3 flex flex-col gap-1 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+          <span>{usedText}</span>
+          {quota.proAvailable && quota.proStatus === "coming_soon" ? <span>{t.profile.proComingSoonShort}</span> : null}
+        </div>
+      </div>
+    </section>
   );
 }
 

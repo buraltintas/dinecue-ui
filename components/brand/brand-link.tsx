@@ -13,7 +13,7 @@ export function BrandLink({
   iconSize?: number;
   iconTone?: "gold" | "white";
 }) {
-  const iconSrc = iconTone === "white" ? "/brand/dinecue-mark-white.svg" : "/brand/dinecue-app-icon-transparent.png";
+  const iconSrc = iconTone === "white" ? "/brand/dinecue-mark-white.svg" : "/brand/dinecue-mark.svg";
 
   return (
     <Link href={href} className={cn("inline-flex items-center gap-3 text-ivory", className)} aria-label="DineCue home">

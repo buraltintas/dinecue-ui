@@ -1,11 +1,12 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import Script from "next/script";
+import { FormEvent, useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Mail, ShieldCheck } from "lucide-react";
-import { startEmailLogin, verifyEmailLogin } from "@/lib/api/auth";
+import { startEmailLogin, verifyEmailLogin, verifyGoogleLogin } from "@/lib/api/auth";
 import { updatePreferredLanguage } from "@/lib/api/profile";
 import { ApiClientError } from "@/lib/api/http";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,24 @@ import { Input } from "@/components/ui/input";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { resolvePostLoginLanguage } from "@/lib/i18n";
+import type { UserDto } from "@/lib/types";
+
+type GoogleCredentialResponse = {
+  credential?: string;
+};
+
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: {
+          initialize: (options: { client_id: string; callback: (response: GoogleCredentialResponse) => void; auto_select?: boolean }) => void;
+          prompt: () => void;
+        };
+      };
+    };
+  }
+}
 
 export function LoginForm() {
   const router = useRouter();
@@ -24,6 +43,67 @@ export function LoginForm() {
   const [devOtp, setDevOtp] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [googleReady, setGoogleReady] = useState(false);
+  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  const hasGoogleClientId = Boolean(googleClientId && googleClientId !== "replace-with-google-web-client-id");
+  const showGoogleDevelopmentWarning = process.env.NODE_ENV === "development" && !hasGoogleClientId;
+
+  const completeLogin = useCallback(
+    async (response: { user: UserDto; isNewUser: boolean; onboardingCompleted: boolean }) => {
+      const nextLanguage = resolvePostLoginLanguage({
+        isNewUser: response.isNewUser,
+        selectedLanguage: language,
+        authenticatedLanguage: response.user.preferredLanguage
+      });
+      if (response.isNewUser) {
+        setLanguage(nextLanguage);
+        if (response.user.preferredLanguage !== nextLanguage) {
+          await updatePreferredLanguage(nextLanguage).catch(() => null);
+        }
+      } else {
+        applyAuthenticatedLanguage(nextLanguage);
+      }
+      queryClient.setQueryData(["me"], response.user);
+      router.push("/app/find");
+    },
+    [applyAuthenticatedLanguage, language, queryClient, router, setLanguage]
+  );
+
+  const handleGoogleCredential = useCallback(
+    async (googleResponse: GoogleCredentialResponse) => {
+      if (!googleResponse.credential) {
+        setError(t.auth.googleUnavailable);
+        return;
+      }
+
+      setLoading(true);
+      setError("");
+      try {
+        const response = await verifyGoogleLogin({ credential: googleResponse.credential, preferredLanguage: language });
+        await completeLogin(response);
+      } catch (caught) {
+        setError(caught instanceof ApiClientError && caught.status === 401 ? t.errors.signInAgain : t.errors.generic);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [completeLogin, language, t.auth.googleUnavailable, t.errors.generic, t.errors.signInAgain]
+  );
+
+  const initializeGoogle = useCallback(() => {
+    if (!hasGoogleClientId || !googleClientId || !window.google?.accounts?.id) return;
+    window.google.accounts.id.initialize({
+      client_id: googleClientId,
+      callback: handleGoogleCredential,
+      auto_select: false
+    });
+    setGoogleReady(true);
+  }, [googleClientId, handleGoogleCredential, hasGoogleClientId]);
+
+  const googleButtonLabel = useMemo(() => {
+    if (!hasGoogleClientId) return t.auth.googleUnavailable;
+    return t.auth.google;
+  }, [hasGoogleClientId, t.auth.google, t.auth.googleUnavailable]);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -36,21 +116,7 @@ export function LoginForm() {
         setStep("code");
       } else {
         const response = await verifyEmailLogin({ email, code, preferredLanguage: language });
-        const nextLanguage = resolvePostLoginLanguage({
-          isNewUser: response.isNewUser,
-          selectedLanguage: language,
-          authenticatedLanguage: response.user.preferredLanguage
-        });
-        if (response.isNewUser) {
-          setLanguage(nextLanguage);
-          if (response.user.preferredLanguage !== nextLanguage) {
-            await updatePreferredLanguage(nextLanguage).catch(() => null);
-          }
-        } else {
-          applyAuthenticatedLanguage(nextLanguage);
-        }
-        queryClient.setQueryData(["me"], response.user);
-        router.push("/app/find");
+        await completeLogin(response);
       }
     } catch (caught) {
       setError(caught instanceof ApiClientError && caught.status === 401 ? t.errors.signInAgain : t.errors.generic);
@@ -61,6 +127,7 @@ export function LoginForm() {
 
   return (
     <form onSubmit={submit} className="glass w-full max-w-md rounded-[2rem] p-6 sm:p-8">
+      {hasGoogleClientId ? <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" onLoad={initializeGoogle} /> : null}
       <div className="mb-7 flex items-center justify-between gap-4">
         <div>
           <p className="text-sm tracking-[0.24em] text-amber">{t.auth.secureSignIn}</p>
@@ -103,9 +170,16 @@ export function LoginForm() {
       <Button className="mt-6 w-full" disabled={loading}>
         {loading ? t.common.working : step === "email" ? t.auth.start : t.auth.verify}
       </Button>
-      <Button className="mt-3 w-full" variant="secondary" type="button" disabled>
-        {t.auth.googleSoon}
+      <Button
+        className="mt-3 w-full"
+        variant="secondary"
+        type="button"
+        disabled={loading || !hasGoogleClientId || !googleReady}
+        onClick={() => window.google?.accounts?.id.prompt()}
+      >
+        {googleButtonLabel}
       </Button>
+      {showGoogleDevelopmentWarning ? <p className="mt-3 rounded-2xl border border-amber/30 bg-amber/10 px-4 py-3 text-sm text-amber">{t.auth.googleDevelopmentWarning}</p> : null}
     </form>
   );
 }

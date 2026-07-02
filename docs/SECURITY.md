@@ -45,6 +45,7 @@ Do not expose:
 Allowed public env:
 
 - `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_GOOGLE_CLIENT_ID` for Google Identity Services. This is a public OAuth client id, not a provider secret.
 - Harmless UI-only public config.
 
 ## Logging Rules

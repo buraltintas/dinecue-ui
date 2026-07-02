@@ -19,6 +19,7 @@ Create `.env.local` from `.env.example`:
 ```env
 DINECUE_API_BASE_URL=http://localhost:5000
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=replace-with-google-web-client-id
 ```
 
 Run locally:
@@ -46,6 +47,8 @@ Email OTP login uses:
 - BFF -> `POST /auth/email/verify`
 
 The BFF stores backend `accessToken` and `refreshToken` in httpOnly cookies and never returns token values to browser JavaScript.
+
+Google Sign-In uses `NEXT_PUBLIC_GOOGLE_CLIENT_ID` for Google Identity Services in the browser. The browser sends the returned Google credential only to `/api/auth/google`; the BFF forwards it to backend `POST /auth/google`, then stores returned backend tokens in httpOnly cookies. The browser never calls the backend API directly.
 
 ## Recommendation Flow
 

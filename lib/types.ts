@@ -22,6 +22,18 @@ export type ProfileDto = {
   country?: string | null;
   currency: string;
   distanceUnit: string;
+  quota?: ProfileQuotaDto | null;
+};
+
+export type ProfileQuotaDto = {
+  plan: "free" | "pro" | string;
+  monthlyLimit: number;
+  usedThisPeriod: number;
+  remainingThisPeriod: number;
+  periodKey: string;
+  periodEndsAt: string;
+  proAvailable: boolean;
+  proStatus?: "coming_soon" | string | null;
 };
 
 export type TasteProfileDto = {

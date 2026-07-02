@@ -36,9 +36,10 @@ export function getCountryLabel(code: string, language: SupportedLanguage) {
   }
 }
 
-export function sanitizeProfileForUpdate(profile: ProfileDto): ProfileDto {
+export function sanitizeProfileForUpdate(profile: ProfileDto): Omit<ProfileDto, "quota"> {
+  const { quota: _quota, ...payload } = profile;
   return {
-    ...profile,
+    ...payload,
     country: normalizeCountryCode(profile.country) || null,
     currency: profile.currency.toUpperCase()
   };

@@ -30,6 +30,8 @@ Do not expose this through `NEXT_PUBLIC_API_BASE_URL`.
 - BFF stores tokens in secure httpOnly cookies.
 - BFF returns only sanitized user/onboarding data to the browser.
 
+Google Sign-In uses Google Identity Services in the browser with `NEXT_PUBLIC_GOOGLE_CLIENT_ID`. The browser receives a Google credential and posts it to same-origin `POST /api/auth/google`. The BFF forwards it to backend `POST /auth/google`, stores returned backend tokens in httpOnly cookies, and returns only sanitized user/onboarding data.
+
 Refresh is integrated with backend `POST /auth/refresh`. Logout calls backend `POST /auth/logout` when a refresh token exists, then clears cookies.
 
 ## Protected Requests
@@ -64,6 +66,7 @@ Backend SignalR exists at `/hubs/recommendations`, but this UI intentionally doe
 
 - `POST /auth/email/start`
 - `POST /auth/email/verify`
+- `POST /auth/google`
 - `POST /auth/refresh`
 - `POST /auth/logout`
 - `GET /me`
