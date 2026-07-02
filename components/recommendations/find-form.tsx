@@ -1,9 +1,9 @@
 "use client";
 
-import { FormEvent, type MouseEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Baby, Clock, LocateFixed, Map, MapPin, MousePointer2, Users } from "lucide-react";
+import { Baby, Clock, LocateFixed, Map, MapPin, Users } from "lucide-react";
 import { createRecommendationSession } from "@/lib/api/recommendations";
 import { ApiClientError } from "@/lib/api/http";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Chip } from "@/components/ui/chip";
 import { Input, Textarea } from "@/components/ui/input";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
+import { LocationMapPicker } from "@/components/recommendations/location-map-picker";
 import { cn } from "@/lib/utils";
 import type { LocationInput } from "@/lib/types";
 
@@ -18,6 +19,7 @@ const cues = ["Dinner", "Coffee", "Drinks", "Family", "Date night", "Quiet", "Go
 const mealMoments = ["breakfast", "lunch", "dinner", "late-night"];
 type LocationMode = "text" | "current" | "map";
 type Coordinates = { lat: number; lng: number };
+type LocationFailure = "denied" | "timeout" | "unavailable" | "unsupported";
 
 export function FindForm() {
   const router = useRouter();
@@ -27,7 +29,6 @@ export function FindForm() {
   const [locationMode, setLocationMode] = useState<LocationMode>("text");
   const [currentCoordinates, setCurrentCoordinates] = useState<Coordinates | null>(null);
   const [mapCoordinates, setMapCoordinates] = useState<Coordinates | null>(null);
-  const [mapPin, setMapPin] = useState({ x: 50, y: 50 });
   const [locationPending, setLocationPending] = useState(false);
   const [locationMessage, setLocationMessage] = useState("");
   const [selectedCues, setSelectedCues] = useState<string[]>(["Dinner"]);
@@ -41,53 +42,107 @@ export function FindForm() {
     setSelectedCues((current) => (current.includes(cue) ? current.filter((item) => item !== cue) : [...current, cue]));
   }
 
-  function requestBrowserLocation(): Promise<Coordinates> {
+  function requestBrowserLocation(options: PositionOptions): Promise<Coordinates> {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
-        reject(new Error("geolocation_unavailable"));
+        reject(new Error("unsupported"));
         return;
       }
       navigator.geolocation.getCurrentPosition(
         (position) => resolve({ lat: position.coords.latitude, lng: position.coords.longitude }),
         reject,
-        { enableHighAccuracy: true, timeout: 12_000, maximumAge: 60_000 }
+        options
       );
     });
+  }
+
+  async function resolveBrowserLocation() {
+    try {
+      return await requestBrowserLocation({ enableHighAccuracy: false, timeout: 10_000, maximumAge: 300_000 });
+    } catch (firstError) {
+      const error = firstError as GeolocationPositionError;
+      if (error.code === error.PERMISSION_DENIED) throw firstError;
+      return requestBrowserLocation({ enableHighAccuracy: true, timeout: 15_000, maximumAge: 60_000 });
+    }
+  }
+
+  function getLocationFailureMessage(error: unknown) {
+    const failure = getLocationFailure(error);
+    if (failure === "denied") return t.find.locationPermissionDenied;
+    if (failure === "timeout") return t.find.locationTimeoutError;
+    if (failure === "unsupported") return t.find.locationUnsupportedError;
+    return t.find.locationUnavailableError;
+  }
+
+  function getMapLocationFailureMessage(error: unknown) {
+    return getLocationFailure(error) === "denied" ? t.find.mapPermissionRequired : getLocationFailureMessage(error);
+  }
+
+  async function geocodeTypedLocation(): Promise<Coordinates | null> {
+    const query = location.trim();
+    if (!query) return null;
+
+    const response = await fetch(`/api/map/geocode?q=${encodeURIComponent(query)}&language=${language}`, {
+      method: "GET",
+      headers: { "Accept": "application/json" }
+    });
+
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error("location_lookup_failed");
+
+    const result = (await response.json()) as Partial<Coordinates>;
+    return typeof result.lat === "number" && typeof result.lng === "number" ? { lat: result.lat, lng: result.lng } : null;
   }
 
   async function chooseLocationMode(mode: LocationMode) {
     setLocationMode(mode);
     setLocationMessage("");
     if (mode === "text") return;
+    if (mode === "map") {
+      setLocationPending(true);
+      try {
+        const typedCoordinates = await geocodeTypedLocation();
+        if (typedCoordinates) {
+          setMapCoordinates(typedCoordinates);
+          setLocationMessage(t.find.mapTextLocationReady);
+          return;
+        }
+
+        if (location.trim()) {
+          setMapCoordinates(null);
+          setLocationMessage(t.find.mapTextLocationNotFound);
+          return;
+        }
+
+        if (currentCoordinates) {
+          setMapCoordinates((current) => current || currentCoordinates);
+          setLocationMessage(t.find.mapLocationReady);
+          return;
+        }
+
+        const coordinates = await resolveBrowserLocation();
+        setCurrentCoordinates(coordinates);
+        setMapCoordinates((current) => current || coordinates);
+        setLocationMessage(t.find.mapLocationReady);
+      } catch (error) {
+        setMapCoordinates(null);
+        setLocationMessage(error instanceof Error && error.message === "location_lookup_failed" ? t.find.mapTextLocationNotFound : getMapLocationFailureMessage(error));
+      } finally {
+        setLocationPending(false);
+      }
+      return;
+    }
 
     setLocationPending(true);
     try {
-      const coordinates = await requestBrowserLocation();
+      const coordinates = await resolveBrowserLocation();
       setCurrentCoordinates(coordinates);
-      if (mode === "map") {
-        setMapCoordinates((current) => current || coordinates);
-        setMapPin((current) => current || { x: 50, y: 50 });
-      }
-      setLocationMessage(mode === "current" ? t.find.currentLocationReady : t.find.mapLocationReady);
-    } catch {
-      setLocationMessage(t.find.locationPermissionError);
+      setLocationMessage(t.find.currentLocationReady);
+    } catch (error) {
+      setLocationMessage(getLocationFailureMessage(error));
     } finally {
       setLocationPending(false);
     }
-  }
-
-  function pickMapLocation(event: MouseEvent<HTMLButtonElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = Math.min(92, Math.max(8, ((event.clientX - rect.left) / rect.width) * 100));
-    const y = Math.min(86, Math.max(14, ((event.clientY - rect.top) / rect.height) * 100));
-    const center = currentCoordinates || mapCoordinates || { lat: 41.0082, lng: 28.9784 };
-    const next = {
-      lat: center.lat + (50 - y) * 0.0018,
-      lng: center.lng + (x - 50) * 0.0024
-    };
-    setMapPin({ x, y });
-    setMapCoordinates(next);
-    setLocationMessage(t.find.mapPinReady);
   }
 
   function buildLocationInput(): LocationInput {
@@ -111,7 +166,7 @@ export function FindForm() {
         return;
       }
       if (locationMode === "map" && !mapCoordinates) {
-        setError(t.find.mapRequired);
+        setError(location.trim() ? t.find.mapTextLocationNotFound : t.find.mapPermissionRequired);
         setLoading(false);
         return;
       }
@@ -195,37 +250,46 @@ export function FindForm() {
           ) : null}
 
           {locationMode === "current" ? (
-            <div className="mt-3 rounded-2xl border border-ivory/10 bg-black/15 p-4">
+            <button
+              type="button"
+              onClick={() => void chooseLocationMode("current")}
+              className="mt-3 w-full rounded-2xl border border-ivory/10 bg-black/15 p-4 text-left transition hover:border-amber/30 hover:bg-amber/5"
+            >
               <p className="flex items-center gap-2 text-sm font-semibold text-ivory">
                 <LocateFixed size={16} className="text-amber" aria-hidden />
                 {locationPending ? t.find.locationRequesting : currentCoordinates ? t.find.currentLocationReady : t.find.currentLocationHint}
               </p>
               {currentCoordinates ? <p className="mt-2 text-xs text-muted">{formatCoordinates(currentCoordinates)}</p> : null}
-            </div>
+            </button>
           ) : null}
 
           {locationMode === "map" ? (
             <div className="mt-3 rounded-[1.5rem] border border-ivory/10 bg-black/15 p-3">
-              <button
-                type="button"
-                onClick={pickMapLocation}
-                className="relative h-48 w-full overflow-hidden rounded-[1.15rem] border border-ivory/10 bg-[radial-gradient(circle_at_50%_45%,rgba(240,179,92,.16),transparent_28%),linear-gradient(135deg,rgba(244,239,228,.08),rgba(145,160,107,.08))] text-left"
-                aria-label={t.find.mapPickerLabel}
-              >
-                <span className="pointer-events-none absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(244,239,228,.6)_1px,transparent_1px),linear-gradient(90deg,rgba(244,239,228,.6)_1px,transparent_1px)] [background-size:28px_28px]" aria-hidden />
-                <span
-                  className="absolute -ml-4 -mt-8 grid h-9 w-9 place-items-center rounded-full bg-amber text-graphite shadow-glow"
-                  style={{ left: `${mapPin.x}%`, top: `${mapPin.y}%` }}
-                  aria-hidden
+              {currentCoordinates || mapCoordinates ? (
+                <>
+                  <LocationMapPicker
+                    center={(mapCoordinates || currentCoordinates)!}
+                    selected={mapCoordinates}
+                    onSelect={(coordinates) => {
+                      setMapCoordinates(coordinates);
+                      setLocationMessage(t.find.mapPinReady);
+                    }}
+                    label={t.find.mapPickerLabel}
+                    hint={t.find.mapPickerHint}
+                    zoomInLabel={t.find.mapZoomIn}
+                    zoomOutLabel={t.find.mapZoomOut}
+                  />
+                  {mapCoordinates ? <p className="mt-3 text-xs text-muted">{formatCoordinates(mapCoordinates)}</p> : null}
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => void chooseLocationMode("map")}
+                  className="flex min-h-28 w-full items-center justify-center rounded-[1.15rem] border border-amber/25 bg-amber/8 px-4 text-center text-sm font-semibold text-ivory transition hover:bg-amber/12"
                 >
-                  <MapPin size={19} />
-                </span>
-                <span className="absolute bottom-3 left-3 right-3 flex items-center gap-2 rounded-full bg-black/55 px-3 py-2 text-xs text-ivory backdrop-blur">
-                  <MousePointer2 size={14} className="text-amber" aria-hidden />
-                  {currentCoordinates ? t.find.mapPickerHint : t.find.currentLocationHint}
-                </span>
-              </button>
-              {mapCoordinates ? <p className="mt-3 text-xs text-muted">{formatCoordinates(mapCoordinates)}</p> : null}
+                  {locationPending ? t.find.mapSearchingLocation : location.trim() ? t.find.mapUseTypedLocation : t.find.mapPermissionRequired}
+                </button>
+              )}
             </div>
           ) : null}
 
@@ -265,4 +329,12 @@ export function FindForm() {
 
 function formatCoordinates(coordinates: Coordinates) {
   return `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+}
+
+function getLocationFailure(error: unknown): LocationFailure {
+  if (error instanceof Error && error.message === "unsupported") return "unsupported";
+  const geolocationError = error as Partial<GeolocationPositionError>;
+  if (geolocationError.code === 1) return "denied";
+  if (geolocationError.code === 3) return "timeout";
+  return "unavailable";
 }
