@@ -160,7 +160,14 @@ export function LoginForm() {
             </label>
             <div className="relative mt-2">
               <ShieldCheck className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={18} aria-hidden />
-              <Input id="code" inputMode="numeric" required value={code} onChange={(event) => setCode(event.target.value)} className="pl-11 tracking-[0.4em]" />
+              <Input
+                id="code"
+                inputMode="numeric"
+                required
+                value={code}
+                onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
+                className="pl-11 tracking-[0.4em]"
+              />
             </div>
           </motion.div>
         )}

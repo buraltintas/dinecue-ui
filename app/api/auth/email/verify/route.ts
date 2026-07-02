@@ -6,7 +6,7 @@ import { languageSchema, readJson, validationError } from "@/lib/server/validati
 
 const schema = z.object({
   email: z.string().email(),
-  code: z.string().min(4).max(12),
+  code: z.string().transform((value) => value.replace(/\D/g, "")).pipe(z.string().length(6)),
   preferredLanguage: languageSchema.optional()
 });
 
