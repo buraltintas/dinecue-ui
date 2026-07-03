@@ -1,16 +1,26 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { useI18n } from "@/components/providers/i18n-provider";
 
 export function GenerationScreen({ currentStep }: { currentStep?: string | null }) {
   const { t } = useI18n();
+  const shouldReduceMotion = useReducedMotion();
+  const [loopIndex, setLoopIndex] = useState(0);
   const steps = [t.status.understanding, t.status.searching, t.status.comparing, t.status.preparing];
   const normalized = currentStep?.toLowerCase() || "";
-  const activeIndex = Math.max(
-    0,
-    steps.findIndex((step) => normalized.includes(step.toLowerCase().slice(0, 8)))
-  );
+  const backendStepIndex = steps.findIndex((step) => normalized.includes(step.toLowerCase().slice(0, 8)));
+  const activeIndex = backendStepIndex >= 0 ? backendStepIndex : loopIndex;
+
+  useEffect(() => {
+    if (backendStepIndex >= 0) return;
+    const interval = window.setInterval(() => {
+      setLoopIndex((index) => (index + 1) % steps.length);
+    }, shouldReduceMotion ? 3000 : 1800);
+
+    return () => window.clearInterval(interval);
+  }, [backendStepIndex, shouldReduceMotion, steps.length]);
 
   return (
     <section className="glass overflow-hidden rounded-[2rem] p-8 text-center">
@@ -27,10 +37,19 @@ export function GenerationScreen({ currentStep }: { currentStep?: string | null 
       <p className="mx-auto mt-3 max-w-xl text-muted">{t.status.body}</p>
       <div className="mx-auto mt-8 max-w-xl space-y-3 text-left">
         {steps.map((step, index) => (
-          <div key={step} className="flex items-center gap-3">
-            <span className={`h-2.5 w-2.5 rounded-full ${index <= activeIndex ? "bg-amber" : "bg-ivory/20"}`} />
-            <span className={index <= activeIndex ? "text-ivory" : "text-muted"}>{step}</span>
-          </div>
+          <motion.div
+            key={step}
+            className="flex items-center gap-3"
+            animate={{ opacity: index === activeIndex ? 1 : index < activeIndex ? 0.78 : 0.54, x: index === activeIndex ? 4 : 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.28, ease: "easeOut" }}
+          >
+            <motion.span
+              className={`h-2.5 w-2.5 rounded-full ${index === activeIndex ? "bg-amber shadow-glow" : index < activeIndex ? "bg-amber/70" : "bg-ivory/20"}`}
+              animate={{ scale: index === activeIndex && !shouldReduceMotion ? [1, 1.35, 1] : 1 }}
+              transition={{ duration: 1.2, repeat: index === activeIndex && !shouldReduceMotion ? Infinity : 0, ease: "easeInOut" }}
+            />
+            <span className={index === activeIndex ? "font-semibold text-ivory" : index < activeIndex ? "text-ivory/70" : "text-muted"}>{step}</span>
+          </motion.div>
         ))}
       </div>
     </section>
