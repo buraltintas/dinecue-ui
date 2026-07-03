@@ -56,14 +56,59 @@ export function FindForm() {
     });
   }
 
+  function watchBrowserLocation(options: PositionOptions): Promise<Coordinates> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("unsupported"));
+        return;
+      }
+
+      let settled = false;
+      const timeout = window.setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        navigator.geolocation.clearWatch(watchId);
+        reject({ code: 3 });
+      }, options.timeout || 20_000);
+
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          if (settled) return;
+          settled = true;
+          window.clearTimeout(timeout);
+          navigator.geolocation.clearWatch(watchId);
+          resolve({ lat: position.coords.latitude, lng: position.coords.longitude });
+        },
+        (error) => {
+          if (settled) return;
+          settled = true;
+          window.clearTimeout(timeout);
+          navigator.geolocation.clearWatch(watchId);
+          reject(error);
+        },
+        options
+      );
+    });
+  }
+
   async function resolveBrowserLocation() {
-    try {
-      return await requestBrowserLocation({ enableHighAccuracy: false, timeout: 10_000, maximumAge: 300_000 });
-    } catch (firstError) {
-      const error = firstError as GeolocationPositionError;
-      if (error.code === error.PERMISSION_DENIED) throw firstError;
-      return requestBrowserLocation({ enableHighAccuracy: true, timeout: 15_000, maximumAge: 60_000 });
+    const attempts: Array<() => Promise<Coordinates>> = [
+      () => requestBrowserLocation({ enableHighAccuracy: false, timeout: 8_000, maximumAge: 600_000 }),
+      () => requestBrowserLocation({ enableHighAccuracy: true, timeout: 18_000, maximumAge: 0 }),
+      () => watchBrowserLocation({ enableHighAccuracy: false, timeout: 22_000, maximumAge: 600_000 })
+    ];
+    let lastError: unknown = null;
+
+    for (const attempt of attempts) {
+      try {
+        return await attempt();
+      } catch (error) {
+        lastError = error;
+        if (getLocationFailure(error) === "denied" || getLocationFailure(error) === "unsupported") throw error;
+      }
     }
+
+    throw lastError;
   }
 
   function getLocationFailureMessage(error: unknown) {
@@ -257,7 +302,13 @@ export function FindForm() {
             >
               <p className="flex items-center gap-2 text-sm font-semibold text-ivory">
                 <LocateFixed size={16} className="text-amber" aria-hidden />
-                {locationPending ? t.find.locationRequesting : currentCoordinates ? t.find.currentLocationReady : t.find.currentLocationHint}
+                {locationPending
+                  ? t.find.locationRequesting
+                  : currentCoordinates
+                    ? t.find.currentLocationReady
+                    : locationMessage
+                      ? t.find.currentLocationRetry
+                      : t.find.currentLocationHint}
               </p>
               {currentCoordinates ? <p className="mt-2 text-xs text-muted">{formatCoordinates(currentCoordinates)}</p> : null}
             </button>
