@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { backendRequest, errorResponse, jsonResponse } from "@/lib/server/backendClient";
+import { backendRequest, errorResponse, jsonResponse, summarizeRequestBodyForDiagnostics } from "@/lib/server/backendClient";
 import { languageSchema, readJson, validationError } from "@/lib/server/validation";
 import type { HistoryItemDto, RecommendationAccepted } from "@/lib/types";
 
@@ -31,6 +31,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await readJson(request, schema);
+    console.info("Recommendation BFF request received", summarizeRequestBodyForDiagnostics(body));
     const response = await backendRequest<RecommendationAccepted>("/recommendation-sessions", {
       method: "POST",
       auth: true,

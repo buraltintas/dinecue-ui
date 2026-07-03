@@ -18,9 +18,18 @@ type BackendLoginResponse = {
 };
 
 const backendBaseUrl = process.env.DINECUE_API_BASE_URL || "http://localhost:5000";
+const textPreviewLength = 500;
 
 function backendUrl(path: string) {
   return new URL(path, backendBaseUrl).toString();
+}
+
+function safeBackendUrlParts(url: string) {
+  const parsed = new URL(url);
+  return {
+    hostname: parsed.hostname,
+    pathname: parsed.pathname
+  };
 }
 
 function sanitizeStatus(status: number) {
@@ -48,15 +57,100 @@ function sanitizeError(status: number, body: unknown) {
   return { error: fallback };
 }
 
-async function parseJson(response: Response) {
-  if (response.status === 204) return null;
+async function parseResponseBody(response: Response): Promise<{ json: unknown | null; textPreview: string | null }> {
+  if (response.status === 204) return { json: null, textPreview: null };
   const text = await response.text();
-  if (!text) return null;
+  if (!text) return { json: null, textPreview: null };
   try {
-    return JSON.parse(text) as unknown;
+    return { json: JSON.parse(text) as unknown, textPreview: null };
   } catch {
-    return null;
+    return { json: null, textPreview: text.slice(0, textPreviewLength) };
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function redactSensitive(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(redactSensitive);
+  if (!isRecord(value)) return value;
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, item]) => {
+      const normalized = key.toLowerCase();
+      if (normalized.includes("token") || normalized.includes("cookie") || normalized.includes("authorization") || normalized.includes("password")) {
+        return [key, "[redacted]"];
+      }
+      return [key, redactSensitive(item)];
+    })
+  );
+}
+
+export function summarizeRequestBodyForDiagnostics(body: unknown) {
+  if (!isRecord(body)) return body === undefined ? { hasBody: false } : { hasBody: true, bodyType: typeof body };
+
+  const location = isRecord(body.location) ? body.location : null;
+  const context = isRecord(body.context) ? body.context : null;
+  const rawText = typeof body.rawText === "string" ? body.rawText : null;
+  const selectedCues = Array.isArray(body.selectedCues) ? body.selectedCues.filter((cue): cue is string => typeof cue === "string") : undefined;
+  const lat = location && typeof location.lat === "number" ? location.lat : null;
+  const lng = location && typeof location.lng === "number" ? location.lng : null;
+
+  return {
+    hasBody: true,
+    bodyKeys: Object.keys(body),
+    rawText: rawText
+      ? {
+          length: rawText.length,
+          preview: rawText.slice(0, 80)
+        }
+      : undefined,
+    language: typeof body.language === "string" ? body.language : undefined,
+    selectedCues,
+    location: location
+      ? {
+          mode: typeof location.mode === "string" ? location.mode : undefined,
+          hasCoordinates: typeof lat === "number" && typeof lng === "number"
+        }
+      : undefined,
+    context: context
+      ? {
+          keys: Object.keys(context),
+          partySize: typeof context.partySize === "number" ? context.partySize : undefined,
+          withKids: typeof context.withKids === "boolean" ? context.withKids : undefined,
+          mealMoment: typeof context.mealMoment === "string" ? context.mealMoment : undefined
+        }
+      : undefined
+  };
+}
+
+function logBackendFailure({
+  path,
+  method,
+  url,
+  status,
+  responseBody,
+  requestBody
+}: {
+  path: string;
+  method: string;
+  url: string;
+  status: number;
+  responseBody: { json: unknown | null; textPreview: string | null };
+  requestBody: unknown;
+}) {
+  console.error("BFF backend request failed", {
+    path,
+    method,
+    status,
+    backend: safeBackendUrlParts(url),
+    backendResponseBody: {
+      json: redactSensitive(responseBody.json),
+      textPreview: responseBody.textPreview
+    },
+    requestBody: summarizeRequestBodyForDiagnostics(requestBody)
+  });
 }
 
 export async function refreshAccessToken() {
@@ -82,6 +176,8 @@ export async function refreshAccessToken() {
 
 export async function backendRequest<T>(path: string, options: BackendRequestOptions = {}): Promise<T> {
   const token = options.auth ? getAccessToken() : undefined;
+  const method = options.method || "GET";
+  const url = backendUrl(path);
   const headers: HeadersInit = {
     Accept: "application/json"
   };
@@ -89,8 +185,8 @@ export async function backendRequest<T>(path: string, options: BackendRequestOpt
   if (options.body !== undefined) headers["Content-Type"] = "application/json";
   if (options.auth && token) headers.Authorization = `Bearer ${token}`;
 
-  const response = await fetch(backendUrl(path), {
-    method: options.method || "GET",
+  const response = await fetch(url, {
+    method,
     headers,
     body: options.body === undefined ? undefined : JSON.stringify(options.body),
     cache: "no-store"
@@ -101,15 +197,23 @@ export async function backendRequest<T>(path: string, options: BackendRequestOpt
     if (refreshed) return backendRequest<T>(path, { ...options, retryOnUnauthorized: false });
   }
 
-  const body = await parseJson(response);
+  const parsedBody = await parseResponseBody(response);
   if (!response.ok) {
-    throw new Response(JSON.stringify(sanitizeError(response.status, body)), {
+    logBackendFailure({
+      path,
+      method,
+      url,
+      status: response.status,
+      responseBody: parsedBody,
+      requestBody: options.body
+    });
+    throw new Response(JSON.stringify(sanitizeError(response.status, parsedBody.json)), {
       status: sanitizeStatus(response.status),
       headers: { "Content-Type": "application/json" }
     });
   }
 
-  return body as T;
+  return parsedBody.json as T;
 }
 
 export function jsonResponse<T>(body: T, init?: ResponseInit) {
