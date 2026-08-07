@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AlertTriangle, Check } from "lucide-react";
 import { updateDiningProfile, updateTasteProfile } from "@/lib/api/profile";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { cleanList } from "@/lib/profile-preferences";
+import { parseCommaList, sameCommaList } from "@/lib/comma-list";
 import { distanceOptionsMeters, scaleMax, sweetSaltyOptions } from "@/lib/profile-values";
 import { cn } from "@/lib/utils";
 import type { DiningProfileDto, ProfileDto, TasteProfileDto } from "@/lib/types";
@@ -245,21 +246,29 @@ function ListField({
   placeholder: string;
 }) {
   const { t } = useI18n();
-  // Held as text while typing so a comma mid-word does not fight the caret.
-  const [text, setText] = useState(cleanList(value).join(", "));
+  // Held as text while typing, because the parsed list cannot represent a half-typed entry.
+  const [text, setText] = useState(() => cleanList(value).join(", "));
+  // What this input last sent upward. Comparing against it separates a genuinely external change (a save
+  // or a refetch) from the echo of the diner's own keystroke. Without it, typing a comma undid itself:
+  // "bira," parses to ["bira", ""], which joins back to "bira" and removed the comma as it was typed.
+  const emitted = useRef<string[]>(value);
 
-  useEffect(() => setText(cleanList(value).join(", ")), [value]);
+  useEffect(() => {
+    if (sameCommaList(emitted.current, value)) return;
+    emitted.current = value;
+    setText(cleanList(value).join(", "));
+  }, [value]);
+
+  function handleChange(next: string) {
+    setText(next);
+    const parsed = parseCommaList(next);
+    emitted.current = parsed;
+    onChange(parsed);
+  }
 
   return (
     <Field label={label} hint={t.preferences.listHint}>
-      <Input
-        value={text}
-        placeholder={placeholder}
-        onChange={(event) => {
-          setText(event.target.value);
-          onChange(event.target.value.split(",").map((item) => item.trim()));
-        }}
-      />
+      <Input value={text} placeholder={placeholder} onChange={(event) => handleChange(event.target.value)} />
     </Field>
   );
 }
