@@ -10,7 +10,9 @@ const schema = z.object({
   dislikedCuisines: list,
   favoriteDishes: list,
   dislikedIngredients: list,
-  spiceTolerance: z.number().int().min(0).max(10),
+  // Kept in step with the backend, which rejects anything above 5. A looser gate here would turn a
+  // valid-looking choice into an opaque error instead of a form message.
+  spiceTolerance: z.number().int().min(0).max(5),
   sweetSaltyPreference: z.string().max(40),
   drinkPreferences: list,
   dietaryRestrictions: list,

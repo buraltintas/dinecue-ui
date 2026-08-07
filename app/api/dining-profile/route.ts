@@ -8,12 +8,13 @@ const schema = z.object({
   usuallyWithKids: z.boolean(),
   prefersQuietPlaces: z.boolean(),
   prefersOutdoor: z.boolean(),
-  budgetSensitivity: z.number().int().min(0).max(10),
+  // Both bounds mirror the backend exactly; see the note in the taste-profile route.
+  budgetSensitivity: z.number().int().min(0).max(5),
   likesLocalExperiences: z.boolean(),
   likesPremiumPlaces: z.boolean(),
   needsParking: z.boolean(),
   needsAccessibility: z.boolean(),
-  defaultDistanceMeters: z.number().int().min(100).max(100000)
+  defaultDistanceMeters: z.number().int().min(100).max(50000)
 });
 
 export async function GET() {

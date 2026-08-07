@@ -8,20 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
-import { countryOptions, getCountryLabel, sanitizeProfileForUpdate } from "@/lib/profile-values";
+import { countryOptions, currencyOptions, getCountryLabel, sanitizeProfileForUpdate } from "@/lib/profile-values";
 import { ApiClientError } from "@/lib/api/http";
-import { DEFAULT_DISTANCE_METERS, DEFAULT_SPICE_TOLERANCE, cleanList, formatDistance, hasIncompletePreferences } from "@/lib/profile-preferences";
+import { hasIncompletePreferences } from "@/lib/profile-preferences";
+import { DiningProfileForm, TasteProfileForm } from "@/components/app/preference-forms";
 import type { ProfileQuotaDto } from "@/lib/types";
 
-type PreferenceItem = {
-  label: string;
-  value: string;
-  source?: "default" | "unset";
-};
 
 export function ProfilePanel() {
   const { language, t } = useI18n();
-  const [showPreferenceNote, setShowPreferenceNote] = useState(false);
   const profile = useQuery({
     queryKey: ["profile"],
     queryFn: getProfile,
@@ -75,47 +70,6 @@ export function ProfilePanel() {
     mutation.mutate(sanitizeProfileForUpdate(form));
   }
 
-  const favoriteCuisines = cleanList(taste.data?.favoriteCuisines);
-  const dietaryRestrictions = cleanList(taste.data?.dietaryRestrictions);
-  const tasteItems: PreferenceItem[] = [
-    {
-      label: t.profile.cuisines,
-      value: favoriteCuisines.length ? favoriteCuisines.join(", ") : t.common.notSet,
-      source: favoriteCuisines.length ? undefined : "unset"
-    },
-    {
-      label: t.profile.spice,
-      value: taste.data && taste.data.spiceTolerance !== DEFAULT_SPICE_TOLERANCE ? `${taste.data.spiceTolerance}/5` : t.common.notSet,
-      source: taste.data && taste.data.spiceTolerance !== DEFAULT_SPICE_TOLERANCE ? undefined : "unset"
-    },
-    {
-      label: t.profile.dietary,
-      value: dietaryRestrictions.length ? dietaryRestrictions.join(", ") : t.common.notSet,
-      source: dietaryRestrictions.length ? undefined : "unset"
-    }
-  ];
-  const diningItems: PreferenceItem[] = [
-    {
-      label: t.profile.usuallyWithKids,
-      value: dining.data?.usuallyWithKids ? t.common.yes : t.common.flexible,
-      source: dining.data?.usuallyWithKids ? undefined : "unset"
-    },
-    {
-      label: t.profile.quietPlaces,
-      value: dining.data?.prefersQuietPlaces ? t.common.preferred : t.common.notSet,
-      source: dining.data?.prefersQuietPlaces ? undefined : "unset"
-    },
-    {
-      label: t.profile.outdoor,
-      value: dining.data?.prefersOutdoor ? t.common.preferred : t.common.notSet,
-      source: dining.data?.prefersOutdoor ? undefined : "unset"
-    },
-    {
-      label: t.profile.distance,
-      value: dining.data ? formatDistance(dining.data.defaultDistanceMeters, form.distanceUnit) : t.common.notSet,
-      source: dining.data?.defaultDistanceMeters === DEFAULT_DISTANCE_METERS ? "default" : dining.data ? undefined : "unset"
-    }
-  ];
   const preferencesIncomplete = hasIncompletePreferences(taste.data, dining.data);
   const quota = profile.data?.quota;
 
@@ -162,7 +116,18 @@ export function ProfilePanel() {
           </label>
           <label>
             <span className="text-sm text-muted">{t.profile.currency}</span>
-            <Input className="mt-2" value={form.currency} onChange={(event) => setForm({ ...form, currency: event.target.value.toUpperCase() })} />
+            {/* The backend only accepts a 3-letter code, so a typed "TL" would fail for an invisible reason. */}
+            <select
+              className="mt-2 min-h-12 w-full rounded-card border border-ivory/12 bg-black/25 px-4 text-ivory"
+              value={currencyOptions.includes(form.currency as (typeof currencyOptions)[number]) ? form.currency : currencyOptions[0]}
+              onChange={(event) => setForm({ ...form, currency: event.target.value })}
+            >
+              {currencyOptions.map((code) => (
+                <option key={code} value={code}>
+                  {code}
+                </option>
+              ))}
+            </select>
           </label>
           <label>
             <span className="text-sm text-muted">{t.profile.distanceUnit}</span>
@@ -191,15 +156,20 @@ export function ProfilePanel() {
           {preferencesIncomplete ? (
             <div className="mt-5 rounded-card border border-amber/20 bg-amber/10 p-4">
               <p className="text-sm text-ivory">{t.profile.preferencesIncomplete}</p>
-              <Button className="mt-4" variant="secondary" type="button" onClick={() => setShowPreferenceNote(true)}>
-                {t.profile.completePreferences}
-              </Button>
-              {showPreferenceNote ? <p className="mt-3 text-sm leading-6 text-muted">{t.profile.preferencesComingSoon}</p> : null}
+              <p className="mt-2 text-sm leading-6 text-muted">{t.profile.preferencesHint}</p>
             </div>
           ) : null}
         </section>
-        <ProfileSummary title={t.profile.taste} loading={taste.isLoading || taste.isFetching} items={tasteItems} />
-        <ProfileSummary title={t.profile.dining} loading={dining.isLoading || dining.isFetching} items={diningItems} />
+        {taste.data ? (
+          <TasteProfileForm value={taste.data} />
+        ) : (
+          <div className="glass h-56 animate-pulse rounded-card" aria-label={t.common.loading} />
+        )}
+        {dining.data ? (
+          <DiningProfileForm value={dining.data} distanceUnit={form.distanceUnit} />
+        ) : (
+          <div className="glass h-56 animate-pulse rounded-card" aria-label={t.common.loading} />
+        )}
       </div>
     </div>
   );
@@ -240,25 +210,3 @@ function QuotaCard({ quota }: { quota: ProfileQuotaDto }) {
   );
 }
 
-function ProfileSummary({ title, loading, items }: { title: string; loading: boolean; items: PreferenceItem[] }) {
-  const { t } = useI18n();
-
-  return (
-    <section className="rounded-card border border-ivory/10 bg-ivory/[0.035] p-5">
-      <h2 className="text-xl font-semibold text-ivory">{title}</h2>
-      {loading ? <div className="mt-4 h-20 animate-pulse rounded-card bg-ivory/[0.06]" /> : (
-        <dl className="mt-4 space-y-3">
-          {items.map((item) => (
-            <div key={item.label} className="flex items-start justify-between gap-4 text-sm">
-              <dt className="text-muted">{item.label}</dt>
-              <dd className="text-right text-ivory">
-                <span>{item.value}</span>
-                {item.source === "default" ? <span className="ml-2 rounded-full bg-ivory/[0.06] px-2 py-0.5 text-xs text-muted">{t.profile.defaultBadge}</span> : null}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      )}
-    </section>
-  );
-}
