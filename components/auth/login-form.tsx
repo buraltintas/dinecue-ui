@@ -130,12 +130,12 @@ export function LoginForm({ googleClientId }: { googleClientId?: string }) {
   }
 
   return (
-    <form onSubmit={submit} className="glass w-full max-w-md rounded-[2rem] p-6 sm:p-8">
+    <form onSubmit={submit} className="glass w-full rounded-panel p-6 sm:p-8 lg:w-[26rem]">
       {hasGoogleClientId ? <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" onLoad={initializeGoogle} /> : null}
       <div className="mb-7 flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm tracking-[0.24em] text-amber">{t.auth.secureSignIn}</p>
-          <h1 className="mt-2 font-display text-3xl text-ivory">{t.auth.enterByEmail}</h1>
+          <p className="eyebrow text-copper">{t.auth.secureSignIn}</p>
+          <h2 className="mt-3 font-display text-2xl text-ivory">{t.auth.enterByEmail}</h2>
         </div>
         <LanguageSwitcher compact />
       </div>
@@ -153,9 +153,9 @@ export function LoginForm({ googleClientId }: { googleClientId?: string }) {
           </motion.div>
         ) : (
           <motion.div key="code" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-            <p className="mb-4 rounded-2xl border border-sage/20 bg-sage/10 px-4 py-3 text-sm text-sage">{t.auth.sent}</p>
+            <p className="mb-4 rounded-card border border-sage/20 bg-sage/10 px-4 py-3 text-sm leading-6 text-sage">{t.auth.sent}</p>
             {process.env.NODE_ENV === "development" && devOtp ? (
-              <p className="mb-4 rounded-2xl border border-amber/30 bg-amber/10 px-4 py-3 text-sm text-amber">
+              <p className="mb-4 rounded-card border border-amber/30 bg-amber/10 px-4 py-3 font-mono text-sm text-amber">
                 {t.auth.developmentOtp}: {devOtp}
               </p>
             ) : null}
@@ -170,19 +170,20 @@ export function LoginForm({ googleClientId }: { googleClientId?: string }) {
                 required
                 value={code}
                 onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
-                className="pl-11 tracking-[0.4em]"
+                className="pl-11 font-mono tracking-[0.4em]"
               />
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {error ? <p className="mt-4 rounded-2xl border border-wine/40 bg-wine/20 px-4 py-3 text-sm text-ivory">{error}</p> : null}
-      <Button className="mt-6 w-full" disabled={loading}>
+      {error ? <p className="mt-4 rounded-card border border-wine/40 bg-wine/25 px-4 py-3 text-sm leading-6 text-ivory">{error}</p> : null}
+      <Button className="mt-6 w-full" size="lg" disabled={loading}>
         {loading ? t.common.working : step === "email" ? t.auth.start : t.auth.verify}
       </Button>
       <Button
         className="mt-3 w-full"
+        size="lg"
         variant="secondary"
         type="button"
         disabled={loading || !hasGoogleClientId || !googleReady}
@@ -192,17 +193,17 @@ export function LoginForm({ googleClientId }: { googleClientId?: string }) {
       </Button>
       <p className="mt-4 text-center text-xs leading-5 text-muted">
         {t.auth.legalPrefix}{" "}
-        <Link href={"/terms" as Route} className="font-semibold text-ivory underline decoration-amber/50 underline-offset-4 transition hover:text-amber">
+        <Link href={"/terms" as Route} className="font-semibold text-ivory underline decoration-amber/50 underline-offset-4 transition hover:text-amber-hi">
           {t.auth.termsLink}
         </Link>{" "}
         {t.auth.legalAnd}{" "}
-        <Link href={"/privacy" as Route} className="font-semibold text-ivory underline decoration-amber/50 underline-offset-4 transition hover:text-amber">
+        <Link href={"/privacy" as Route} className="font-semibold text-ivory underline decoration-amber/50 underline-offset-4 transition hover:text-amber-hi">
           {t.auth.privacyLink}
         </Link>
         {t.auth.legalSuffix ? ` ${t.auth.legalSuffix}` : null}
         .
       </p>
-      {showGoogleDevelopmentWarning ? <p className="mt-3 rounded-2xl border border-amber/30 bg-amber/10 px-4 py-3 text-sm text-amber">{t.auth.googleDevelopmentWarning}</p> : null}
+      {showGoogleDevelopmentWarning ? <p className="mt-3 rounded-card border border-amber/30 bg-amber/10 px-4 py-3 text-sm leading-6 text-amber">{t.auth.googleDevelopmentWarning}</p> : null}
     </form>
   );
 }

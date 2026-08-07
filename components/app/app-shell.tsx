@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { Bookmark, History, Home, LogOut, Mail, ScanLine, Search, Settings, Utensils } from "lucide-react";
+import { Bookmark, History, Home, LogOut, ScanLine, Search, Settings, Utensils } from "lucide-react";
 import { getMe, logout } from "@/lib/api/auth";
 import { updatePreferredLanguage } from "@/lib/api/profile";
 import { cn } from "@/lib/utils";
@@ -14,14 +14,16 @@ import { BrandLink } from "@/components/brand/brand-link";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { useSessionHint } from "@/components/providers/session-hint-provider";
 
+// `soon` marks features the backend does not serve yet, so the navigation
+// never implies they are usable.
 const items = [
-  { href: "/app", key: "home", icon: Home },
-  { href: "/app/find", key: "find", icon: Search },
-  { href: "/app/history", key: "history", icon: History },
-  { href: "/app/saved", key: "saved", icon: Bookmark },
-  { href: "/app/menu-scan", key: "menuScan", icon: ScanLine },
-  { href: "/app/fit-check", key: "fitCheck", icon: Utensils },
-  { href: "/app/profile", key: "profile", icon: Settings }
+  { href: "/app", key: "home", icon: Home, soon: false },
+  { href: "/app/find", key: "find", icon: Search, soon: false },
+  { href: "/app/history", key: "history", icon: History, soon: false },
+  { href: "/app/saved", key: "saved", icon: Bookmark, soon: false },
+  { href: "/app/menu-scan", key: "menuScan", icon: ScanLine, soon: true },
+  { href: "/app/fit-check", key: "fitCheck", icon: Utensils, soon: true },
+  { href: "/app/profile", key: "profile", icon: Settings, soon: false }
 ] as const;
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -73,77 +75,101 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-graphite text-ivory">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-ivory/10 bg-black/25 px-5 py-6 backdrop-blur-xl lg:block">
-        <BrandLink href="/app/find" iconSize={38} />
+    <div className="min-h-[100dvh] bg-night text-ivory">
+      {/* Tablets get a collapsed icon rail; only lg and up have room for labels. */}
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-20 flex-col border-r border-ivory/10 bg-void/60 px-3 py-6 backdrop-blur-xl md:flex lg:w-72 lg:px-5">
+        <div className="flex justify-center lg:justify-start">
+          <BrandLink href="/app/find" size="sm" className="lg:text-[1.6rem]" />
+        </div>
+
         <nav className="mt-10 space-y-1" aria-label={t.common.appNavigation}>
           {items.map((item) => {
+            const active = pathname === item.href;
+            const Icon = item.icon;
+            const label = t.nav[item.key];
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                title={item.soon ? `${label} — ${t.common.comingSoon}` : label}
+                className={cn(
+                  "relative flex min-h-11 items-center gap-3 rounded-card px-3 py-2.5 text-sm transition lg:px-4",
+                  active ? "bg-ivory/[0.06] text-ivory" : "text-muted hover:bg-ivory/[0.04] hover:text-ivory"
+                )}
+              >
+                {active ? (
+                  <span className="absolute inset-y-2 left-0 w-0.5 rounded-pill bg-amber lg:-left-1" aria-hidden />
+                ) : null}
+                <Icon size={19} className={cn("mx-auto shrink-0 lg:mx-0", active && "text-amber")} aria-hidden />
+                <span className="hidden lg:inline">{label}</span>
+                {item.soon ? (
+                  <span className="ml-auto hidden rounded-pill border border-ivory/12 px-2 py-0.5 font-mono text-[0.625rem] text-faint lg:inline">
+                    {t.common.comingSoon}
+                  </span>
+                ) : null}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="mt-auto space-y-3">
+          {me.data?.email ? (
+            <div className="hidden rounded-card border border-ivory/10 bg-ivory/[0.04] px-4 py-3 lg:block">
+              <p className="eyebrow text-faint">{t.common.signedInAs}</p>
+              <p className="mt-2 truncate text-sm font-semibold text-ivory">{me.data.email}</p>
+            </div>
+          ) : null}
+          <div className="hidden lg:block">
+            <LanguageSwitcher compact />
+          </div>
+          <button
+            onClick={signOut}
+            title={t.common.signOut}
+            className="flex min-h-11 w-full items-center gap-3 rounded-card px-3 py-2.5 text-sm text-muted transition hover:bg-ivory/[0.04] hover:text-ivory lg:px-4"
+          >
+            <LogOut size={19} className="mx-auto shrink-0 lg:mx-0" aria-hidden />
+            <span className="hidden lg:inline">{t.common.signOut}</span>
+          </button>
+        </div>
+      </aside>
+
+      <main className="pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:pb-0 md:pl-20 lg:pl-72">
+        <div className="sticky top-0 z-20 border-b border-ivory/10 bg-night/90 backdrop-blur-xl md:hidden">
+          <div className="container-page flex h-16 items-center justify-between gap-4">
+            <BrandLink href="/app/find" size="sm" />
+            <div className="flex min-w-0 items-center gap-3">
+              {me.data?.email ? (
+                <span className="hidden max-w-[12rem] truncate font-mono text-xs text-faint sm:inline">{me.data.email}</span>
+              ) : null}
+              <LanguageSwitcher compact />
+            </div>
+          </div>
+        </div>
+
+        <div className="container-page py-8 lg:py-12">{children}</div>
+      </main>
+
+      <nav
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-ivory/10 bg-void/85 pb-safe backdrop-blur-xl md:hidden"
+        aria-label={t.common.mobileNavigation}
+      >
+        <div className="mx-auto grid max-w-lg grid-cols-5 gap-1 px-2 py-1.5">
+          {items.slice(0, 5).map((item) => {
             const active = pathname === item.href;
             const Icon = item.icon;
             return (
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm transition",
-                  active ? "bg-amber/15 text-ivory" : "text-muted hover:bg-ivory/7 hover:text-ivory"
+                  "grid min-h-[3.25rem] place-items-center rounded-card px-1 py-1.5 text-[0.6875rem] transition",
+                  active ? "text-amber" : "text-muted"
                 )}
               >
-                <Icon size={18} aria-hidden /> {t.nav[item.key]}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="absolute bottom-6 left-5 right-5 space-y-3">
-          {me.data?.email ? (
-            <div className="rounded-2xl border border-ivory/10 bg-ivory/5 px-4 py-3">
-              <p className="text-xs text-muted">{t.common.signedInAs}</p>
-              <p className="mt-1 truncate text-sm font-semibold text-ivory">{me.data.email}</p>
-            </div>
-          ) : null}
-          <LanguageSwitcher compact />
-          <button onClick={signOut} className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm text-muted hover:bg-ivory/7 hover:text-ivory">
-            <LogOut size={18} aria-hidden /> {t.common.signOut}
-          </button>
-        </div>
-      </aside>
-
-      <main className="pb-24 lg:pl-72">
-        <div className="sticky top-0 z-20 border-b border-ivory/10 bg-graphite/82 px-5 py-4 backdrop-blur-xl lg:hidden">
-          <div className="mx-auto max-w-6xl">
-            <div className="flex items-center justify-between gap-4">
-              <BrandLink href="/app/find" iconSize={32} />
-              <div className="flex min-w-0 items-center gap-3">
-                {me.data?.email ? (
-                  <div className="hidden min-w-0 items-center gap-2 rounded-full border border-ivory/10 bg-ivory/5 px-3 py-2 text-xs text-muted sm:flex">
-                    <Mail size={14} className="shrink-0 text-amber" aria-hidden />
-                    <span className="max-w-[13rem] truncate text-ivory">{me.data.email}</span>
-                  </div>
-                ) : null}
-                <LanguageSwitcher compact />
-              </div>
-            </div>
-            {me.data?.email ? (
-              <p className="mt-3 flex min-w-0 items-center gap-2 text-xs text-muted sm:hidden">
-                <Mail size={13} className="shrink-0 text-amber" aria-hidden />
-                <span className="shrink-0">{t.common.signedInAs}</span>
-                <span className="truncate text-ivory">{me.data.email}</span>
-              </p>
-            ) : null}
-          </div>
-        </div>
-        <div className="mx-auto max-w-6xl px-5 py-6 sm:px-8 lg:py-10">{children}</div>
-      </main>
-
-      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-ivory/10 bg-black/70 px-2 py-2 backdrop-blur-xl lg:hidden" aria-label={t.common.mobileNavigation}>
-        <div className="mx-auto grid max-w-lg grid-cols-5 gap-1">
-          {items.slice(0, 5).map((item) => {
-            const active = pathname === item.href;
-            const Icon = item.icon;
-            return (
-              <Link key={item.href} href={item.href} className={cn("grid place-items-center rounded-2xl py-2 text-xs", active ? "text-amber" : "text-muted")}>
-                <Icon size={20} aria-hidden />
-                <span className="mt-1 max-w-16 truncate">{t.nav[item.key]}</span>
+                <Icon size={21} aria-hidden />
+                <span className="mt-1 w-full truncate text-center">{t.nav[item.key]}</span>
               </Link>
             );
           })}

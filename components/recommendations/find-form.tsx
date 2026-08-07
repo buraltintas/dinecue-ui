@@ -2,7 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { Baby, Clock, LocateFixed, Map, MapPin, Users } from "lucide-react";
 import { createRecommendationSession } from "@/lib/api/recommendations";
 import { ApiClientError } from "@/lib/api/http";
@@ -237,15 +236,15 @@ export function FindForm() {
   }
 
   return (
-    <motion.form initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} onSubmit={submit} className="glass rounded-[2rem] p-5 sm:p-7">
+    <form onSubmit={submit} className="glass rounded-panel p-5 sm:p-7">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0">
-          <p className="text-sm tracking-[0.26em] text-amber">{t.find.eyebrow}</p>
-          <h1 className="mt-3 font-display text-4xl text-ivory sm:text-5xl">{t.find.title}</h1>
-          <p className="mt-3 max-w-2xl text-muted">{t.find.prompt}</p>
+          <p className="eyebrow text-copper">{t.find.eyebrow}</p>
+          <h1 className="mt-4 font-display text-display-2 text-ivory text-balance">{t.find.title}</h1>
+          <p className="mt-4 max-w-measure leading-7 text-muted text-pretty">{t.find.prompt}</p>
         </div>
-        <div className="flex shrink-0 items-center gap-3 self-start rounded-full border border-ivory/10 bg-black/20 p-1.5">
-          <span className="hidden pl-3 text-xs font-semibold text-muted sm:inline">{t.find.language}</span>
+        <div className="flex shrink-0 items-center gap-3 self-start rounded-pill border border-ivory/10 bg-black/25 p-1.5">
+          <span className="eyebrow pl-3 text-faint">{t.find.language}</span>
           <LanguageSwitcher compact />
         </div>
       </div>
@@ -277,8 +276,8 @@ export function FindForm() {
                 type="button"
                 onClick={() => void chooseLocationMode(mode)}
                 className={cn(
-                  "flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
-                  locationMode === mode ? "border-amber/45 bg-amber/12 text-ivory" : "border-ivory/10 bg-black/15 text-muted hover:bg-ivory/7 hover:text-ivory"
+                  "flex min-h-11 items-center justify-center gap-2 rounded-card border px-3 text-sm font-semibold transition",
+                  locationMode === mode ? "border-amber/45 bg-amber/12 text-ivory" : "border-ivory/10 bg-black/15 text-muted hover:bg-ivory/[0.06] hover:text-ivory"
                 )}
               >
                 <Icon size={16} aria-hidden />
@@ -298,10 +297,10 @@ export function FindForm() {
             <button
               type="button"
               onClick={() => void chooseLocationMode("current")}
-              className="mt-3 w-full rounded-2xl border border-ivory/10 bg-black/15 p-4 text-left transition hover:border-amber/30 hover:bg-amber/5"
+              className="mt-3 w-full rounded-card border border-ivory/10 bg-black/15 p-4 text-left transition hover:border-amber/30 hover:bg-amber/5"
             >
               <p className="flex items-center gap-2 text-sm font-semibold text-ivory">
-                <LocateFixed size={16} className="text-amber" aria-hidden />
+                <LocateFixed size={16} className="text-copper" aria-hidden />
                 {locationPending
                   ? t.find.locationRequesting
                   : currentCoordinates
@@ -315,7 +314,7 @@ export function FindForm() {
           ) : null}
 
           {locationMode === "map" ? (
-            <div className="mt-3 rounded-[1.5rem] border border-ivory/10 bg-black/15 p-3">
+            <div className="mt-3 rounded-card border border-ivory/10 bg-black/20 p-3">
               {currentCoordinates || mapCoordinates ? (
                 <>
                   <LocationMapPicker
@@ -336,7 +335,7 @@ export function FindForm() {
                 <button
                   type="button"
                   onClick={() => void chooseLocationMode("map")}
-                  className="flex min-h-28 w-full items-center justify-center rounded-[1.15rem] border border-amber/25 bg-amber/8 px-4 text-center text-sm font-semibold text-ivory transition hover:bg-amber/12"
+                  className="flex min-h-28 w-full items-center justify-center rounded-card border border-amber/25 bg-amber/[0.08] px-4 text-center text-sm font-semibold text-ivory transition hover:bg-amber/[0.14]"
                 >
                   {locationPending ? t.find.mapSearchingLocation : location.trim() ? t.find.mapUseTypedLocation : t.find.mapPermissionRequired}
                 </button>
@@ -347,19 +346,19 @@ export function FindForm() {
           {locationMessage ? <p className="mt-3 text-sm text-muted">{locationMessage}</p> : null}
         </section>
         <div className="grid grid-cols-3 gap-3">
-          <label className="rounded-2xl border border-ivory/10 bg-black/15 p-3">
+          <label className="rounded-card border border-ivory/10 bg-black/15 p-3">
             <span className="flex items-center gap-2 text-xs text-muted"><Users size={15} /> {t.find.party}</span>
-            <Input type="number" min={1} max={12} value={partySize} onChange={(event) => setPartySize(Number(event.target.value))} className="mt-2 min-h-10 rounded-xl" />
+            <Input type="number" min={1} max={12} value={partySize} onChange={(event) => setPartySize(Number(event.target.value))} className="mt-2 min-h-10 rounded-card" />
           </label>
-          <label className="rounded-2xl border border-ivory/10 bg-black/15 p-3">
+          <label className="rounded-card border border-ivory/10 bg-black/15 p-3">
             <span className="flex items-center gap-2 text-xs text-muted"><Baby size={15} /> {t.find.kids}</span>
-            <button type="button" onClick={() => setWithKids((value) => !value)} className="mt-2 w-full rounded-xl bg-ivory/8 px-3 py-2 text-sm text-ivory">
+            <button type="button" onClick={() => setWithKids((value) => !value)} className="mt-2 w-full rounded-card bg-ivory/[0.08] px-3 py-2 text-sm text-ivory">
               {withKids ? t.common.yes : t.common.no}
             </button>
           </label>
-          <label className="rounded-2xl border border-ivory/10 bg-black/15 p-3">
+          <label className="rounded-card border border-ivory/10 bg-black/15 p-3">
             <span className="flex items-center gap-2 text-xs text-muted"><Clock size={15} /> {t.find.moment}</span>
-            <select value={mealMoment} onChange={(event) => setMealMoment(event.target.value)} className="mt-2 w-full rounded-xl border border-ivory/10 bg-black/30 px-2 py-2 text-sm text-ivory">
+            <select value={mealMoment} onChange={(event) => setMealMoment(event.target.value)} className="mt-2 w-full rounded-card border border-ivory/10 bg-black/30 px-2 py-2 text-sm text-ivory">
               {mealMoments.map((moment) => (
                 <option key={moment} value={moment}>
                   {t.find.mealMoments[moment as keyof typeof t.find.mealMoments]}
@@ -370,11 +369,11 @@ export function FindForm() {
         </div>
       </div>
 
-      {error ? <p className="mt-5 rounded-2xl border border-wine/40 bg-wine/20 px-4 py-3 text-sm">{error}</p> : null}
+      {error ? <p className="mt-5 rounded-card border border-wine/40 bg-wine/20 px-4 py-3 text-sm">{error}</p> : null}
       <Button className="mt-7 w-full sm:w-auto" disabled={loading}>
         {loading ? t.common.preparing : t.find.submit}
       </Button>
-    </motion.form>
+    </form>
   );
 }
 

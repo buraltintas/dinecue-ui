@@ -120,9 +120,9 @@ export function LocationMapPicker({
   }, [selected]);
 
   return (
-    <div className="relative overflow-hidden rounded-[1.15rem] border border-ivory/10 bg-black/30">
+    <div className="relative aspect-[4/3] overflow-hidden rounded-card border border-ivory/10 bg-black/30 sm:aspect-[16/10]">
       <div ref={containerRef} aria-label={label} className="h-72 w-full sm:h-80" />
-      <div className="pointer-events-none absolute inset-x-3 bottom-3 rounded-full bg-black/70 px-3 py-2 text-xs font-semibold text-ivory shadow-soft backdrop-blur">
+      <div className="pointer-events-none absolute inset-x-3 bottom-3 rounded-full bg-black/70 px-3 py-2 text-xs font-semibold text-ivory backdrop-blur">
         {hint}
       </div>
     </div>

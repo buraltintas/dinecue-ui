@@ -1,26 +1,26 @@
-# DineCue Product Brief
+# dinecue Product Brief
 
-DineCue is a smart dining assistant. It helps people decide where to eat by matching restaurants to the user's current mood, location, preferences, and dining context.
+dinecue is a smart dining assistant. It helps people decide where to eat by matching restaurants to the user's current mood, location, preferences, and dining context.
 
 ## Positioning
 
-DineCue is not a generic restaurant directory or an admin panel. It should feel like a warm, premium dining concierge: fast, trustworthy, emotionally appetizing, and useful when someone has a vague craving but needs a real decision.
+dinecue is not a generic restaurant directory or an admin panel. It should feel like a warm, premium dining concierge: fast, trustworthy, emotionally appetizing, and useful when someone has a vague craving but needs a real decision.
 
-Core slogan: **Eat by mood.**
+Core slogan: **eat by mood.**
 
 ## Plans
 
 - Free: 5 dining decisions per month.
 - Pro: 50 dining decisions per month, coming soon.
 - Do not implement payments, checkout, or fake upgrade flows until the product explicitly supports them.
-- A dining decision is a meaningful DineCue action such as finding a place, scanning a menu, or checking whether a restaurant fits the moment.
+- A dining decision is a meaningful dinecue action such as finding a place, scanning a menu, or checking whether a restaurant fits the moment.
 
 ## Main User Flows
 
 - Public visitor lands on the SEO-friendly homepage, understands the product, and starts with email.
 - User signs in through email OTP.
 - User describes the meal they want using natural language, cue chips, location text, language, party size, kids, and meal moment.
-- DineCue creates an async recommendation session.
+- dinecue creates an async recommendation session.
 - The UI shows a calm generation screen and polls the BFF session detail endpoint.
 - When completed, the user receives up to three decision-friendly recommendation cards.
 - User can save places, share returned share text, open reservation/map URLs, and revisit history.

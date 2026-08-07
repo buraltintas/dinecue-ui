@@ -13,11 +13,11 @@ export function EmptyState({
   className?: string;
 }) {
   return (
-    <section className={cn("glass rounded-[1.75rem] p-8 text-center", className)}>
-      <div className="mx-auto mb-5 h-20 w-20 rounded-full plate-ring opacity-80" aria-hidden />
-      <h2 className="font-display text-2xl text-ivory">{title}</h2>
-      <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted">{description}</p>
-      {action ? <div className="mt-6">{action}</div> : null}
+    <section className={cn("glass rounded-panel p-8 text-center sm:p-10", className)}>
+      <div className="plate-ring mx-auto mb-6 h-20 w-20 opacity-80" aria-hidden />
+      <h2 className="font-display text-display-3 text-ivory text-balance">{title}</h2>
+      <p className="mx-auto mt-3 max-w-measure text-sm leading-7 text-muted text-pretty">{description}</p>
+      {action ? <div className="mt-7">{action}</div> : null}
     </section>
   );
 }

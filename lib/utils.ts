@@ -1,5 +1,17 @@
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
+
+// tailwind-merge only recognises t-shirt sizes as font sizes, so custom scale
+// steps like `text-display-2` would be read as text *colours* and dropped the
+// moment a colour class follows them. Teaching it the scale keeps the sizes.
+const twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "font-size": [{ text: ["display-1", "display-2", "display-3", "lead", "body", "label"] }],
+      rounded: [{ rounded: ["card", "panel", "pill"] }]
+    }
+  }
+});
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

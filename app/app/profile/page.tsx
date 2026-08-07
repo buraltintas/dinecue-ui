@@ -8,9 +8,9 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <p className="text-sm tracking-[0.26em] text-amber">{t.profile.eyebrow}</p>
-      <h1 className="mt-3 font-display text-4xl text-ivory sm:text-5xl">{t.profile.title}</h1>
-      <div className="mt-8">
+      <p className="eyebrow text-copper">{t.profile.eyebrow}</p>
+      <h1 className="mt-4 font-display text-display-2 text-ivory text-balance">{t.profile.title}</h1>
+      <div className="mt-10">
         <ProfilePanel />
       </div>
     </div>

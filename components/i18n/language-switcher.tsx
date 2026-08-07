@@ -51,12 +51,12 @@ export function LanguageSwitcher({ compact = false, refreshOnChange = false }: {
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
         className={cn(
-          "inline-flex items-center gap-2 rounded-full border border-ivory/12 bg-black/25 text-sm text-ivory transition hover:border-ivory/25 hover:bg-ivory/8 focus:outline-none focus-visible:bg-ivory/10",
-          compact ? "px-3 py-2" : "px-4 py-2.5"
+          "inline-flex items-center gap-2 rounded-pill border border-ivory/12 bg-black/25 text-sm text-ivory transition hover:border-ivory/25 hover:bg-ivory/[0.08] focus:outline-none focus-visible:bg-ivory/10",
+          compact ? "min-h-11 px-3" : "min-h-11 px-4"
         )}
       >
-        <Globe2 size={16} className="text-amber" aria-hidden />
-        <span className="min-w-5 text-left">{language}</span>
+        <Globe2 size={16} className="text-copper" aria-hidden />
+        <span className="min-w-5 text-left font-mono text-xs uppercase">{language}</span>
         <ChevronDown size={15} className={cn("text-ivory transition", open && "rotate-180")} aria-hidden />
       </button>
 
@@ -64,7 +64,7 @@ export function LanguageSwitcher({ compact = false, refreshOnChange = false }: {
         <div
           role="listbox"
           aria-label={t.common.language}
-          className="absolute right-0 z-50 mt-2 min-w-full overflow-hidden rounded-2xl border border-ivory/12 bg-[#151412]/95 p-1 shadow-glass backdrop-blur-xl"
+          className="absolute right-0 z-50 mt-2 min-w-full overflow-hidden rounded-card border border-ivory/12 bg-charcoal/95 p-1 shadow-glass backdrop-blur-xl"
         >
           {options.map((option) => (
             <button
@@ -74,8 +74,8 @@ export function LanguageSwitcher({ compact = false, refreshOnChange = false }: {
               aria-selected={option.value === language}
               onClick={() => choose(option.value)}
               className={cn(
-                "flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm transition focus:outline-none focus-visible:bg-ivory/10",
-                option.value === language ? "text-ivory" : "text-muted hover:bg-ivory/7 hover:text-ivory"
+                "flex min-h-10 w-full items-center justify-between gap-3 rounded-card px-3 text-left text-sm uppercase transition focus:outline-none focus-visible:bg-ivory/10",
+                option.value === language ? "text-ivory" : "text-muted hover:bg-ivory/[0.06] hover:text-ivory"
               )}
             >
               <span>{option.label}</span>

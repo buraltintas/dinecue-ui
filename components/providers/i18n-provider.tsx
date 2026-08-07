@@ -29,7 +29,6 @@ export function I18nProvider({
   hasLanguageCookie: boolean;
 }) {
   const [language, setLanguageState] = useState<SupportedLanguage>(initialLanguage);
-  const [ready, setReady] = useState(hasLanguageCookie);
   const [lastChangeSource, setLastChangeSource] = useState<I18nContextValue["lastChangeSource"]>(
     hasLanguageCookie ? "local" : "initial"
   );
@@ -37,14 +36,16 @@ export function I18nProvider({
   useEffect(() => {
     if (hasLanguageCookie) {
       window.localStorage.setItem(languageStorageKey, initialLanguage);
-      setReady(true);
       return;
     }
     const stored = window.localStorage.getItem(languageStorageKey);
     setLanguageState(resolveLanguagePriority({ localLanguage: stored, browserLanguage: navigator.language }));
     setLastChangeSource(stored ? "local" : "initial");
-    setReady(true);
   }, [hasLanguageCookie, initialLanguage]);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   const setLanguage = useCallback((next: SupportedLanguage) => {
     setLanguageState(next);
@@ -63,8 +64,6 @@ export function I18nProvider({
     () => ({ language, setLanguage, applyAuthenticatedLanguage, lastChangeSource, t: getDictionary(language) }),
     [applyAuthenticatedLanguage, language, lastChangeSource, setLanguage]
   );
-  if (!ready) return null;
-
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 

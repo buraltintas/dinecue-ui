@@ -223,7 +223,7 @@ export function jsonResponse<T>(body: T, init?: ResponseInit) {
 export function errorResponse(error: unknown) {
   if (error instanceof Response) return error;
   return NextResponse.json(
-    { error: { code: "backend_unavailable", message: "DineCue is temporarily unavailable. Please try again." } },
+    { error: { code: "backend_unavailable", message: "dinecue is temporarily unavailable. Please try again." } },
     { status: 502 }
   );
 }

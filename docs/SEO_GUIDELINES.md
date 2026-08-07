@@ -1,4 +1,4 @@
-# DineCue SEO Guidelines
+# dinecue SEO Guidelines
 
 SEO is a first-class architecture requirement.
 
@@ -12,9 +12,9 @@ SEO is a first-class architecture requirement.
 
 ## Metadata Strategy
 
-- Product name: DineCue.
-- Core slogan: Eat by mood.
-- Default description: "DineCue helps you decide where to eat by matching restaurants to your mood, location, preferences, and dining context."
+- Product name: dinecue.
+- Core slogan: eat by mood.
+- Default description: "dinecue helps you decide where to eat by matching restaurants to your mood, location, preferences, and dining context."
 - Use canonical URLs from `NEXT_PUBLIC_SITE_URL`.
 - Use Open Graph and Twitter card metadata.
 - Use meaningful image alt text for OG image placeholders.
@@ -26,11 +26,14 @@ SEO is a first-class architecture requirement.
 
 ## Structured Data Rules
 
-Safe JSON-LD is allowed for:
+JSON-LD is emitted **per page** from `components/seo/json-ld.tsx`, never from the root layout. A page only carries schema that describes it:
 
-- `WebSite`
-- `SoftwareApplication`
-- `Organization` with placeholder-safe data only
+- `/` — `WebSite`, `Organization`, `WebApplication`, `HowTo` (the real three-step flow), `FAQPage` (the real FAQ section)
+- `/about` — `AboutPage` + `BreadcrumbList`
+- `/terms`, `/privacy` — `WebPage` + `BreadcrumbList`
+- `/login` and `/app/**` — no structured data
+
+`HowTo` and `FAQPage` are built from the same dictionary entries the page renders, so the markup and the schema can never drift apart.
 
 Do not add `aggregateRating`, `review`, `Restaurant`, or `LocalBusiness` schema unless real data exists.
 
@@ -44,7 +47,9 @@ Authenticated pages are product UI, not SEO landing pages. Do not expose private
 
 ## Localization and Hreflang
 
-DineCue does not use locale-prefixed routes in this version. Do not create `/en`, `/tr`, or `/de`. Do not add hreflang alternates until real localized public URLs exist.
+dinecue does not use locale-prefixed routes in this version. Do not create `/en`, `/tr`, or `/de`. Do not add hreflang alternates until real localized public URLs exist.
+
+`lib/seo.ts` therefore emits `alternates.canonical` only. It previously declared `en`/`tr`/`de`/`x-default` alternates that all pointed at the same URL, which contradicted this rule and told search engines nothing.
 
 The landing page may switch visible language client-side as a user preference. Keep metadata prepared for localization, but avoid claiming alternate localized URLs until those URLs exist.
 
@@ -53,6 +58,22 @@ The landing page may switch visible language client-side as a user preference. K
 Do not expose internal architecture wording in public or app UI. Terms such as BFF, backend, API, HTTP, auth tokens, access tokens, refresh tokens, provider calls, and framework names belong in technical docs, not product copy.
 
 The landing hero carousel uses fictional, presentation-only examples. These examples must not look like real ratings, reviews, partnerships, or live restaurant claims.
+
+## Server-Rendered Content Is Non-Negotiable
+
+`I18nProvider` must render its children on the first pass. It used to return `null` until a client effect resolved the language, which meant any visitor without the `dinecue_language` cookie — including every crawler — received a page with no body content at all.
+
+The same rule applies to motion: never make a `framer-motion` `initial` prop depend on `useReducedMotion()`. The server and client disagree on that value, and the hydration mismatch leaves real content at `opacity: 0`.
+
+Regression check:
+
+```bash
+curl -s http://localhost:3000/ | grep -c "eat by mood"   # must be >= 1
+```
+
+## Headings
+
+One `<h1>` per page, no skipped levels. Landing sections are labelled by their own `<h2>` through `aria-labelledby`. The fictional carousel examples in the hero are rendered as paragraphs so preview copy never enters the document outline.
 
 ## Things Not To Do
 

@@ -9,26 +9,21 @@ type PageMetadataInput = {
   robots?: Metadata["robots"];
 };
 
-export function publicPageMetadata({ title, description, path, imageAlt = "DineCue preview", robots }: PageMetadataInput): Metadata {
+export function publicPageMetadata({ title, description, path, imageAlt = "dinecue preview", robots }: PageMetadataInput): Metadata {
   const url = absoluteUrl(path);
   const image = absoluteUrl("/opengraph-image");
 
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-      languages: {
-        en: url,
-        tr: url,
-        de: url,
-        "x-default": url
-      }
-    },
+    // No hreflang alternates: dinecue has no locale-prefixed public URLs yet, so
+    // claiming en/tr/de alternates that all resolve to the same URL is noise.
+    // See docs/SEO_GUIDELINES.md.
+    alternates: { canonical: url },
     openGraph: {
       type: "website",
       url,
-      siteName: "DineCue",
+      siteName: "dinecue",
       title,
       description,
       images: [{ url: image, width: 1200, height: 630, alt: imageAlt }]

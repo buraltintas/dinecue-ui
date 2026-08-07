@@ -53,26 +53,26 @@ export function SessionView({ sessionId }: { sessionId: string }) {
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
       <div className="mb-10">
-        <p className="text-sm tracking-[0.26em] text-amber">{t.recommendations.eyebrow}</p>
-        <h1 className="mt-3 max-w-3xl font-display text-4xl leading-tight text-ivory sm:text-5xl">
+        <p className="eyebrow text-copper">{t.recommendations.eyebrow}</p>
+        <h1 className="mt-4 max-w-3xl font-display text-display-2 text-ivory text-balance">
           {data.recommendations.length === 1 ? t.recommendations.oneResultTitle : t.recommendations.title}
         </h1>
         {data.recommendations.length === 1 ? (
-          <p className="mt-4 max-w-2xl text-base leading-7 text-muted">{t.recommendations.oneResultHint}</p>
+          <p className="mt-4 max-w-measure leading-7 text-muted text-pretty">{t.recommendations.oneResultHint}</p>
         ) : null}
 
-        <section className="mt-7 max-w-3xl rounded-[1.35rem] border border-ivory/10 bg-ivory/[0.045] p-4">
+        <section className="mt-7 max-w-3xl rounded-card border border-ivory/10 bg-ivory/[0.035] p-4">
           <button
             type="button"
             onClick={() => setRequestOpen((value) => !value)}
-            className="flex w-full items-center justify-between gap-4 text-left"
+            className="flex w-full items-center justify-between gap-4 py-1 text-left"
             aria-expanded={requestOpen}
           >
             <span>
-              <span className="block text-xs tracking-[0.22em] text-amber">{t.recommendations.requestSummary}</span>
-              <span className="mt-1 line-clamp-1 block text-sm text-ivory/85">{data.rawText}</span>
+              <span className="eyebrow block text-faint">{t.recommendations.requestSummary}</span>
+              <span className="mt-2 line-clamp-1 block text-sm text-ivory/85">{data.rawText}</span>
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full bg-black/20 px-3 py-2 text-xs text-muted">
+            <span className="inline-flex min-h-9 shrink-0 items-center gap-2 rounded-pill bg-black/25 px-3 text-xs text-muted">
               {requestOpen ? t.recommendations.hideRequest : t.recommendations.showRequest}
               <ChevronDown className={requestOpen ? "rotate-180 transition" : "transition"} size={15} aria-hidden />
             </span>

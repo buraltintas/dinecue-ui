@@ -23,8 +23,8 @@ export function GenerationScreen({ currentStep }: { currentStep?: string | null 
   }, [backendStepIndex, shouldReduceMotion, steps.length]);
 
   return (
-    <section className="glass overflow-hidden rounded-[2rem] p-8 text-center">
-      <div className="relative mx-auto h-64 w-64">
+    <section className="glass overflow-hidden rounded-panel p-8 text-center sm:p-10">
+      <div className="relative mx-auto h-52 w-52 sm:h-64 sm:w-64">
         <div className="absolute inset-0 rounded-full bg-amber/10 blur-3xl" aria-hidden />
         <motion.div className="absolute inset-8 rounded-full plate-ring" animate={{ rotate: 360 }} transition={{ duration: 22, repeat: Infinity, ease: "linear" }} />
         <motion.div
@@ -33,9 +33,9 @@ export function GenerationScreen({ currentStep }: { currentStep?: string | null 
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
-      <h1 className="font-display text-4xl text-ivory">{t.status.title}</h1>
-      <p className="mx-auto mt-3 max-w-xl text-muted">{t.status.body}</p>
-      <div className="mx-auto mt-8 max-w-xl space-y-3 text-left">
+      <h1 className="font-display text-display-3 text-ivory text-balance">{t.status.title}</h1>
+      <p className="mx-auto mt-4 max-w-measure leading-7 text-muted text-pretty">{t.status.body}</p>
+      <div className="mx-auto mt-10 max-w-sm space-y-3 text-left">
         {steps.map((step, index) => (
           <motion.div
             key={step}

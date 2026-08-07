@@ -1,6 +1,6 @@
 {
   "common": {
-    "brandHome": "DineCue başlangıç",
+    "brandHome": "dinecue başlangıç",
     "language": "Dil",
     "loading": "Yükleniyor...",
     "working": "İşleniyor...",
@@ -43,20 +43,22 @@
     "fitCheck": "Uygunluk kontrolü"
   },
   "landing": {
-    "seoTitle": "DineCue | Eat by mood.",
-    "seoDescription": "DineCue; ruh halini, konumunu, tercihlerini ve yemek bağlamını anlayarak nerede yiyeceğine karar vermene yardımcı olur.",
+    "seoTitle": "Bu akşam nerede yenir? Ruh haline göre karar | dinecue",
+    "seoDescription": "dinecue; ruh halini, konumunu, tercihlerini ve yemek bağlamını anlayarak nerede yiyeceğine karar vermene yardımcı olur.",
     "publicNav": "Genel gezinme",
     "how": "Nasıl çalışır",
     "trust": "Güven",
+    "faq": "Sorular",
     "signIn": "Giriş yap",
     "eyebrow": "Akıllı yemek kararları",
-    "heroTitle": "Eat by mood.",
-    "heroBody": "DineCue'ya nasıl bir yemek istediğini anlat. O da sana gerçekten uygun yerleri bulsun.",
+    "heroTitle": "eat by mood.",
+    "heroBody": "dinecue'ya nasıl bir yemek istediğini anlat. O da sana gerçekten uygun yerleri bulsun.",
+    "heroSubtitle": "dinecue, belirsiz bir canının çekmesini gerçek bir akşam yemeği kararına çevirir — ruh haline, yanındakilere ve gerçekten bulunduğun yere uyan üç mekan.",
     "start": "E-posta ile başla",
     "continue": "Devam et",
     "findPlaceCta": "Restoran bul",
     "seeHow": "Nasıl çalışır",
-    "previewLabel": "DineCue öneri önizlemesi",
+    "previewLabel": "dinecue öneri önizlemesi",
     "previewPromptLabel": "Bu akşam istediğim...",
     "previewRank": "Seçim",
     "previewMatch": "örnek eşleşme",
@@ -66,30 +68,41 @@
     "sections": {
       "howEyebrow": "Nasıl çalışır",
       "howTitle": "Daha iyi bir yemek kararı, resmin tamamını görmekle başlar.",
-      "howBody": "DineCue, masa seçerken gerçekten düşündüğün sinyalleri birlikte değerlendirir.",
+      "howBody": "dinecue, masa seçerken gerçekten düşündüğün sinyalleri birlikte değerlendirir.",
+      "processEyebrow": "Üç adım",
       "featuresEyebrow": "Özellikler",
       "featuresTitle": "Sadece yakın değil. Gerçekten uygun.",
-      "featuresBody": "Mesafe önemlidir ama kararın tamamı değildir. DineCue isteğine, ortama ve birlikte olduğun kişilere uyan yerleri öne çıkarır.",
-      "capabilitiesEyebrow": "DineCue neye yardım eder?",
+      "featuresBody": "Mesafe önemlidir ama kararın tamamı değildir. dinecue isteğine, ortama ve birlikte olduğun kişilere uyan yerleri öne çıkarır.",
+      "capabilitiesEyebrow": "dinecue neye yardım eder?",
       "capabilitiesTitle": "Karar vermenin üç sakin yolu.",
-      "capabilitiesBody": "Mekan seçerken, menü fazla geniş geldiğinde veya bir yerin o ana uygun olup olmadığını anlamak istediğinde DineCue yanında olur.",
+      "capabilitiesBody": "Mekan seçerken, menü fazla geniş geldiğinde veya bir yerin o ana uygun olup olmadığını anlamak istediğinde dinecue yanında olur.",
       "differenceEyebrow": "Neden farklı?",
       "differenceTitle": "Sadece arama değil. Sadece sohbet değil.",
-      "differenceBody": "DineCue yalnızca gezmek için değil, karar vermen gereken an için tasarlandı. Gerçek bağlamını yemek kararının içine alır.",
+      "differenceBody": "dinecue yalnızca gezmek için değil, karar vermen gereken an için tasarlandı. Gerçek bağlamını yemek kararının içine alır.",
+      "comparisonThemLabel": "Bugün eline geçen",
+      "comparisonUsLabel": "dinecue'nun yaptığı",
       "plansEyebrow": "Planlar",
-      "plansTitle": "DineCue sana ne kadar eşlik etsin?",
+      "plansTitle": "dinecue sana ne kadar eşlik etsin?",
       "plansBody": "Ücretsiz başla. Daha fazlası gerektiğinde Pro’ya geç.",
       "scenariosEyebrow": "Gerçek yemek durumları",
       "scenariosTitle": "Filtrelerin yetmediği akşamlar için.",
       "trustEyebrow": "Gizlilik ve güven",
       "trustTitle": "Bir yemek asistanı yardımsever hissettirmeli, rahatsız edici değil.",
-      "trustBody": "DineCue yalnızca gerçekten bulunabilen yerleri gösterir. Emin olunmayan noktalar varsa bunu açıkça hissettirir.",
+      "trustBody": "dinecue yalnızca gerçekten bulunabilen yerleri gösterir. Emin olunmayan noktalar varsa bunu açıkça hissettirir.",
+      "faqEyebrow": "Sorular",
+      "faqTitle": "Başlamadan önce",
       "cta": "Karar vermeye başla"
     },
     "thinkingFactors": ["Ruh hali", "Kiminle olduğun", "Bütçe", "Konum", "Amaç", "Tercihler"],
+    "factorsLabel": "dinecue'nun tarttığı sinyaller",
+    "process": [
+      { "title": "İstediğin yemeği anlat", "text": "Sıradan cümleler yeter. “Sakin bir akşam yemeği, deniz ürünü, çok resmi olmasın”, hiçbir filtre satırının anlatamayacağını anlatır." },
+      { "title": "dinecue bağlamını tartar", "text": "Ruh hali, kiminle olduğun, bütçe, konum, amacın ve kayıtlı tercihlerin ayrı filtreler olarak değil, birlikte okunur." },
+      { "title": "Seçmeye değer üç mekan al", "text": "Her biri neden uyduğunun gerekçesiyle gelir; yirmi dakika kaydırmak yerine bir dakikada karar verirsin." }
+    ],
     "features": [
       { "title": "Yakınlıktan önce bağlam", "text": "Yakın bir yer, ancak istediğin yemeğe uyuyorsa gerçekten işe yarar." },
-      { "title": "Sonsuz liste değil, seçki", "text": "DineCue alanı daraltır; her önerinin orada olma sebebi vardır." },
+      { "title": "Sonsuz liste değil, seçki", "text": "dinecue alanı daraltır; her önerinin orada olma sebebi vardır." },
       { "title": "Net sonraki adımlar", "text": "Bir yerin neden uygun olduğunu, neye dikkat edeceğini ve sonra ne yapacağını görürsün." }
     ],
     "capabilities": [
@@ -100,25 +113,28 @@
     "difference": [
       { "title": "Harita araması mekan gösterir", "text": "Harita aramaları, ne aradığını biliyorsan harikadır. Ama puan, mesafe ve fotoğraflar her zaman asıl soruyu cevaplamaz: “Burası bu akşama uygun mu?”" },
       { "title": "Genel araçlar fikir verir", "text": "Genel yardımcılar olasılıklar sunabilir. Ama yemek kararı gerçek mekan, güncel bağlam ve belirsiz olan şeylerde dürüst bir dil ister." },
-      { "title": "DineCue karar vermene yardım eder", "text": "DineCue önce senin anını anlar. Sonra ruh haline, yanındakilere, bütçene ve iştahına gerçekten uyan yerleri bulmana yardım eder." }
+      { "title": "dinecue karar vermene yardım eder", "text": "dinecue önce senin anını anlar. Sonra ruh haline, yanındakilere, bütçene ve iştahına gerçekten uyan yerleri bulmana yardım eder." }
     ],
     "plans": {
+      "allowanceLabel": "yemek kararı, her ay",
       "free": {
         "name": "Ücretsiz",
-        "description": "DineCue’yu denemek ve günlük yemek kararlarını daha kolay vermek için.",
+        "allowance": "5",
+        "description": "dinecue’yu denemek ve günlük yemek kararlarını daha kolay vermek için.",
         "cta": "Ücretsiz başla",
         "features": [
           "Ayda 5 yemek kararı",
           "Ruh haline ve bağlamına göre mekan bulma",
-          "Temel menü tarama",
-          "Temel uygunluk kontrolü",
+          "Temel menü tarama (yakında)",
+          "Temel uygunluk kontrolü (yakında)",
           "Kaydedilenler ve geçmiş"
         ]
       },
       "pro": {
         "name": "Pro",
+        "allowance": "50",
         "badge": "Yakında",
-        "description": "Seyahat ederken, akşam yemeği planlarken veya mekanları karşılaştırırken DineCue’yu daha sık kullanmak isteyenler için.",
+        "description": "Seyahat ederken, akşam yemeği planlarken veya mekanları karşılaştırırken dinecue’yu daha sık kullanmak isteyenler için.",
         "cta": "Yakında",
         "features": [
           "Ayda 50 yemek kararı",
@@ -136,6 +152,14 @@
       { "title": "Hızlı öğle yemeği", "text": "Pratik, taze ve gitmen gereken yere yakın." },
       { "title": "Sakin akşam", "text": "Düşük ses, sıcak ışık ve konuşacak alan." },
       { "title": "Uygun fiyatlı akşam", "text": "Taviz gibi hissettirmeden seçmeye değer." }
+    ],
+    "faqItems": [
+      { "q": "dinecue harita aramasından nasıl farklı?", "a": "Harita araması “yakınımda ne var” sorusunu yanıtlar. dinecue “bu akşama ne uyar” sorusunu yanıtlar. Ruh halini, yanındakileri, bütçeni ve amacını birlikte okur; ardından her birinin neden uyduğunu açıklayan kısa bir liste döner." },
+      { "q": "Uzun bir form doldurmam gerekiyor mu?", "a": "Hayır. Yemeği tek cümleyle anlatman yeterli. Konum, kişi sayısı ve öğün zamanı zorunlu alanlar değil, isteğe bağlı ince ayarlardır." },
+      { "q": "Kaç öneri alıyorum?", "a": "En fazla üç. dinecue aday listesini bilerek daraltır — harekete geçebileceğin kısa bir liste, kaydırıp geçtiğin sonsuz bir listeden iyidir." },
+      { "q": "Seyahatteyken de çalışır mı?", "a": "Evet. Konumu yazabilir, haritada iğne bırakabilir veya mevcut konumunu kullanabilirsin; böylece hiç yemek yemediğin bir şehirde de işe yarar." },
+      { "q": "dinecue'nun ücreti ne?", "a": "Ücretsiz plan ayda beş yemek kararı içerir. Ayda elli karar sunan Pro planı yolda; henüz ödeme adımı yok, yani bugün ödenecek bir şey de yok." },
+      { "q": "Hangi dilleri konuşuyor?", "a": "İngilizce, Türkçe ve Almanca. Dili istediğin zaman değiştirebilirsin; giriş yaptığında seçimin hesabında hatırlanır." }
     ],
     "examples": [
       { "prompt": "Sakin, sıcak ışıklı, deniz ürünlü ama çok resmi olmayan bir akşam.", "place": "Luma Table", "vibe": "Loş, sakin, düşünceli", "reason": "Sohbet ederek yemek için rafine bir seçenek.", "match": "92%" },
@@ -166,16 +190,16 @@
   },
   "auth": {
     "seoTitle": "Giriş yap",
-    "seoDescription": "DineCue'ya güvenli e-posta koduyla giriş yap.",
-    "eyebrow": "Eat by mood",
+    "seoDescription": "dinecue'ya güvenli e-posta koduyla giriş yap.",
+    "eyebrow": "eat by mood",
     "introTitle": "Bir sonraki iyi masa bir cümleyle başlar.",
-    "introBody": "Tek kullanımlık e-posta koduyla giriş yap ve DineCue'nun sana uygun yeri seçmesine izin ver.",
+    "introBody": "Tek kullanımlık e-posta koduyla giriş yap ve dinecue'nun sana uygun yeri seçmesine izin ver.",
     "secureSignIn": "Güvenli giriş",
     "enterByEmail": "E-posta ile giriş",
     "email": "E-posta adresi",
     "code": "Tek kullanımlık kod",
     "start": "Kodu gönder",
-    "verify": "DineCue'ya gir",
+    "verify": "dinecue'ya gir",
     "sent": "Kodu e-postana gönderdik.",
     "google": "Google ile devam et",
     "googleSoon": "Google ile giriş yakında",
@@ -191,7 +215,7 @@
   "find": {
     "eyebrow": "Restoran bul",
     "title": "Bu yemek nasıl hissettirsin?",
-    "prompt": "DineCue'ya ne aradığını anlat. Ruh hali, kişi sayısı, bütçe, istek, semt.",
+    "prompt": "dinecue'ya ne aradığını anlat. Ruh hali, kişi sayısı, bütçe, istek, semt.",
     "placeholder": "Karaköy civarında sakin akşam yemeği, iyi deniz ürünü, çok resmi olmasın...",
     "location": "Konum",
     "locationPlaceholder": "Şehir, semt veya adres",
@@ -239,7 +263,7 @@
     "comparing": "En iyi eşleşmeleri karşılaştırıyorum",
     "preparing": "Seçimlerini hazırlıyorum",
     "title": "Seçimlerin hazırlanıyor",
-    "body": "DineCue isteğini anlıyor ve gerçekten karar verebileceğin kısa bir liste hazırlıyor."
+    "body": "dinecue isteğini anlıyor ve gerçekten karar verebileceğin kısa bir liste hazırlıyor."
   },
   "recommendations": {
     "eyebrow": "Öneriler",
@@ -272,12 +296,12 @@
     "failedBody": "Başka bir ipucu dene ya da isteğini biraz değiştir."
   },
   "home": {
-    "eyebrow": "DineCue",
+    "eyebrow": "dinecue",
     "title": "Bugün nasıl bir masa iyi gelir?",
-    "body": "Ruh hali, bağlam ve konumla başla. DineCue isteğini kısa ve kullanışlı bir yemek seçkisine dönüştürür.",
+    "body": "Ruh hali, bağlam ve konumla başla. dinecue isteğini kısa ve kullanışlı bir yemek seçkisine dönüştürür.",
     "cta": "Restoran bul",
     "cards": [
-      { "title": "Bu akşamın eşleşmesini bul", "text": "Bir cümleyle başla; DineCue karar vermeye yarayan üç seçim hazırlasın." },
+      { "title": "Bu akşamın eşleşmesini bul", "text": "Bir cümleyle başla; dinecue karar vermeye yarayan üç seçim hazırlasın." },
       { "title": "Eski ruh hallerine dön", "text": "Bir fikre geri dönmek istediğinde son öneri oturumlarını gör." },
       { "title": "Mekanları yakın tut", "text": "Hatırlamaya değer öneriler kaydedilenlerde görünür." },
       { "title": "Menü tarama", "text": "Sıradaki yemek odaklı akış için hazırlanmış alan." }
@@ -317,7 +341,7 @@
     "preferencesBody": "Bu bilgiler önerileri sana daha uygun yapmak için kullanılır. Varsayılanlar ve eksik seçimler açıkça belirtilir.",
     "preferencesIncomplete": "Bazı yemek tercihlerin henüz seçilmedi.",
     "completePreferences": "Yemek tercihlerini tamamla",
-    "preferencesComingSoon": "Daha kapsamlı tercih düzenleme alanı sırada. Şimdilik DineCue yalnızca açıkça kaydedilmiş seçimleri tercih olarak kabul eder.",
+    "preferencesComingSoon": "Daha kapsamlı tercih düzenleme alanı sırada. Şimdilik dinecue yalnızca açıkça kaydedilmiş seçimleri tercih olarak kabul eder.",
     "defaultBadge": "varsayılan",
     "planEyebrow": "Plan",
     "freePlan": "Ücretsiz",
@@ -341,8 +365,8 @@
     "distance": "Mesafe"
   },
   "footer": {
-    "tagline": "Eat by mood.",
-    "body": "DineCue, bağlamı, tercihleri ve uygunluk hissini bir araya getirerek nerede yiyeceğine karar vermeni kolaylaştırır.",
+    "tagline": "eat by mood.",
+    "body": "dinecue, bağlamı, tercihleri ve uygunluk hissini bir araya getirerek nerede yiyeceğine karar vermeni kolaylaştırır.",
     "product": "Ürün",
     "legal": "Yasal",
     "about": "Hakkında",
@@ -350,86 +374,92 @@
     "privacy": "Gizlilik",
     "home": "Ana sayfa",
     "login": "Giriş yap",
-    "copyright": "DineCue. Tüm hakları saklıdır."
+    "copyright": "dinecue. Tüm hakları saklıdır."
   },
   "legal": {
     "lastUpdatedLabel": "Son güncelleme",
     "lastUpdated": "2 Temmuz 2026",
     "contactEmail": "hello@dinecue.com",
     "terms": {
-      "seoTitle": "Kullanım Şartları | DineCue",
-      "seoDescription": "DineCue Kullanım Şartları: hesap kullanımı, öneriler, kotalar, üçüncü taraf verileri ve önemli yemek kararı uyarıları.",
+      "seoTitle": "Kullanım Şartları | dinecue",
+      "seoDescription": "dinecue Kullanım Şartları: hesap kullanımı, öneriler, kotalar, üçüncü taraf verileri ve önemli yemek kararı uyarıları.",
       "eyebrow": "Yasal",
       "title": "Kullanım Şartları",
-      "intro": "Bu şartlar, restoran ve yemek seçeneklerini bağlama göre değerlendirmenize yardımcı olan DineCue’yu nasıl kullanabileceğinizi açıklar.",
+      "intro": "Bu şartlar, restoran ve yemek seçeneklerini bağlama göre değerlendirmenize yardımcı olan dinecue’yu nasıl kullanabileceğinizi açıklar.",
       "sections": [
-        { "title": "Şartların Kabulü", "body": "DineCue’yu kullanarak bu şartları kabul etmiş olursun. Kabul etmiyorsan lütfen hizmeti kullanma." },
-        { "title": "DineCue Ne Yapar?", "body": "DineCue ruh halini, konumunu, tercihlerini, yemek bağlamını ve bulunabilen mekan bilgilerini dikkate alarak nerede yiyeceğine karar vermene yardım eder." },
+        { "title": "Şartların Kabulü", "body": "dinecue’yu kullanarak bu şartları kabul etmiş olursun. Kabul etmiyorsan lütfen hizmeti kullanma." },
+        { "title": "dinecue Ne Yapar?", "body": "dinecue ruh halini, konumunu, tercihlerini, yemek bağlamını ve bulunabilen mekan bilgilerini dikkate alarak nerede yiyeceğine karar vermene yardım eder." },
         { "title": "Hesaplar ve Giriş", "body": "E-posta tek kullanımlık kodu veya Google ile giriş yapabilirsin. Bu sürümde şifreyle giriş yoktur." },
-        { "title": "Öneriler ve Üçüncü Taraf Verileri", "body": "Öneriler üçüncü taraf servislerden ve herkese açık mekan bilgilerinden yararlanabilir. DineCue her restoran, menü, fiyat, rezervasyon veya müsaitlik detayını bilemeyebilir." },
+        { "title": "Öneriler ve Üçüncü Taraf Verileri", "body": "Öneriler üçüncü taraf servislerden ve herkese açık mekan bilgilerinden yararlanabilir. dinecue her restoran, menü, fiyat, rezervasyon veya müsaitlik detayını bilemeyebilir." },
         { "title": "Kullanıcı Girdileri ve Tercihler", "body": "Konum, tercih, yemek bağlamı, menü veya restoran detayları dahil girdiğin bilgilerden sen sorumlusun." },
         { "title": "Adil Kullanım ve Kotalar", "body": "Free plan aylık sınırlı kullanım içerir. Pro daha sonra sunulabilir; şu anda ücretli yükseltme veya ödeme akışı taahhüdü yoktur." },
-        { "title": "Garanti Yoktur", "body": "DineCue bir önerinin kusursuz, açık, müsait, uygun fiyatlı, her diyet için güvenli veya her duruma uygun olacağını garanti etmez." },
-        { "title": "Sağlık, Diyet ve Alerji Uyarısı", "body": "DineCue tıbbi tavsiye vermez. Alerji, diyet kısıtı, hamilelik, sağlık durumu veya dini gereklilikler için bilgileri restoranla ya da yetkin bir uzmanla doğrula." },
-        { "title": "Sorumluluğun Sınırlandırılması", "body": "Yasanın izin verdiği en geniş ölçüde DineCue; restoran ziyaretleri, üçüncü taraf bilgileri veya kullanıcı girdilerinden doğan karar, kayıp ya da sorunlardan sorumlu değildir." },
-        { "title": "Hizmette Değişiklikler", "body": "DineCue ürün geliştikçe özellikleri, limitleri, erişilebilirliği ve bu şartları değiştirebilir." },
+        { "title": "Garanti Yoktur", "body": "dinecue bir önerinin kusursuz, açık, müsait, uygun fiyatlı, her diyet için güvenli veya her duruma uygun olacağını garanti etmez." },
+        { "title": "Sağlık, Diyet ve Alerji Uyarısı", "body": "dinecue tıbbi tavsiye vermez. Alerji, diyet kısıtı, hamilelik, sağlık durumu veya dini gereklilikler için bilgileri restoranla ya da yetkin bir uzmanla doğrula." },
+        { "title": "Sorumluluğun Sınırlandırılması", "body": "Yasanın izin verdiği en geniş ölçüde dinecue; restoran ziyaretleri, üçüncü taraf bilgileri veya kullanıcı girdilerinden doğan karar, kayıp ya da sorunlardan sorumlu değildir." },
+        { "title": "Hizmette Değişiklikler", "body": "dinecue ürün geliştikçe özellikleri, limitleri, erişilebilirliği ve bu şartları değiştirebilir." },
         { "title": "İletişim", "body": "Bu şartlarla ilgili sorularını hello@dinecue.com adresine gönderebilirsin." }
       ]
     },
     "privacy": {
-      "seoTitle": "Gizlilik Politikası | DineCue",
-      "seoDescription": "DineCue’nun hesap, tercih, konum, restoran bağlamı, çerez ve üçüncü taraf servis bilgilerini nasıl ele aldığını öğren.",
+      "seoTitle": "Gizlilik Politikası | dinecue",
+      "seoDescription": "dinecue’nun hesap, tercih, konum, restoran bağlamı, çerez ve üçüncü taraf servis bilgilerini nasıl ele aldığını öğren.",
       "eyebrow": "Gizlilik",
       "title": "Gizlilik Politikası",
-      "intro": "Bu politika, DineCue’nun hangi bilgileri toplayabileceğini ve daha kullanışlı bir yemek kararı deneyimi sunmak için bunları nasıl kullandığını açıklar.",
+      "intro": "Bu politika, dinecue’nun hangi bilgileri toplayabileceğini ve daha kullanışlı bir yemek kararı deneyimi sunmak için bunları nasıl kullandığını açıklar.",
       "sections": [
-        { "title": "Topladığımız Bilgiler", "body": "DineCue e-posta, görünen ad, tercih edilen dil, ülke, para birimi ve mesafe birimi gibi hesap bilgilerini ve ürünü kullanırken sağladığın girdileri toplayabilir." },
+        { "title": "Topladığımız Bilgiler", "body": "dinecue e-posta, görünen ad, tercih edilen dil, ülke, para birimi ve mesafe birimi gibi hesap bilgilerini ve ürünü kullanırken sağladığın girdileri toplayabilir." },
         { "title": "Bilgileri Nasıl Kullanırız?", "body": "Bilgileri giriş yapmak, önerileri kişiselleştirmek, tercihleri hatırlamak, kotaları yönetmek, güvenilirliği artırmak ve hizmeti güvenli tutmak için kullanırız." },
         { "title": "Kimlik Doğrulama", "body": "E-posta girişi tek kullanımlık kodlarla çalışır. Google ile giriş, hesabını oluşturmak veya geri getirmek için e-posta ve temel profil bilgilerini sağlayabilir." },
         { "title": "Restoran, Konum ve Tercih Verileri", "body": "Konum, restoran, menü, lezzet ve yemek tercihi bilgileri girebilirsin. Bunlar önerileri daha ilgili hale getirmek için kullanılır." },
-        { "title": "Çerezler ve Yerel Depolama", "body": "DineCue giriş için güvenli çerezler, giriş öncesi dil gibi zararsız arayüz tercihleri için yerel depolama kullanır." },
+        { "title": "Çerezler ve Yerel Depolama", "body": "dinecue giriş için güvenli çerezler, giriş öncesi dil gibi zararsız arayüz tercihleri için yerel depolama kullanır." },
         { "title": "Üçüncü Taraf Servisler", "body": "Öneriler mekan bilgisi ve dil temelli değerlendirme için üçüncü taraf servisleri içerebilir. Sağlayıcı anahtarları tarayıcıda gösterilmez." },
-        { "title": "Veri Saklama", "body": "DineCue hesap ve öneri bilgilerini ürünü çalıştırmak, geçmiş ve kaydedilen mekanları desteklemek, güvenlik ve güvenilirliği korumak için gerektiği sürece tutar." },
+        { "title": "Veri Saklama", "body": "dinecue hesap ve öneri bilgilerini ürünü çalıştırmak, geçmiş ve kaydedilen mekanları desteklemek, güvenlik ve güvenilirliği korumak için gerektiği sürece tutar." },
         { "title": "Kullanıcı Seçimleri", "body": "Profil tercihlerini güncelleyebilir, çıkış yapabilir ve hangi bilgileri gireceğini seçebilirsin. Ürün olgunlaştıkça daha fazla hesap kontrolü eklenebilir." },
-        { "title": "Güvenlik", "body": "DineCue, hassas giriş token’larının httpOnly çerezlerde tutulacağı ve tarayıcı JavaScript’i tarafından erişilemeyeceği şekilde tasarlanmıştır." },
-        { "title": "Çocukların Gizliliği", "body": "DineCue çocuklar için tasarlanmamıştır. Bir çocuğun kişisel bilgi sağladığını düşünüyorsan bizimle iletişime geç." },
-        { "title": "Bu Politikadaki Değişiklikler", "body": "DineCue değiştikçe bu politikayı güncelleyebiliriz. En güncel sürüm burada yayınlanır." },
+        { "title": "Güvenlik", "body": "dinecue, hassas giriş token’larının httpOnly çerezlerde tutulacağı ve tarayıcı JavaScript’i tarafından erişilemeyeceği şekilde tasarlanmıştır." },
+        { "title": "Çocukların Gizliliği", "body": "dinecue çocuklar için tasarlanmamıştır. Bir çocuğun kişisel bilgi sağladığını düşünüyorsan bizimle iletişime geç." },
+        { "title": "Bu Politikadaki Değişiklikler", "body": "dinecue değiştikçe bu politikayı güncelleyebiliriz. En güncel sürüm burada yayınlanır." },
         { "title": "İletişim", "body": "Gizlilik sorularını hello@dinecue.com adresine gönderebilirsin." }
       ]
     }
   },
   "about": {
-    "seoTitle": "DineCue Hakkında | Yemek ve Restoran Öneri Asistanı",
-    "seoDescription": "DineCue’nun ne olduğunu, neden var olduğunu ve gezginlerle yerel kullanıcıların daha iyi restoran kararları vermesine nasıl yardım ettiğini öğren.",
+    "seoTitle": "dinecue Hakkında | Yemek ve Restoran Öneri Asistanı",
+    "seoDescription": "dinecue’nun ne olduğunu, neden var olduğunu ve gezginlerle yerel kullanıcıların daha iyi restoran kararları vermesine nasıl yardım ettiğini öğren.",
     "eyebrow": "Hakkında",
     "title": "Sadece nerede yiyeceğin değil, neden sana uyduğu.",
-    "intro": "DineCue daha az sekme, daha az tahmin ve restoran seçmek için daha sakin bir yol isteyen kişiler için tasarlanmış bir yemek kararı asistanıdır.",
+    "intro": "dinecue daha az sekme, daha az tahmin ve restoran seçmek için daha sakin bir yol isteyen kişiler için tasarlanmış bir yemek kararı asistanıdır.",
     "lastUpdatedLabel": "Son güncelleme",
     "lastUpdated": "2 Temmuz 2026",
     "creatorLabel": "İletişim / Geliştirici",
     "creatorLink": "Burak Altıntaş tarafından oluşturuldu",
     "creatorUrl": "https://burak-altintas.com",
     "sections": [
-      { "title": "DineCue nedir?", "body": "DineCue, o anda ne istediğini konum, yanındakiler, bütçe, tercihler ve iştahla birleştirerek restoran ve yemek seçenekleri arasında karar vermene yardım eder." },
-      { "title": "Neden var?", "body": "Nerede yenileceğine karar vermek çoğu zaman yalnızca arama problemi değildir. DineCue, puanlar, fotoğraflar ve uzun listeler “burası bu akşama uygun mu?” sorusuna yetmediğinde devreye girer." },
-      { "title": "Nasıl çalışır?", "body": "İstediğin yemeği tarif edersin. DineCue bu bağlamı küçük bir mekan veya seçim setine dönüştürür, neden uygun olduklarını açıklar ve belirsiz olan şeylerde dürüst kalır." },
-      { "title": "Gezginler ve günlük yemek kararları için", "body": "DineCue seyahatteyken, akşam yemeği planlarken, yerel mekanları karşılaştırırken, bir restoranın ruh haline uyup uymadığını kontrol ederken veya menüyü anlamayı kolaylaştırmak istediğinde kullanışlıdır." },
-      { "title": "İletişim / Geliştirici", "body": "DineCue sıcak, pratik ve odaklı bir yemek ürünü olarak geliştirildi. İletişim veya geliştirici bilgisi için burak-altintas.com adresini ziyaret edebilirsin." }
+      { "title": "dinecue nedir?", "body": "dinecue, o anda ne istediğini konum, yanındakiler, bütçe, tercihler ve iştahla birleştirerek restoran ve yemek seçenekleri arasında karar vermene yardım eder." },
+      { "title": "Neden var?", "body": "Nerede yenileceğine karar vermek çoğu zaman yalnızca arama problemi değildir. dinecue, puanlar, fotoğraflar ve uzun listeler “burası bu akşama uygun mu?” sorusuna yetmediğinde devreye girer." },
+      { "title": "Nasıl çalışır?", "body": "İstediğin yemeği tarif edersin. dinecue bu bağlamı küçük bir mekan veya seçim setine dönüştürür, neden uygun olduklarını açıklar ve belirsiz olan şeylerde dürüst kalır." },
+      { "title": "Gezginler ve günlük yemek kararları için", "body": "dinecue seyahatteyken, akşam yemeği planlarken, yerel mekanları karşılaştırırken, bir restoranın ruh haline uyup uymadığını kontrol ederken veya menüyü anlamayı kolaylaştırmak istediğinde kullanışlıdır." },
+      { "title": "İletişim / Geliştirici", "body": "dinecue sıcak, pratik ve odaklı bir yemek ürünü olarak geliştirildi. İletişim veya geliştirici bilgisi için burak-altintas.com adresini ziyaret edebilirsin." }
     ]
   },
   "placeholders": {
     "menuTitle": "Menü tarama sırada",
     "menuBody": "Yakında bir menüyü ruh haline, tercihlerine ve masanın bağlamına göre daha net seçimlere dönüştürebileceksin.",
     "fitTitle": "Uygunluk kontrolü sırada",
-    "fitBody": "Yakında DineCue, belirli bir mekanın sana uygun olup olmadığını karar vermeden önce anlamana yardım edecek."
+    "fitBody": "Yakında dinecue, belirli bir mekanın sana uygun olup olmadığını karar vermeden önce anlamana yardım edecek."
   },
   "errors": {
     "generic": "Bir şey ters gitti. Lütfen tekrar dene.",
     "startRecommendation": "Önerilerini başlatamadık. Lütfen tekrar dene.",
-    "unreachable": "Şu anda DineCue'ya ulaşamadık.",
+    "unreachable": "Şu anda dinecue'ya ulaşamadık.",
     "signInAgain": "Lütfen tekrar giriş yap.",
     "validation": "Lütfen formu kontrol edip tekrar dene.",
     "quotaExceeded": "Bu ayki ücretsiz karar haklarını kullandın. Aylık limit yenilendiğinde tekrar devam edebilirsin.",
     "proComingSoon": "Daha fazla aylık karar hakkı sunan Pro yakında geliyor."
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "Bu masa kurulu değil.",
+    "body": "Aradığın sayfa yok ya da taşınmış. Yemek kararların bıraktığın yerde duruyor.",
+    "cta": "dinecue'ya dön"
   }
 }

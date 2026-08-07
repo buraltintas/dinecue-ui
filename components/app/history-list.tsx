@@ -18,7 +18,7 @@ export function HistoryList() {
   });
 
   if (history.isLoading || history.isFetching) {
-    return <div className="glass h-48 animate-pulse rounded-[2rem]" aria-label={t.history.loading} />;
+    return <div className="glass h-48 animate-pulse rounded-panel" aria-label={t.history.loading} />;
   }
 
   if (history.isError || !history.data?.length) {
@@ -34,13 +34,15 @@ export function HistoryList() {
   return (
     <div className="space-y-4">
       {history.data.map((item) => (
-        <Link key={item.sessionId} href={`/app/recommendations/${item.sessionId}`} className="glass block rounded-[1.5rem] p-5 transition hover:-translate-y-0.5">
+        <Link key={item.sessionId} href={`/app/recommendations/${item.sessionId}`} className="block rounded-card border border-ivory/10 bg-ivory/[0.035] p-5 transition hover:border-ivory/20 hover:bg-ivory/[0.06]">
           <div className="flex flex-col justify-between gap-3 sm:flex-row">
             <div>
-              <h2 className="text-xl font-semibold text-ivory">{item.rawText}</h2>
-              <p className="mt-2 text-sm text-muted">{item.locationText || item.locationMode}</p>
+              <h2 className="text-base font-semibold leading-7 text-ivory text-pretty">{item.rawText}</h2>
+              <p className="mt-2 text-sm text-faint">{item.locationText || item.locationMode}</p>
             </div>
-            <time className="text-sm text-amber">{formatDate(item.createdAt)}</time>
+            <time className="shrink-0 font-mono text-xs tabular-nums text-copper" dateTime={item.createdAt}>
+              {formatDate(item.createdAt)}
+            </time>
           </div>
         </Link>
       ))}

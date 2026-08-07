@@ -6,10 +6,10 @@ export function LoginIntro() {
   const { t } = useI18n();
 
   return (
-    <div>
-      <p className="text-sm tracking-[0.28em] text-amber">{t.auth.eyebrow}</p>
-      <h2 className="mt-5 max-w-xl font-display text-5xl leading-tight text-ivory">{t.auth.introTitle}</h2>
-      <p className="mt-6 max-w-lg text-lg leading-8 text-muted">{t.auth.introBody}</p>
+    <div className="max-w-xl">
+      <p className="eyebrow text-copper">{t.auth.eyebrow}</p>
+      <h1 className="mt-5 font-display text-display-2 text-ivory text-balance">{t.auth.introTitle}</h1>
+      <p className="mt-6 text-lead text-muted text-pretty">{t.auth.introBody}</p>
     </div>
   );
 }

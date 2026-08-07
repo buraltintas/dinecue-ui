@@ -1,260 +1,376 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Check, Compass, MapPin, MessageCircle, ScanLine, Search, ShieldCheck, Utensils } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { CourseRule, Section, SectionTitle } from "@/components/ui/section";
 import { useI18n } from "@/components/providers/i18n-provider";
-import { getMe } from "@/lib/api/auth";
-import { useSessionHint } from "@/components/providers/session-hint-provider";
+import { useViewer } from "@/components/providers/use-viewer";
+import { LeaderLoader } from "@/components/ui/leader-loader";
+import { FaqSection } from "@/components/marketing/faq-section";
 import { SiteFooter } from "@/components/marketing/site-footer";
-
-const icons = [Compass, MapPin, Check];
-const capabilityIcons = [Search, ScanLine, Utensils];
-const differenceIcons = [MapPin, MessageCircle, Utensils];
+import { cn } from "@/lib/utils";
 
 export function LandingSections() {
   const { t } = useI18n();
-  const { hasAuthSessionHint, setAuthSessionHint } = useSessionHint();
-  const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false, enabled: hasAuthSessionHint });
-  const isSignedIn = me.isSuccess && Boolean(me.data);
-  const primaryHref = isSignedIn ? "/app/find" : "/login";
+  const { isSignedIn, isResolving, primaryHref } = useViewer();
   const primaryLabel = isSignedIn ? t.landing.findPlaceCta : t.landing.sections.cta;
-
-  useEffect(() => {
-    if (me.isError) setAuthSessionHint(false);
-  }, [me.isError, setAuthSessionHint]);
 
   return (
     <>
-      <section id="how" className="bg-charcoal px-5 py-24 sm:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.85fr_1fr] lg:items-center">
-          <div>
-            <p className="text-sm tracking-[0.28em] text-amber">{t.landing.sections.howEyebrow}</p>
-            <h2 className="mt-4 max-w-3xl font-display text-4xl text-ivory sm:text-5xl">{t.landing.sections.howTitle}</h2>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-muted">{t.landing.sections.howBody}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3">
-            {t.landing.thinkingFactors.map((factor, index) => (
-              <div key={factor} className="border-t border-ivory/10 pt-4">
-                <span className="text-xs tracking-[0.22em] text-amber">0{index + 1}</span>
-                <p className="mt-3 text-lg font-semibold text-ivory">{factor}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HowItWorks />
+      <Principles />
+      <Capabilities />
+      <Comparison />
+      <Scenarios />
+      <Plans primaryHref={primaryHref} />
+      <FaqSection />
 
-      <section className="bg-graphite px-5 py-24 sm:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.75fr_1fr] lg:items-start">
-          <div>
-            <p className="text-sm tracking-[0.28em] text-sage">{t.landing.sections.featuresEyebrow}</p>
-            <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">{t.landing.sections.featuresTitle}</h2>
-            <p className="mt-5 text-lg leading-8 text-muted">{t.landing.sections.featuresBody}</p>
-          </div>
-          <div className="space-y-8">
-            {t.landing.features.map((feature, index) => {
-              const Icon = icons[index] || Check;
-              return (
-                <article key={feature.title} className="flex gap-5 border-t border-ivory/10 pt-6">
-                  <span className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-ivory/7 text-amber">
-                    <Icon size={19} aria-hidden />
-                  </span>
-                  <div>
-                    <h3 className="text-xl font-semibold text-ivory">{feature.title}</h3>
-                    <p className="mt-2 max-w-2xl leading-7 text-muted">{feature.text}</p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-midnight px-5 py-24 sm:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl">
-            <p className="text-sm tracking-[0.28em] text-sage">{t.landing.sections.capabilitiesEyebrow}</p>
-            <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">{t.landing.sections.capabilitiesTitle}</h2>
-            <p className="mt-5 text-lg leading-8 text-muted">{t.landing.sections.capabilitiesBody}</p>
-          </div>
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {t.landing.capabilities.map((capability, index) => {
-              const Icon = capabilityIcons[index] || Check;
-              return (
-                <motion.article
-                  key={capability.title}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.45, delay: index * 0.06 }}
-                  className="rounded-[1.5rem] border border-ivory/10 bg-ivory/[0.045] p-6"
-                >
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-amber/12 text-amber">
-                    <Icon size={20} aria-hidden />
-                  </span>
-                  <h3 className="mt-5 text-xl font-semibold text-ivory">{capability.title}</h3>
-                  <p className="mt-3 leading-7 text-muted">{capability.text}</p>
-                </motion.article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-graphite px-5 py-24 sm:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[.7fr_1fr] lg:items-end">
-            <div>
-              <p className="text-sm tracking-[0.28em] text-amber">{t.landing.sections.differenceEyebrow}</p>
-              <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">{t.landing.sections.differenceTitle}</h2>
-            </div>
-            <p className="max-w-2xl text-lg leading-8 text-muted lg:justify-self-end">{t.landing.sections.differenceBody}</p>
-          </div>
-
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
-            {t.landing.difference.map((item, index) => {
-              const Icon = differenceIcons[index] || Check;
-              return (
-                <motion.article
-                  key={item.title}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.45, delay: index * 0.07 }}
-                  className="border-t border-ivory/10 pt-6"
-                >
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-ivory/7 text-amber">
-                    <Icon size={20} aria-hidden />
-                  </span>
-                  <h3 className="mt-5 text-2xl font-bold text-ivory">{item.title}</h3>
-                  <p className="mt-4 leading-7 text-muted">{item.text}</p>
-                </motion.article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-charcoal px-5 py-24 sm:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl">
-            <p className="text-sm tracking-[0.28em] text-amber">{t.landing.sections.plansEyebrow}</p>
-            <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">{t.landing.sections.plansTitle}</h2>
-            <p className="mt-5 text-lg leading-8 text-muted">{t.landing.sections.plansBody}</p>
-          </div>
-          <div className="mt-12 grid gap-5 lg:grid-cols-2">
-            <PlanCard
-              name={t.landing.plans.free.name}
-              description={t.landing.plans.free.description}
-              features={t.landing.plans.free.features}
-              cta={t.landing.plans.free.cta}
-              href={primaryHref}
-              highlighted
-            />
-            <PlanCard
-              name={t.landing.plans.pro.name}
-              badge={t.landing.plans.pro.badge}
-              description={t.landing.plans.pro.description}
-              features={t.landing.plans.pro.features}
-              cta={t.landing.plans.pro.cta}
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-charcoal px-5 py-24 sm:px-8">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm tracking-[0.28em] text-amber">{t.landing.sections.scenariosEyebrow}</p>
-          <h2 className="mt-4 max-w-3xl font-display text-4xl text-ivory sm:text-5xl">{t.landing.sections.scenariosTitle}</h2>
-          <div className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-            {t.landing.scenarios.map((scenario) => (
-              <article key={scenario.title} className="border-l border-amber/25 pl-5">
-                <h3 className="text-xl font-semibold text-ivory">{scenario.title}</h3>
-                <p className="mt-3 leading-7 text-muted">{scenario.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="trust" className="bg-midnight px-5 py-24 sm:px-8">
-        <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[auto_1fr] lg:items-center">
-          <span className="grid h-16 w-16 place-items-center rounded-full bg-sage/12 text-sage">
-            <ShieldCheck size={27} aria-hidden />
-          </span>
-          <div>
-            <p className="text-sm tracking-[0.28em] text-amber">{t.landing.sections.trustEyebrow}</p>
-            <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">{t.landing.sections.trustTitle}</h2>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted">{t.landing.sections.trustBody}</p>
-            <Link href={primaryHref} className="mt-9 inline-block">
-              <Button>
-                {primaryLabel} <ArrowRight size={18} aria-hidden />
+      {/* The quietest moment on the page. One sentence, nothing beside it. */}
+      <Section id="trust" ground="void" space="lg">
+        <div className="container-reading">
+          <SectionTitle id="trust" className="max-w-2xl">
+            {t.landing.sections.trustTitle}
+          </SectionTitle>
+          <p className="mt-8 max-w-measure text-lead text-muted text-pretty">{t.landing.sections.trustBody}</p>
+          {isResolving ? (
+            <Button size="lg" type="button" disabled aria-busy className="mt-12 min-w-40 text-graphite">
+              <LeaderLoader label={t.common.preparing} />
+            </Button>
+          ) : (
+            <Link href={primaryHref} className="mt-12 inline-block">
+              <Button size="lg" className="min-w-40">
+                {primaryLabel}
               </Button>
             </Link>
-          </div>
+          )}
         </div>
-      </section>
+      </Section>
+
       <SiteFooter />
     </>
   );
 }
 
-function PlanCard({
+/**
+ * The only genuinely ordered content on the page, so the only place that earns
+ * numerals. They are hung in the margin the way course numbers are on a menu,
+ * and the steps stack vertically rather than sitting in a three-card row.
+ */
+function HowItWorks() {
+  const { t } = useI18n();
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <Section id="how" ground="night" space="lg">
+      <div className="container-page">
+        <CourseRule label={t.landing.sections.processEyebrow} />
+        <SectionTitle id="how" className="mt-8 max-w-3xl">
+          {t.landing.sections.howTitle}
+        </SectionTitle>
+
+        <ol className="mt-16 max-w-4xl">
+          {t.landing.process.map((step, index) => (
+            <motion.li
+              key={step.title}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: reduceMotion ? 0 : 0.45, delay: reduceMotion ? 0 : index * 0.08 }}
+              className="grid gap-x-8 gap-y-3 border-t border-ivory/10 py-9 sm:grid-cols-[3rem_1fr] lg:grid-cols-[4rem_18rem_1fr]"
+            >
+              <span className="font-display text-3xl leading-none text-copper/70">{index + 1}</span>
+              <h3 className="font-display text-2xl text-ivory sm:text-[1.65rem]">{step.title}</h3>
+              <p className="max-w-measure leading-8 text-muted text-pretty sm:col-start-2 lg:col-start-3">{step.text}</p>
+            </motion.li>
+          ))}
+        </ol>
+
+        <div className="flex flex-col gap-4 border-t border-ivory/10 pt-8 sm:flex-row sm:items-baseline sm:gap-8">
+          <p className="shrink-0 font-mono text-[0.6875rem] lowercase tracking-[0.16em] text-faint">
+            {t.landing.factorsLabel}
+          </p>
+          <p className="text-lg leading-relaxed text-ivory/70">{t.landing.thinkingFactors.join(" · ")}</p>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/** The dense moment: three tight columns, small type, no ornament at all. */
+function Principles() {
+  const { t } = useI18n();
+
+  return (
+    <Section id="principles" ground="void" space="sm">
+      <div className="container-page grid gap-10 lg:grid-cols-[20rem_1fr] lg:gap-20">
+        <SectionTitle id="principles" className="text-display-3">
+          {t.landing.sections.featuresTitle}
+        </SectionTitle>
+        <div className="grid gap-x-10 gap-y-8 sm:grid-cols-3">
+          {t.landing.features.map((feature) => (
+            <div key={feature.title}>
+              <h3 className="text-sm font-semibold tracking-[0.06em] text-ivory">{feature.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-faint text-pretty">{feature.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/**
+ * Each capability shows a fragment of the thing it describes instead of a
+ * decorative icon. Hairline above, nothing around it — no card.
+ */
+function Capabilities() {
+  const { t } = useI18n();
+  const artifacts = [<FindArtifact key="find" />, <ScanArtifact key="scan" />, <FitArtifact key="fit" />];
+
+  return (
+    <Section id="capabilities" ground="ember" space="md">
+      <div className="container-page">
+        <CourseRule label={t.landing.sections.capabilitiesEyebrow} />
+        <SectionTitle id="capabilities" className="mt-8 max-w-2xl">
+          {t.landing.sections.capabilitiesTitle}
+        </SectionTitle>
+
+        <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-10">
+          {t.landing.capabilities.map((capability, index) => {
+            // Only "find a restaurant" ships today.
+            const comingSoon = index > 0;
+            return (
+              <article key={capability.title} className={cn("border-t border-ivory/12 pt-7", comingSoon && "opacity-70")}>
+                <div className="h-16" aria-hidden>
+                  {artifacts[index]}
+                </div>
+                <h3 className="mt-8 flex items-baseline gap-3 font-display text-xl text-ivory">
+                  {capability.title}
+                  {comingSoon ? (
+                    <span className="font-mono text-[0.625rem] lowercase tracking-[0.16em] text-faint">
+                      {t.common.comingSoon}
+                    </span>
+                  ) : null}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-muted text-pretty">{capability.text}</p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+function FindArtifact() {
+  const labels = ["Dinner", "Quiet", "Nearby"];
+  return (
+    <div className="flex h-full flex-wrap content-end gap-1.5">
+      {labels.map((label, index) => (
+        <span
+          key={label}
+          className={cn(
+            "rounded-pill border px-2.5 py-1 text-xs",
+            index < 2 ? "border-copper/50 text-ivory" : "border-ivory/12 text-faint"
+          )}
+        >
+          {label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ScanArtifact() {
+  const widths = ["86%", "58%", "72%"];
+  return (
+    <div className="relative flex h-full flex-col justify-end gap-2.5">
+      {widths.map((width, index) => (
+        <span key={index} className="h-1.5 rounded-pill bg-ivory/20" style={{ width }} />
+      ))}
+      <span className="absolute inset-x-0 bottom-4 h-px bg-copper" />
+    </div>
+  );
+}
+
+function FitArtifact() {
+  return (
+    <div className="flex h-full flex-col justify-end gap-3">
+      <p className="leader">
+        <span className="font-mono text-xs lowercase tracking-[0.16em] text-faint">fit</span>
+        <span className="leader-fill" aria-hidden />
+        <span className="shrink-0 font-mono text-2xl tabular-nums text-ivory">88</span>
+      </p>
+    </div>
+  );
+}
+
+/**
+ * A real comparison, so it is set as one: what exists today runs down the left
+ * in a quiet voice, what dinecue does answers it on the right.
+ */
+function Comparison() {
+  const { t } = useI18n();
+  const alternatives = t.landing.difference.slice(0, 2);
+  const dinecue = t.landing.difference[2];
+
+  return (
+    <Section id="difference" ground="night" space="md">
+      <div className="container-page">
+        <CourseRule label={t.landing.sections.differenceEyebrow} />
+        <SectionTitle id="difference" className="mt-8 max-w-3xl">
+          {t.landing.sections.differenceTitle}
+        </SectionTitle>
+
+        <div className="mt-16 grid gap-x-16 gap-y-10 lg:grid-cols-2">
+          <div>
+            <p className="font-mono text-[0.6875rem] lowercase tracking-[0.16em] text-faint">
+              {t.landing.sections.comparisonThemLabel}
+            </p>
+            <div className="mt-7 space-y-7">
+              {alternatives.map((item) => (
+                <article key={item.title} className="border-t border-ivory/[0.08] pt-5">
+                  <h3 className="text-base font-semibold text-muted">{item.title}</h3>
+                  <p className="mt-2.5 text-sm leading-7 text-faint text-pretty">{item.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {dinecue ? (
+            <div className="lg:border-l lg:border-copper/30 lg:pl-16">
+              <p className="font-mono text-[0.6875rem] lowercase tracking-[0.16em] text-copper">
+                {t.landing.sections.comparisonUsLabel}
+              </p>
+              <h3 className="mt-7 font-display text-display-3 text-ivory text-balance">{dinecue.title}</h3>
+              <p className="mt-5 max-w-measure text-lead leading-8 text-ivory/80 text-pretty">{dinecue.text}</p>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/** The device at its most literal: a list of occasions, set like a bill of fare. */
+function Scenarios() {
+  const { t } = useI18n();
+
+  return (
+    <Section id="scenarios" ground="void" space="md">
+      <div className="container-page">
+        <SectionTitle id="scenarios" className="max-w-2xl">
+          {t.landing.sections.scenariosTitle}
+        </SectionTitle>
+
+        <dl className="mt-14 max-w-4xl">
+          {t.landing.scenarios.map((scenario) => (
+            <div key={scenario.title} className="border-t border-ivory/[0.08] py-6 sm:flex sm:items-baseline sm:gap-6">
+              <dt className="shrink-0 font-display text-xl text-ivory sm:w-56">{scenario.title}</dt>
+              <span className="hidden flex-1 self-center border-b border-dotted border-copper/30 sm:block" aria-hidden />
+              <dd className="mt-2 max-w-sm text-sm leading-7 text-muted text-pretty sm:mt-0 sm:text-right">
+                {scenario.text}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </Section>
+  );
+}
+
+function Plans({ primaryHref }: { primaryHref: "/app/find" | "/login" }) {
+  const { t } = useI18n();
+
+  return (
+    <Section id="plans" ground="ember" space="md">
+      <div className="container-page">
+        <CourseRule label={t.landing.sections.plansEyebrow} />
+        <SectionTitle id="plans" className="mt-8 max-w-2xl">
+          {t.landing.sections.plansTitle}
+        </SectionTitle>
+
+        <div className="mt-16 grid gap-14 lg:grid-cols-2 lg:gap-20">
+          <PlanColumn
+            name={t.landing.plans.free.name}
+            allowance={t.landing.plans.free.allowance}
+            allowanceLabel={t.landing.plans.allowanceLabel}
+            description={t.landing.plans.free.description}
+            features={t.landing.plans.free.features.slice(1)}
+            cta={t.landing.plans.free.cta}
+            href={primaryHref}
+          />
+          <PlanColumn
+            name={t.landing.plans.pro.name}
+            allowance={t.landing.plans.pro.allowance}
+            allowanceLabel={t.landing.plans.allowanceLabel}
+            badge={t.landing.plans.pro.badge}
+            description={t.landing.plans.pro.description}
+            features={t.landing.plans.pro.features.slice(1)}
+            cta={t.landing.plans.pro.cta}
+          />
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+function PlanColumn({
   name,
+  allowance,
+  allowanceLabel,
   badge,
   description,
   features,
   cta,
-  href,
-  highlighted = false
+  href
 }: {
   name: string;
+  allowance: string;
+  allowanceLabel: string;
   badge?: string;
   description: string;
   features: string[];
   cta: string;
   href?: "/app/find" | "/login";
-  highlighted?: boolean;
 }) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.45 }}
-      className={`rounded-[1.75rem] border p-6 sm:p-7 ${highlighted ? "border-amber/30 bg-amber/[0.075]" : "border-ivory/10 bg-ivory/[0.045]"}`}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3 className="font-display text-4xl text-ivory">{name}</h3>
-          <p className="mt-4 max-w-xl leading-7 text-muted">{description}</p>
-        </div>
-        {badge ? <span className="shrink-0 rounded-full border border-sage/20 bg-sage/10 px-3 py-1.5 text-xs font-semibold text-sage">{badge}</span> : null}
-      </div>
-      <ul className="mt-7 space-y-3">
+    <article className={cn("border-t pt-8", href ? "border-copper/40" : "border-ivory/12 opacity-80")}>
+      <p className="leader">
+        <span className="flex items-baseline gap-3">
+          <span className="font-display text-display-3 text-ivory">{name}</span>
+          {badge ? (
+            <span className="font-mono text-[0.625rem] lowercase tracking-[0.16em] text-faint">{badge}</span>
+          ) : null}
+        </span>
+        <span className="leader-fill" aria-hidden />
+        <span className="shrink-0 font-mono text-4xl tabular-nums text-ivory">{allowance}</span>
+      </p>
+      <p className="mt-2 text-right font-mono text-[0.6875rem] lowercase tracking-[0.16em] text-faint">
+        {allowanceLabel}
+      </p>
+
+      <p className="mt-7 max-w-measure leading-8 text-muted text-pretty">{description}</p>
+
+      <ul className="mt-8 space-y-3.5">
         {features.map((feature) => (
-          <li key={feature} className="flex gap-3 text-sm leading-6 text-ivory/85">
-            <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-amber/12 text-amber">
-              <Check size={13} aria-hidden />
-            </span>
-            <span>{feature}</span>
+          <li key={feature} className="flex gap-4 text-sm leading-7 text-ivory/80">
+            <span className="mt-3 h-px w-4 shrink-0 bg-copper/60" aria-hidden />
+            <span className="text-pretty">{feature}</span>
           </li>
         ))}
       </ul>
-      {href ? (
-        <Link href={href} className="mt-8 inline-block">
-          <Button>
-            {cta} <ArrowRight size={18} aria-hidden />
-          </Button>
-        </Link>
-      ) : (
-        <Button className="mt-8" variant="secondary" type="button" disabled>
-          {cta}
-        </Button>
-      )}
-    </motion.article>
+
+      <div className="mt-10">
+        {href ? (
+          <Link href={href} className="inline-block">
+            <Button>{cta}</Button>
+          </Link>
+        ) : (
+          <p className="font-mono text-xs lowercase tracking-[0.16em] text-faint">{cta}</p>
+        )}
+      </div>
+    </article>
   );
 }

@@ -122,10 +122,10 @@ export function ProfilePanel() {
   if (profile.isLoading || profile.isFetching) {
     return (
       <div className="grid gap-6 lg:grid-cols-[1fr_.9fr]">
-        <div className="glass h-80 animate-pulse rounded-[2rem]" aria-label={t.common.loading} />
+        <div className="glass h-80 animate-pulse rounded-panel" aria-label={t.common.loading} />
         <div className="space-y-4">
-          <div className="glass h-36 animate-pulse rounded-[1.5rem]" aria-label={t.common.loading} />
-          <div className="glass h-36 animate-pulse rounded-[1.5rem]" aria-label={t.common.loading} />
+          <div className="glass h-36 animate-pulse rounded-card" aria-label={t.common.loading} />
+          <div className="glass h-36 animate-pulse rounded-card" aria-label={t.common.loading} />
         </div>
       </div>
     );
@@ -133,7 +133,7 @@ export function ProfilePanel() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_.9fr]">
-      <form onSubmit={submit} className="glass rounded-[2rem] p-6">
+      <form onSubmit={submit} className="glass rounded-panel p-6 sm:p-7">
         <h2 className="font-display text-3xl text-ivory">{t.profile.account}</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <label>
@@ -149,7 +149,7 @@ export function ProfilePanel() {
           <label>
             <span className="text-sm text-muted">{t.profile.country}</span>
             <select
-              className="mt-2 min-h-12 w-full rounded-2xl border border-ivory/12 bg-black/25 px-4 text-ivory"
+              className="mt-2 min-h-12 w-full rounded-card border border-ivory/12 bg-black/25 px-4 text-ivory"
               value={form.country || ""}
               onChange={(event) => setForm({ ...form, country: event.target.value || null })}
             >
@@ -167,7 +167,7 @@ export function ProfilePanel() {
           <label>
             <span className="text-sm text-muted">{t.profile.distanceUnit}</span>
             <select
-              className="mt-2 min-h-12 w-full rounded-2xl border border-ivory/12 bg-black/25 px-4 text-ivory"
+              className="mt-2 min-h-12 w-full rounded-card border border-ivory/12 bg-black/25 px-4 text-ivory"
               value={form.distanceUnit || "km"}
               onChange={(event) => setForm({ ...form, distanceUnit: event.target.value })}
             >
@@ -176,7 +176,7 @@ export function ProfilePanel() {
             </select>
           </label>
         </div>
-        {saveError ? <p className="mt-5 rounded-2xl border border-wine/40 bg-wine/20 px-4 py-3 text-sm text-ivory">{saveError}</p> : null}
+        {saveError ? <p className="mt-5 rounded-card border border-wine/40 bg-wine/20 px-4 py-3 text-sm text-ivory">{saveError}</p> : null}
         <Button className="mt-6" disabled={mutation.isPending}>
           {mutation.isPending ? t.profile.saving : t.profile.save}
         </Button>
@@ -184,12 +184,12 @@ export function ProfilePanel() {
 
       <div className="space-y-4">
         {quota ? <QuotaCard quota={quota} /> : null}
-        <section className="glass rounded-[1.5rem] p-5">
-          <p className="text-sm tracking-[0.22em] text-amber">{t.profile.preferencesEyebrow}</p>
+        <section className="rounded-card border border-ivory/10 bg-ivory/[0.035] p-5">
+          <p className="eyebrow text-copper">{t.profile.preferencesEyebrow}</p>
           <h2 className="mt-2 text-xl font-semibold text-ivory">{t.profile.preferencesTitle}</h2>
           <p className="mt-3 text-sm leading-6 text-muted">{t.profile.preferencesBody}</p>
           {preferencesIncomplete ? (
-            <div className="mt-5 rounded-2xl border border-amber/20 bg-amber/10 p-4">
+            <div className="mt-5 rounded-card border border-amber/20 bg-amber/10 p-4">
               <p className="text-sm text-ivory">{t.profile.preferencesIncomplete}</p>
               <Button className="mt-4" variant="secondary" type="button" onClick={() => setShowPreferenceNote(true)}>
                 {t.profile.completePreferences}
@@ -218,14 +218,14 @@ function QuotaCard({ quota }: { quota: ProfileQuotaDto }) {
   const usedText = t.profile.quotaUsed.replace("{used}", String(used)).replace("{limit}", String(limit));
 
   return (
-    <section className="glass rounded-[1.5rem] p-5">
+    <section className="rounded-card border border-ivory/10 bg-ivory/[0.035] p-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-sm tracking-[0.22em] text-amber">{t.profile.planEyebrow}</p>
+          <p className="eyebrow text-copper">{t.profile.planEyebrow}</p>
           <h2 className="mt-3 text-xl font-semibold text-ivory">{planLabel}</h2>
           <p className="mt-2 text-sm leading-6 text-muted">{remainingText}</p>
         </div>
-        <span className="w-fit rounded-full border border-amber/25 bg-amber/10 px-3 py-1.5 text-xs font-semibold text-amber">{badge}</span>
+        <span className="w-fit rounded-pill border border-amber/25 bg-amber/10 px-3 py-1.5 font-mono text-xs text-amber">{badge}</span>
       </div>
       <div className="mt-5">
         <div className="h-2 overflow-hidden rounded-full bg-ivory/10" aria-hidden>
@@ -244,16 +244,16 @@ function ProfileSummary({ title, loading, items }: { title: string; loading: boo
   const { t } = useI18n();
 
   return (
-    <section className="glass rounded-[1.5rem] p-5">
+    <section className="rounded-card border border-ivory/10 bg-ivory/[0.035] p-5">
       <h2 className="text-xl font-semibold text-ivory">{title}</h2>
-      {loading ? <div className="mt-4 h-20 animate-pulse rounded-2xl bg-ivory/7" /> : (
+      {loading ? <div className="mt-4 h-20 animate-pulse rounded-card bg-ivory/[0.06]" /> : (
         <dl className="mt-4 space-y-3">
           {items.map((item) => (
             <div key={item.label} className="flex items-start justify-between gap-4 text-sm">
               <dt className="text-muted">{item.label}</dt>
               <dd className="text-right text-ivory">
                 <span>{item.value}</span>
-                {item.source === "default" ? <span className="ml-2 rounded-full bg-ivory/7 px-2 py-0.5 text-xs text-muted">{t.profile.defaultBadge}</span> : null}
+                {item.source === "default" ? <span className="ml-2 rounded-full bg-ivory/[0.06] px-2 py-0.5 text-xs text-muted">{t.profile.defaultBadge}</span> : null}
               </dd>
             </div>
           ))}

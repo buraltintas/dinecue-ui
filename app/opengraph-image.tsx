@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import en from "@/messages/en.json";
 
 export const runtime = "edge";
-export const alt = "DineCue dining assistant preview";
+export const alt = "dinecue dining assistant preview";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -15,17 +15,31 @@ export default function OpenGraphImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          padding: 72,
+          justifyContent: "space-between",
+          padding: 76,
           color: "#F4EFE4",
           background:
-            "radial-gradient(circle at 70% 35%, rgba(240,179,92,.32), transparent 26%), linear-gradient(135deg, #0D0D0F, #171D22 55%, #151412)"
+            "radial-gradient(circle at 12% 8%, rgba(212,138,69,.26), transparent 42%), linear-gradient(150deg, #0D0D0F 0%, #1A1613 58%, #0D0D0F 100%)"
         }}
       >
-        <div style={{ fontSize: 34, color: "#F0B35C", letterSpacing: 6 }}>DINECUE</div>
-        <div style={{ marginTop: 28, fontSize: 110, lineHeight: 0.95, fontWeight: 700 }}>{en.landing.heroTitle}</div>
-        <div style={{ marginTop: 30, maxWidth: 820, fontSize: 34, lineHeight: 1.3, color: "#BDB3A3" }}>
-          {en.landing.seoDescription}
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ fontSize: 30, letterSpacing: -1, fontWeight: 700 }}>dinecue</div>
+          <div style={{ fontSize: 30, color: "#F0B35C", fontWeight: 700 }}>.</div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", fontSize: 116, lineHeight: 1, fontWeight: 700, letterSpacing: -4 }}>
+            <div>{en.landing.heroTitle.replace(/\.$/, "")}</div>
+            <div style={{ color: "#91A06B" }}>.</div>
+          </div>
+          <div style={{ marginTop: 32, maxWidth: 860, fontSize: 30, lineHeight: 1.4, color: "#BDB3A3" }}>
+            {en.landing.seoDescription}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 22, color: "#8A8175" }}>
+          <div style={{ width: 56, height: 2, background: "#D48A45" }} />
+          <div>{en.landing.eyebrow}</div>
         </div>
       </div>
     ),

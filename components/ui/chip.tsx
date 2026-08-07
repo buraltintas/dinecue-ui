@@ -15,13 +15,14 @@ export function Chip({
   return (
     <motion.button
       type="button"
+      aria-pressed={active}
       whileTap={{ scale: 0.96 }}
       onClick={onClick}
       className={cn(
-        "rounded-full border px-4 py-2 text-sm transition",
+        "inline-flex min-h-11 items-center rounded-pill border px-4 text-sm transition",
         active
-          ? "border-amber/70 bg-amber/18 text-ivory shadow-[0_0_30px_rgba(240,179,92,.15)]"
-          : "border-ivory/12 bg-ivory/6 text-muted hover:border-ivory/25 hover:text-ivory"
+          ? "border-amber/60 bg-amber/[0.16] text-ivory"
+          : "border-ivory/12 bg-ivory/[0.05] text-muted hover:border-ivory/25 hover:text-ivory"
       )}
     >
       {children}

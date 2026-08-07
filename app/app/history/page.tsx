@@ -8,9 +8,9 @@ export default function HistoryPage() {
 
   return (
     <div>
-      <p className="text-sm tracking-[0.26em] text-amber">{t.history.eyebrow}</p>
-      <h1 className="mt-3 font-display text-4xl text-ivory sm:text-5xl">{t.history.title}</h1>
-      <div className="mt-8">
+      <p className="eyebrow text-copper">{t.history.eyebrow}</p>
+      <h1 className="mt-4 font-display text-display-2 text-ivory text-balance">{t.history.title}</h1>
+      <div className="mt-10">
         <HistoryList />
       </div>
     </div>

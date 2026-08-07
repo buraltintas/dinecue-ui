@@ -4,8 +4,11 @@
 
 :root {
   color-scheme: dark;
-  --font-sans: var(--font-nunito-sans, "Nunito Sans"), system-ui, sans-serif;
-  --font-display: var(--font-nunito-sans, "Nunito Sans"), system-ui, sans-serif;
+  /* Three typographic roles. Display carries voice, sans carries the product,
+     mono carries labels and data. See docs/DESIGN_SYSTEM.md. */
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-nunito-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
 * {
@@ -14,17 +17,34 @@
 
 html {
   scroll-behavior: smooth;
-  background: #0d0d0f;
+  /* Warm near-black. A neutral #0D0D0F reads as a developer dark theme; the
+     brown cast reads as a dim dining room. */
+  background: #100e0c;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
-  background: #0d0d0f;
+  overflow-x: hidden;
+  background: #100e0c;
   color: #f4efe4;
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 450;
   text-rendering: optimizeLegibility;
+}
+
+/* Paper grain over the whole product. Barely visible on its own, but it stops
+   large flat fields from looking like a screen and makes them look printed. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 button,
@@ -47,6 +67,7 @@ a {
 :focus-visible {
   outline: 2px solid #f0b35c;
   outline-offset: 3px;
+  border-radius: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -60,20 +81,210 @@ a {
   }
 }
 
-.glass {
-  border: 1px solid rgba(244, 239, 228, 0.11);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035));
-  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(22px);
+/* Single page container. Replaces the px-5/sm:px-8 pairs that were repeated
+   on every section and drifted apart over time. */
+.container-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 0.6rem + 2.4vw, 3rem);
+}
+
+.container-reading {
+  width: 100%;
+  max-width: 52rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 0.6rem + 2.4vw, 3rem);
+}
+
+/* Display type sets tighter and heavier than Fraunces' defaults, with the
+   optical-size and wonk axes doing the character work. */
+.font-display {
+  font-variation-settings: "SOFT" 24, "WONK" 1;
+  font-weight: 600;
 }
 
 .text-balance {
   text-wrap: balance;
 }
 
-.font-display {
-  font-weight: 850;
-  letter-spacing: -0.025em;
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Uppercase micro-label. Used instead of the amber eyebrow that used to open
+   every single section. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+}
+
+.glass {
+  border: 1px solid rgba(244, 239, 228, 0.09);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+  box-shadow: 0 1px 0 rgba(244, 239, 228, 0.06) inset, 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(22px);
+}
+
+/* --- Menu devices ---------------------------------------------------------
+   A dinecue page is set the way a menu is set: an item, a run of leader dots,
+   and a figure; course rules that carry their own label; figures hung in the
+   margin. Reach for these before reaching for a card. */
+
+.leader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+}
+
+.leader-fill {
+  flex: 1 1 auto;
+  min-width: 1.5rem;
+  align-self: center;
+  border-bottom: 1px dotted rgba(212, 138, 69, 0.42);
+}
+
+/* The hero slogan is the one ambient moment on the page, and it lives inside
+   the letterforms rather than behind them — warm light crossing a printed
+   menu, not a blob floating in a hero.
+
+   Two things happen. On load the Fraunces SOFT and WONK axes settle over
+   700ms: nothing shifts and nothing fades, so the LCP element is legible from
+   the first frame. Then, every fourteen seconds, a soft warm band drifts
+   across the type and the page goes still again — a gust, not a metronome.
+
+   The base layer of the gradient stack is solid ivory, so the text is always
+   painted even mid-animation, and the whole clipped treatment sits behind an
+   @supports guard: without background-clip the slogan is simply ivory. Under
+   prefers-reduced-motion the global kill switch snaps both animations to their
+   end state, which leaves the settled letterforms and no sheen. */
+@keyframes warm-display {
+  from {
+    font-variation-settings: "SOFT" 0, "WONK" 0;
+  }
+  to {
+    font-variation-settings: "SOFT" 24, "WONK" 1;
+  }
+}
+
+@keyframes slogan-gust {
+  0%,
+  14% {
+    background-position: 150% 0, 0 0;
+  }
+  58%,
+  100% {
+    background-position: -50% 0, 0 0;
+  }
+}
+
+.slogan-alive {
+  animation: warm-display 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .slogan-alive {
+    color: transparent;
+    background-image:
+      linear-gradient(102deg, transparent 41%, rgba(255, 209, 138, 0.55) 50%, transparent 59%),
+      linear-gradient(#f4efe4, #f4efe4);
+    background-repeat: no-repeat;
+    background-size: 200% 100%, 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation:
+      warm-display 700ms cubic-bezier(0.22, 1, 0.36, 1) both,
+      slogan-gust 14s cubic-bezier(0.42, 0, 0.3, 1) 1.6s infinite;
+  }
+}
+
+/* The waiting state, in the same language: a leader line being set. A solid
+   segment travels along the dotted run, the way a menu line is typeset before
+   the figure lands. Defined here rather than in the Tailwind config so it lives
+   beside the other menu devices. */
+.leader-setting {
+  display: inline-flex;
+  align-items: center;
+}
+
+.leader-setting-track {
+  position: relative;
+  overflow: hidden;
+  width: 4rem;
+  height: 1rem;
+  border-bottom: 1px dotted currentColor;
+  opacity: 0.55;
+}
+
+.leader-setting-mark {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1.25rem;
+  height: 1px;
+  background: currentColor;
+  animation: set-leader 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes set-leader {
+  from {
+    transform: translateX(-1.25rem);
+  }
+  to {
+    transform: translateX(4rem);
+  }
+}
+
+.leader-setting-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* With motion switched off the sweep says nothing, so the label takes over. */
+@media (prefers-reduced-motion: reduce) {
+  .leader-setting-track {
+    display: none;
+  }
+
+  .leader-setting-label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+  }
+}
+
+/* A rule that runs the width of the column with its label sitting on the left,
+   used instead of stacking an eyebrow above every single heading. */
+.course-rule {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.course-rule::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: rgba(244, 239, 228, 0.14);
+}
+
+/* Hairline that fades out, so section dividers do not read as table borders. */
+.rule-fade {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(244, 239, 228, 0.16), rgba(244, 239, 228, 0));
 }
 
 .plate-ring {
@@ -81,6 +292,17 @@ a {
     radial-gradient(circle, rgba(244, 239, 228, 0.08) 0 33%, transparent 34%),
     radial-gradient(circle, transparent 0 54%, rgba(240, 179, 92, 0.3) 55% 56%, transparent 57%),
     radial-gradient(circle, transparent 0 70%, rgba(244, 239, 228, 0.14) 71% 72%, transparent 73%);
+}
+
+/* Horizontally scrollable strip that keeps the page body from scrolling. */
+.scroll-strip {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.scroll-strip::-webkit-scrollbar {
+  display: none;
 }
 
 .leaflet-container {
@@ -99,12 +321,12 @@ a {
 }
 
 .leaflet-control-zoom a {
-  width: 38px !important;
-  height: 38px !important;
+  width: 44px !important;
+  height: 44px !important;
   border: 0 !important;
   background: transparent !important;
   color: #f4efe4 !important;
-  line-height: 36px !important;
+  line-height: 42px !important;
   text-shadow: none !important;
   transition: background 160ms ease, color 160ms ease;
 }

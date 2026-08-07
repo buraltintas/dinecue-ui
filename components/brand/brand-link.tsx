@@ -1,23 +1,30 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
+/**
+ * The wordmark ends in a full stop, echoing the declarative voice of the
+ * product ("eat by mood."). The stop is the only amber in the header.
+ */
 export function BrandLink({
   className,
   href = "/",
-  iconSize = 34,
-  iconTone = "gold"
+  size = "md"
 }: {
   className?: string;
   href?: "/" | "/app/find";
-  iconSize?: number;
-  iconTone?: "gold" | "white";
+  size?: "sm" | "md";
 }) {
-
   return (
-    <Link href={href} className={cn("inline-flex items-center gap-3 text-ivory", className)} aria-label="DineCue home">
-      <span className="text-2xl font-black leading-none tracking-[-0.04em]" style={{ fontFamily: "var(--font-sans)" }}>
-        dinecue
-      </span>
+    <Link
+      href={href}
+      aria-label="dinecue"
+      className={cn(
+        "inline-flex items-baseline font-display font-semibold leading-none tracking-[-0.03em] text-ivory transition hover:text-amber-hi",
+        size === "sm" ? "text-xl" : "text-[1.6rem]",
+        className
+      )}
+    >
+      dinecue<span className="text-amber">.</span>
     </Link>
   );
 }

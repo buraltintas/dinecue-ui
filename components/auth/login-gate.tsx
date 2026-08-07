@@ -26,17 +26,17 @@ export function LoginGate({ children }: { children: React.ReactNode }) {
 
   if (me.isLoading || me.data) {
     return (
-      <div className="glass w-full max-w-md rounded-[2rem] p-6 sm:p-8" role="status" aria-live="polite">
-        <p className="text-sm tracking-[0.24em] text-amber">{t.common.loading}</p>
+      <div className="glass w-full rounded-panel p-6 sm:p-8 lg:w-[26rem]" role="status" aria-live="polite">
+        <p className="eyebrow text-copper">{t.common.loading}</p>
         <div className="mt-7 space-y-4" aria-hidden>
-          <motion.div className="h-14 rounded-2xl bg-ivory/10" animate={{ opacity: [0.45, 0.85, 0.45] }} transition={{ duration: 1.4, repeat: Infinity }} />
+          <motion.div className="h-14 rounded-card bg-ivory/10" animate={{ opacity: [0.45, 0.85, 0.45] }} transition={{ duration: 1.4, repeat: Infinity }} />
           <motion.div
-            className="h-14 rounded-2xl bg-ivory/7"
+            className="h-14 rounded-card bg-ivory/[0.06]"
             animate={{ opacity: [0.35, 0.75, 0.35] }}
             transition={{ duration: 1.4, repeat: Infinity, delay: 0.12 }}
           />
           <motion.div
-            className="h-12 rounded-full bg-amber/20"
+            className="h-12 rounded-pill bg-amber/20"
             animate={{ opacity: [0.4, 0.8, 0.4] }}
             transition={{ duration: 1.4, repeat: Infinity, delay: 0.24 }}
           />

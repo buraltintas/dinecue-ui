@@ -1,6 +1,6 @@
 {
   "common": {
-    "brandHome": "DineCue Startseite",
+    "brandHome": "dinecue Startseite",
     "language": "Sprache",
     "loading": "Wird geladen...",
     "working": "Einen Moment...",
@@ -43,20 +43,22 @@
     "fitCheck": "Fit-Check"
   },
   "landing": {
-    "seoTitle": "DineCue | Eat by mood.",
-    "seoDescription": "DineCue hilft dir zu entscheiden, wo du essen möchtest, passend zu Stimmung, Standort, Vorlieben und Kontext.",
+    "seoTitle": "Wo heute Abend essen? Entschieden nach Stimmung | dinecue",
+    "seoDescription": "dinecue hilft dir zu entscheiden, wo du essen möchtest, passend zu Stimmung, Standort, Vorlieben und Kontext.",
     "publicNav": "Öffentliche Navigation",
     "how": "So funktioniert es",
     "trust": "Vertrauen",
+    "faq": "Fragen",
     "signIn": "Anmelden",
     "eyebrow": "Smarte Essensentscheidungen",
-    "heroTitle": "Eat by mood.",
-    "heroBody": "Sag DineCue, wonach sich dein Essen anfühlen soll. Es findet Orte, die wirklich zu dir passen.",
+    "heroTitle": "eat by mood.",
+    "heroBody": "Sag dinecue, wonach sich dein Essen anfühlen soll. Es findet Orte, die wirklich zu dir passen.",
+    "heroSubtitle": "dinecue macht aus vagem Appetit eine echte Entscheidung — drei Orte, die zu deiner Stimmung, deiner Begleitung und deinem tatsächlichen Standort passen.",
     "start": "Mit E-Mail starten",
     "continue": "Weiter",
     "findPlaceCta": "Restaurant finden",
     "seeHow": "So funktioniert es",
-    "previewLabel": "DineCue Empfehlungsvorschau",
+    "previewLabel": "dinecue Empfehlungsvorschau",
     "previewPromptLabel": "Heute möchte ich...",
     "previewRank": "Auswahl",
     "previewMatch": "Beispiel-Treffer",
@@ -66,30 +68,41 @@
     "sections": {
       "howEyebrow": "So funktioniert es",
       "howTitle": "Eine bessere Dining-Entscheidung beginnt mit dem ganzen Bild.",
-      "howBody": "DineCue beachtet die Signale, die bei der Wahl eines Tisches wirklich zählen.",
+      "howBody": "dinecue beachtet die Signale, die bei der Wahl eines Tisches wirklich zählen.",
+      "processEyebrow": "Drei Schritte",
       "featuresEyebrow": "Funktionen",
       "featuresTitle": "Nicht nur nah. Wirklich passend.",
-      "featuresBody": "Nähe hilft, ist aber nicht die ganze Entscheidung. DineCue sucht Orte, die Anlass, Appetit und Begleitung entsprechen.",
-      "capabilitiesEyebrow": "Wobei DineCue hilft",
+      "featuresBody": "Nähe hilft, ist aber nicht die ganze Entscheidung. dinecue sucht Orte, die Anlass, Appetit und Begleitung entsprechen.",
+      "capabilitiesEyebrow": "Wobei dinecue hilft",
       "capabilitiesTitle": "Drei ruhige Wege zur Entscheidung.",
-      "capabilitiesBody": "Nutze DineCue, wenn du einen Ort suchst, ein Menü klarer verstehen möchtest oder prüfen willst, ob ein Restaurant zum Moment passt.",
+      "capabilitiesBody": "Nutze dinecue, wenn du einen Ort suchst, ein Menü klarer verstehen möchtest oder prüfen willst, ob ein Restaurant zum Moment passt.",
       "differenceEyebrow": "Warum es anders wirkt",
       "differenceTitle": "Nicht nur Suche. Nicht nur Chat.",
-      "differenceBody": "DineCue ist für den Moment gemacht, in dem du wählen musst, nicht nur stöbern. Es bringt deinen echten Kontext in die Essensentscheidung.",
+      "differenceBody": "dinecue ist für den Moment gemacht, in dem du wählen musst, nicht nur stöbern. Es bringt deinen echten Kontext in die Essensentscheidung.",
+      "comparisonThemLabel": "Was du heute bekommst",
+      "comparisonUsLabel": "Was dinecue tut",
       "plansEyebrow": "Pläne",
-      "plansTitle": "Wie oft soll DineCue dich begleiten?",
+      "plansTitle": "Wie oft soll dinecue dich begleiten?",
       "plansBody": "Kostenlos starten. Mehr Tiefe, wenn du sie brauchst.",
       "scenariosEyebrow": "Echte Dining-Situationen",
       "scenariosTitle": "Für Abende, an denen Filter nicht reichen.",
       "trustEyebrow": "Privatsphäre und Vertrauen",
       "trustTitle": "Ein Dining-Assistent sollte hilfreich wirken, nicht aufdringlich.",
-      "trustBody": "DineCue zeigt nur Orte, die es tatsächlich finden kann. Wenn etwas unsicher ist, bleibt die Empfehlung ehrlich.",
+      "trustBody": "dinecue zeigt nur Orte, die es tatsächlich finden kann. Wenn etwas unsicher ist, bleibt die Empfehlung ehrlich.",
+      "faqEyebrow": "Fragen",
+      "faqTitle": "Bevor du startest",
       "cta": "Entscheidung starten"
     },
     "thinkingFactors": ["Stimmung", "Begleitung", "Budget", "Standort", "Anlass", "Vorlieben"],
+    "factorsLabel": "Signale, die dinecue abwägt",
+    "process": [
+      { "title": "Beschreibe das Essen, das du willst", "text": "Normale Sätze genügen. „Ruhiges Abendessen, Fisch, nicht zu förmlich“ sagt mehr als jede Filterzeile." },
+      { "title": "dinecue wägt deinen Kontext ab", "text": "Stimmung, Begleitung, Budget, Standort, Anlass und gespeicherte Vorlieben werden zusammen gelesen, nicht als einzelne Filter." },
+      { "title": "Du bekommst drei Orte zur Wahl", "text": "Jeder kommt mit der Begründung, warum er passt — entscheiden in einer Minute statt zwanzig Minuten scrollen." }
+    ],
     "features": [
       { "title": "Kontext vor Entfernung", "text": "Ein naher Ort hilft nur, wenn er auch zum Essen passt, das du suchst." },
-      { "title": "Kuratierte Auswahl", "text": "DineCue reduziert die Liste, damit jeder Vorschlag einen klaren Grund hat." },
+      { "title": "Kuratierte Auswahl", "text": "dinecue reduziert die Liste, damit jeder Vorschlag einen klaren Grund hat." },
       { "title": "Klare nächste Schritte", "text": "Du siehst, warum ein Ort passt, worauf du achten solltest und was als Nächstes sinnvoll ist." }
     ],
     "capabilities": [
@@ -100,25 +113,28 @@
     "difference": [
       { "title": "Kartensuchen zeigen Orte", "text": "Kartensuchen sind hilfreich, wenn du schon weißt, wonach du suchst. Aber Bewertungen, Entfernung und Fotos beantworten nicht immer die eigentliche Frage: „Passt dieser Ort zu heute Abend?“" },
       { "title": "Allgemeine Tools geben Ideen", "text": "Breite Assistenten können Möglichkeiten vorschlagen. Aber Essensentscheidungen brauchen echte Orte, aktuellen Kontext und ehrliche Formulierungen, wenn etwas unsicher ist." },
-      { "title": "DineCue hilft beim Entscheiden", "text": "DineCue beginnt mit deinem Moment. Dann hilft es dir, Orte zu finden, die wirklich zu Stimmung, Begleitung, Budget und Appetit passen." }
+      { "title": "dinecue hilft beim Entscheiden", "text": "dinecue beginnt mit deinem Moment. Dann hilft es dir, Orte zu finden, die wirklich zu Stimmung, Begleitung, Budget und Appetit passen." }
     ],
     "plans": {
+      "allowanceLabel": "Dining-Entscheidungen pro Monat",
       "free": {
         "name": "Kostenlos",
-        "description": "Zum Ausprobieren von DineCue und für bessere alltägliche Essensentscheidungen.",
+        "allowance": "5",
+        "description": "Zum Ausprobieren von dinecue und für bessere alltägliche Essensentscheidungen.",
         "cta": "Kostenlos starten",
         "features": [
           "5 Essensentscheidungen pro Monat",
           "Orte passend zu Stimmung und Kontext finden",
-          "Einfacher Menüscan",
-          "Einfacher Restaurant-Fit-Check",
+          "Einfacher Menüscan (bald verfügbar)",
+          "Einfacher Restaurant-Fit-Check (bald verfügbar)",
           "Gespeicherte Orte und Verlauf"
         ]
       },
       "pro": {
         "name": "Pro",
+        "allowance": "50",
         "badge": "Bald verfügbar",
-        "description": "Für Menschen, die DineCue auf Reisen, bei Dinner-Plänen oder beim Vergleichen von Orten häufiger nutzen.",
+        "description": "Für Menschen, die dinecue auf Reisen, bei Dinner-Plänen oder beim Vergleichen von Orten häufiger nutzen.",
         "cta": "Bald verfügbar",
         "features": [
           "50 Essensentscheidungen pro Monat",
@@ -136,6 +152,14 @@
       { "title": "Schneller Lunch", "text": "Praktisch, frisch und dort, wo du sein musst." },
       { "title": "Ruhiger Abend", "text": "Wenig Lärm, warmes Licht und Raum zum Reden." },
       { "title": "Guter Wert", "text": "Eine Wahl, die sich nicht nach Kompromiss anfühlt." }
+    ],
+    "faqItems": [
+      { "q": "Wie unterscheidet sich dinecue von einer Kartensuche?", "a": "Die Kartensuche beantwortet „was ist in meiner Nähe“. dinecue beantwortet „was passt heute Abend“. Stimmung, Begleitung, Budget und Anlass werden zusammen gelesen; zurück kommt eine kurze Liste mit Begründung." },
+      { "q": "Muss ich ein langes Formular ausfüllen?", "a": "Nein. Ein Satz genügt. Standort, Personenzahl und Tageszeit sind optionale Verfeinerungen, keine Pflichtfelder." },
+      { "q": "Wie viele Empfehlungen bekomme ich?", "a": "Höchstens drei. dinecue grenzt bewusst ein — eine kurze Liste, auf die du reagieren kannst, schlägt eine endlose, an der du vorbeiscrollst." },
+      { "q": "Funktioniert dinecue auch auf Reisen?", "a": "Ja. Du kannst einen Ort eintippen, eine Nadel auf der Karte setzen oder deinen aktuellen Standort nutzen — auch in einer Stadt, in der du noch nie gegessen hast." },
+      { "q": "Was kostet dinecue?", "a": "Der kostenlose Plan enthält fünf Dining-Entscheidungen pro Monat. Ein Pro-Plan mit fünfzig Entscheidungen pro Monat kommt noch; es gibt keine Kasse, also heute nichts zu bezahlen." },
+      { "q": "Welche Sprachen spricht dinecue?", "a": "Englisch, Türkisch und Deutsch. Du kannst die Sprache jederzeit wechseln; angemeldet merkt sich dein Konto die Wahl." }
     ],
     "examples": [
       { "prompt": "Ruhiges Dinner mit warmem Licht, Seafood, nicht zu formell.", "place": "Luma Table", "vibe": "Gedimmt, ruhig, aufmerksam", "reason": "Eine elegante Wahl für Gespräche beim Essen.", "match": "92%" },
@@ -166,16 +190,16 @@
   },
   "auth": {
     "seoTitle": "Anmelden",
-    "seoDescription": "Melde dich bei DineCue mit einem sicheren E-Mail-Code an.",
-    "eyebrow": "Eat by mood",
+    "seoDescription": "Melde dich bei dinecue mit einem sicheren E-Mail-Code an.",
+    "eyebrow": "eat by mood",
     "introTitle": "Der nächste gute Tisch beginnt mit einem Satz.",
-    "introBody": "Melde dich mit einem einmaligen E-Mail-Code an und lass DineCue ein Restaurant finden, das zu dir passt.",
+    "introBody": "Melde dich mit einem einmaligen E-Mail-Code an und lass dinecue ein Restaurant finden, das zu dir passt.",
     "secureSignIn": "Sicher anmelden",
     "enterByEmail": "Mit E-Mail anmelden",
     "email": "E-Mail-Adresse",
     "code": "Einmalcode",
     "start": "Code senden",
-    "verify": "DineCue öffnen",
+    "verify": "dinecue öffnen",
     "sent": "Wir haben dir einen Code gesendet.",
     "google": "Mit Google fortfahren",
     "googleSoon": "Google Login kommt bald",
@@ -191,7 +215,7 @@
   "find": {
     "eyebrow": "Restaurant finden",
     "title": "Wie soll sich das Essen anfühlen?",
-    "prompt": "Sag DineCue, wonach du suchst: Stimmung, Begleitung, Budget, Lust, Viertel.",
+    "prompt": "Sag dinecue, wonach du suchst: Stimmung, Begleitung, Budget, Lust, Viertel.",
     "placeholder": "Ruhiges Dinner in der Nähe, gute Meeresfrüchte, nicht zu formell...",
     "location": "Ort",
     "locationPlaceholder": "Stadt, Viertel oder Adresse",
@@ -239,7 +263,7 @@
     "comparing": "Beste Treffer vergleichen",
     "preparing": "Empfehlungen vorbereiten",
     "title": "Deine Empfehlungen werden vorbereitet",
-    "body": "DineCue liest deinen Wunsch und formt eine kurze Liste, aus der du wirklich wählen kannst."
+    "body": "dinecue liest deinen Wunsch und formt eine kurze Liste, aus der du wirklich wählen kannst."
   },
   "recommendations": {
     "eyebrow": "Empfehlungen",
@@ -272,12 +296,12 @@
     "failedBody": "Versuche einen anderen Hinweis oder passe deinen Wunsch an."
   },
   "home": {
-    "eyebrow": "DineCue",
+    "eyebrow": "dinecue",
     "title": "Welche Art Tisch würde heute zu dir passen?",
-    "body": "Starte mit Stimmung, Kontext und Ort. DineCue verwandelt deinen Wunsch in eine kurze, nützliche Auswahl.",
+    "body": "Starte mit Stimmung, Kontext und Ort. dinecue verwandelt deinen Wunsch in eine kurze, nützliche Auswahl.",
     "cta": "Restaurant finden",
     "cards": [
-      { "title": "Treffer für heute finden", "text": "Starte mit einem Satz und DineCue bereitet drei entscheidungsfreundliche Vorschläge vor." },
+      { "title": "Treffer für heute finden", "text": "Starte mit einem Satz und dinecue bereitet drei entscheidungsfreundliche Vorschläge vor." },
       { "title": "Vergangene Stimmungen ansehen", "text": "Sieh frühere Empfehlungsideen, wenn du zu einem Gedanken zurückkehren möchtest." },
       { "title": "Orte behalten", "text": "Gespeicherte Orte erscheinen hier, wenn eine Empfehlung erinnernswert ist." },
       { "title": "Menüscan", "text": "Ein vorbereiteter Raum für den nächsten food-aware Workflow." }
@@ -299,7 +323,7 @@
   },
   "profile": {
     "eyebrow": "Profil",
-    "title": "Dein DineCue-Profil",
+    "title": "Dein dinecue-Profil",
     "account": "Kontoprofil",
     "displayName": "Anzeigename",
     "preferredLanguage": "Bevorzugte Sprache",
@@ -317,7 +341,7 @@
     "preferencesBody": "Diese Angaben machen Empfehlungen relevanter. Standardwerte und fehlende Angaben werden klar gekennzeichnet.",
     "preferencesIncomplete": "Einige Essensvorlieben sind noch nicht festgelegt.",
     "completePreferences": "Essensvorlieben vervollständigen",
-    "preferencesComingSoon": "Ein vollständiger Editor für Vorlieben kommt als Nächstes. Bis dahin behandelt DineCue nur klar gespeicherte Angaben als Vorlieben.",
+    "preferencesComingSoon": "Ein vollständiger Editor für Vorlieben kommt als Nächstes. Bis dahin behandelt dinecue nur klar gespeicherte Angaben als Vorlieben.",
     "defaultBadge": "Standard",
     "planEyebrow": "Plan",
     "freePlan": "Kostenlos",
@@ -341,95 +365,101 @@
     "distance": "Distanz"
   },
   "footer": {
-    "tagline": "Eat by mood.",
-    "body": "DineCue hilft dir, mit Kontext, Vorlieben und einem klareren Gefühl für Passung zu entscheiden, wo du essen möchtest.",
+    "tagline": "eat by mood.",
+    "body": "dinecue hilft dir, mit Kontext, Vorlieben und einem klareren Gefühl für Passung zu entscheiden, wo du essen möchtest.",
     "product": "Produkt",
     "legal": "Rechtliches",
-    "about": "Über DineCue",
+    "about": "Über dinecue",
     "terms": "Nutzungsbedingungen",
     "privacy": "Datenschutz",
     "home": "Startseite",
     "login": "Anmelden",
-    "copyright": "DineCue. Alle Rechte vorbehalten."
+    "copyright": "dinecue. Alle Rechte vorbehalten."
   },
   "legal": {
     "lastUpdatedLabel": "Zuletzt aktualisiert",
     "lastUpdated": "2. Juli 2026",
     "contactEmail": "hello@dinecue.com",
     "terms": {
-      "seoTitle": "Nutzungsbedingungen | DineCue",
-      "seoDescription": "Lies die DineCue Nutzungsbedingungen zu Konten, Empfehlungen, Kontingenten, Drittanbieterdaten und wichtigen Hinweisen für Essensentscheidungen.",
+      "seoTitle": "Nutzungsbedingungen | dinecue",
+      "seoDescription": "Lies die dinecue Nutzungsbedingungen zu Konten, Empfehlungen, Kontingenten, Drittanbieterdaten und wichtigen Hinweisen für Essensentscheidungen.",
       "eyebrow": "Rechtliches",
       "title": "Nutzungsbedingungen",
-      "intro": "Diese Bedingungen erklären, wie du DineCue nutzen kannst, einen Assistenten für Restaurantentscheidungen auf Basis deines Kontexts.",
+      "intro": "Diese Bedingungen erklären, wie du dinecue nutzen kannst, einen Assistenten für Restaurantentscheidungen auf Basis deines Kontexts.",
       "sections": [
-        { "title": "Annahme der Bedingungen", "body": "Mit der Nutzung von DineCue stimmst du diesen Bedingungen zu. Wenn du nicht zustimmst, nutze den Dienst bitte nicht." },
-        { "title": "Was DineCue macht", "body": "DineCue hilft dir zu entscheiden, wo du essen möchtest, indem Stimmung, Standort, Vorlieben, Essenskontext und verfügbare Ortsinformationen berücksichtigt werden." },
+        { "title": "Annahme der Bedingungen", "body": "Mit der Nutzung von dinecue stimmst du diesen Bedingungen zu. Wenn du nicht zustimmst, nutze den Dienst bitte nicht." },
+        { "title": "Was dinecue macht", "body": "dinecue hilft dir zu entscheiden, wo du essen möchtest, indem Stimmung, Standort, Vorlieben, Essenskontext und verfügbare Ortsinformationen berücksichtigt werden." },
         { "title": "Konten und Anmeldung", "body": "Du kannst dich mit einem Einmalcode per E-Mail oder mit Google Sign-In anmelden. Passwort-Login gibt es in dieser Version nicht." },
-        { "title": "Empfehlungen und Drittanbieterdaten", "body": "Empfehlungen können Drittanbieterdienste und öffentlich verfügbare Ortsinformationen nutzen. DineCue kennt möglicherweise nicht jedes Detail zu Restaurant, Menü, Preis, Reservierung oder Verfügbarkeit." },
+        { "title": "Empfehlungen und Drittanbieterdaten", "body": "Empfehlungen können Drittanbieterdienste und öffentlich verfügbare Ortsinformationen nutzen. dinecue kennt möglicherweise nicht jedes Detail zu Restaurant, Menü, Preis, Reservierung oder Verfügbarkeit." },
         { "title": "Eingaben und Vorlieben", "body": "Du bist für die Informationen verantwortlich, die du eingibst, einschließlich Standort, Vorlieben, Essenskontext sowie Menü- oder Restaurantdetails." },
-        { "title": "Faire Nutzung und Kontingente", "body": "Der Free-Plan enthält eine begrenzte monatliche Nutzung. Pro kann später angeboten werden, aber DineCue verspricht derzeit keinen bezahlten Upgrade- oder Zahlungsfluss." },
-        { "title": "Keine Garantien", "body": "DineCue garantiert nicht, dass eine Empfehlung perfekt, verfügbar, geöffnet, erschwinglich, für jede Ernährung sicher oder für jede Situation geeignet ist." },
-        { "title": "Hinweis zu Gesundheit, Ernährung und Allergien", "body": "DineCue ist keine medizinische Beratung. Bei Allergien, Ernährungseinschränkungen, Schwangerschaft, Erkrankungen oder religiösen Anforderungen bestätige Details direkt beim Restaurant oder einer qualifizierten Fachperson." },
-        { "title": "Haftungsbeschränkung", "body": "Soweit gesetzlich zulässig haftet DineCue nicht für Entscheidungen, Verluste oder Probleme, die aus Restaurantbesuchen, Drittinformationen oder Nutzereingaben entstehen." },
-        { "title": "Änderungen am Dienst", "body": "DineCue kann Funktionen, Limits, Verfügbarkeit und diese Bedingungen ändern, während sich das Produkt weiterentwickelt." },
+        { "title": "Faire Nutzung und Kontingente", "body": "Der Free-Plan enthält eine begrenzte monatliche Nutzung. Pro kann später angeboten werden, aber dinecue verspricht derzeit keinen bezahlten Upgrade- oder Zahlungsfluss." },
+        { "title": "Keine Garantien", "body": "dinecue garantiert nicht, dass eine Empfehlung perfekt, verfügbar, geöffnet, erschwinglich, für jede Ernährung sicher oder für jede Situation geeignet ist." },
+        { "title": "Hinweis zu Gesundheit, Ernährung und Allergien", "body": "dinecue ist keine medizinische Beratung. Bei Allergien, Ernährungseinschränkungen, Schwangerschaft, Erkrankungen oder religiösen Anforderungen bestätige Details direkt beim Restaurant oder einer qualifizierten Fachperson." },
+        { "title": "Haftungsbeschränkung", "body": "Soweit gesetzlich zulässig haftet dinecue nicht für Entscheidungen, Verluste oder Probleme, die aus Restaurantbesuchen, Drittinformationen oder Nutzereingaben entstehen." },
+        { "title": "Änderungen am Dienst", "body": "dinecue kann Funktionen, Limits, Verfügbarkeit und diese Bedingungen ändern, während sich das Produkt weiterentwickelt." },
         { "title": "Kontakt", "body": "Fragen zu diesen Bedingungen kannst du an hello@dinecue.com senden." }
       ]
     },
     "privacy": {
-      "seoTitle": "Datenschutzerklärung | DineCue",
-      "seoDescription": "Erfahre, wie DineCue Konto-, Vorlieben-, Standort-, Restaurantkontext-, Cookie- und Drittanbieterdaten verarbeitet.",
+      "seoTitle": "Datenschutzerklärung | dinecue",
+      "seoDescription": "Erfahre, wie dinecue Konto-, Vorlieben-, Standort-, Restaurantkontext-, Cookie- und Drittanbieterdaten verarbeitet.",
       "eyebrow": "Datenschutz",
       "title": "Datenschutzerklärung",
-      "intro": "Diese Erklärung beschreibt, welche Informationen DineCue erfassen kann und wie sie für eine nützlichere Restaurantentscheidung verwendet werden.",
+      "intro": "Diese Erklärung beschreibt, welche Informationen dinecue erfassen kann und wie sie für eine nützlichere Restaurantentscheidung verwendet werden.",
       "sections": [
-        { "title": "Informationen, die wir erfassen", "body": "DineCue kann Kontodaten wie E-Mail, Anzeigename, bevorzugte Sprache, Land, Währung und Distanzeinheit sowie Eingaben erfassen, die du im Produkt machst." },
+        { "title": "Informationen, die wir erfassen", "body": "dinecue kann Kontodaten wie E-Mail, Anzeigename, bevorzugte Sprache, Land, Währung und Distanzeinheit sowie Eingaben erfassen, die du im Produkt machst." },
         { "title": "Wie wir Informationen nutzen", "body": "Wir nutzen Informationen, um dich anzumelden, Empfehlungen zu personalisieren, Vorlieben zu merken, Kontingente zu verwalten, Zuverlässigkeit zu verbessern und den Dienst sicher zu halten." },
-        { "title": "Authentifizierung", "body": "E-Mail-Anmeldung nutzt Einmalcodes. Google Sign-In kann deine E-Mail und grundlegende Profildaten bereitstellen, damit DineCue dein Konto erstellen oder wiederherstellen kann." },
+        { "title": "Authentifizierung", "body": "E-Mail-Anmeldung nutzt Einmalcodes. Google Sign-In kann deine E-Mail und grundlegende Profildaten bereitstellen, damit dinecue dein Konto erstellen oder wiederherstellen kann." },
         { "title": "Restaurant-, Standort- und Vorliebendaten", "body": "Du kannst Standort-, Restaurant-, Menü-, Geschmacks- und Essensvorlieben eingeben. Diese Daten werden genutzt, um Empfehlungen relevanter zu machen." },
-        { "title": "Cookies und Local Storage", "body": "DineCue nutzt sichere Cookies für die Anmeldung und Local Storage für harmlose Interface-Vorlieben wie Sprache vor der Anmeldung." },
+        { "title": "Cookies und Local Storage", "body": "dinecue nutzt sichere Cookies für die Anmeldung und Local Storage für harmlose Interface-Vorlieben wie Sprache vor der Anmeldung." },
         { "title": "Drittanbieterdienste", "body": "Empfehlungen können Drittanbieterdienste für Ortsinformationen und sprachbasierte Einschätzungen einbeziehen. Anbieter-Schlüssel werden im Browser nicht offengelegt." },
-        { "title": "Datenspeicherung", "body": "DineCue speichert Konto- und Empfehlungsinformationen nur so lange, wie es für Produktbetrieb, Verlauf, gespeicherte Orte, Sicherheit und Zuverlässigkeit erforderlich ist." },
+        { "title": "Datenspeicherung", "body": "dinecue speichert Konto- und Empfehlungsinformationen nur so lange, wie es für Produktbetrieb, Verlauf, gespeicherte Orte, Sicherheit und Zuverlässigkeit erforderlich ist." },
         { "title": "Deine Auswahlmöglichkeiten", "body": "Du kannst Profilvorlieben aktualisieren, dich abmelden und wählen, welche Informationen du eingibst. Weitere Kontrollen können mit der Produktreife ergänzt werden." },
-        { "title": "Sicherheit", "body": "DineCue ist so gestaltet, dass sensible Anmeldetoken in httpOnly-Cookies liegen und für Browser-JavaScript nicht verfügbar sind." },
-        { "title": "Datenschutz von Kindern", "body": "DineCue ist nicht für Kinder entwickelt. Wenn du glaubst, dass ein Kind personenbezogene Daten bereitgestellt hat, kontaktiere uns." },
-        { "title": "Änderungen an dieser Erklärung", "body": "Wir können diese Erklärung aktualisieren, wenn sich DineCue ändert. Die aktuelle Version wird hier veröffentlicht." },
+        { "title": "Sicherheit", "body": "dinecue ist so gestaltet, dass sensible Anmeldetoken in httpOnly-Cookies liegen und für Browser-JavaScript nicht verfügbar sind." },
+        { "title": "Datenschutz von Kindern", "body": "dinecue ist nicht für Kinder entwickelt. Wenn du glaubst, dass ein Kind personenbezogene Daten bereitgestellt hat, kontaktiere uns." },
+        { "title": "Änderungen an dieser Erklärung", "body": "Wir können diese Erklärung aktualisieren, wenn sich dinecue ändert. Die aktuelle Version wird hier veröffentlicht." },
         { "title": "Kontakt", "body": "Datenschutzfragen kannst du an hello@dinecue.com senden." }
       ]
     }
   },
   "about": {
-    "seoTitle": "Über DineCue | Assistent für Restaurantentscheidungen",
-    "seoDescription": "Erfahre, was DineCue ist, warum es existiert und wie es Reisenden und lokalen Nutzerinnen und Nutzern bei besseren Restaurantentscheidungen hilft.",
-    "eyebrow": "Über DineCue",
+    "seoTitle": "Über dinecue | Assistent für Restaurantentscheidungen",
+    "seoDescription": "Erfahre, was dinecue ist, warum es existiert und wie es Reisenden und lokalen Nutzerinnen und Nutzern bei besseren Restaurantentscheidungen hilft.",
+    "eyebrow": "Über dinecue",
     "title": "Nicht nur wo du isst, sondern warum es zu dir passt.",
-    "intro": "DineCue ist ein Assistent für Restaurantentscheidungen für Menschen, die weniger Tabs, weniger Rätselraten und einen ruhigeren Weg zur Restaurantwahl möchten.",
+    "intro": "dinecue ist ein Assistent für Restaurantentscheidungen für Menschen, die weniger Tabs, weniger Rätselraten und einen ruhigeren Weg zur Restaurantwahl möchten.",
     "lastUpdatedLabel": "Zuletzt aktualisiert",
     "lastUpdated": "2. Juli 2026",
     "creatorLabel": "Kontakt / Creator",
     "creatorLink": "Erstellt von Burak Altıntaş",
     "creatorUrl": "https://burak-altintas.com",
     "sections": [
-      { "title": "Was ist DineCue?", "body": "DineCue hilft dir bei Restaurant- und Essensentscheidungen, indem dein aktueller Wunsch mit Standort, Begleitung, Budget, Vorlieben und Appetit verbunden wird." },
-      { "title": "Warum es existiert", "body": "Die Wahl eines Restaurants ist selten nur ein Suchproblem. DineCue ist für den Moment gemacht, in dem Bewertungen, Fotos und lange Listen nicht beantworten, ob ein Ort zu heute Abend passt." },
-      { "title": "Wie es funktioniert", "body": "Du beschreibst, welches Essen du möchtest. DineCue formt daraus eine kleine Auswahl an Orten oder Optionen, erklärt warum sie passen und bleibt ehrlich, wenn etwas unsicher ist." },
-      { "title": "Für Reisen und alltägliche Essensentscheidungen", "body": "DineCue hilft auf Reisen, beim Planen eines Abendessens, beim Vergleichen lokaler Orte, beim Prüfen ob ein Restaurant zur Stimmung passt oder wenn ein Menü verständlicher werden soll." },
-      { "title": "Kontakt / Creator", "body": "DineCue wird als fokussiertes Dining-Produkt mit warmer, praktischer Perspektive entwickelt. Kontakt- oder Creator-Informationen findest du auf burak-altintas.com." }
+      { "title": "Was ist dinecue?", "body": "dinecue hilft dir bei Restaurant- und Essensentscheidungen, indem dein aktueller Wunsch mit Standort, Begleitung, Budget, Vorlieben und Appetit verbunden wird." },
+      { "title": "Warum es existiert", "body": "Die Wahl eines Restaurants ist selten nur ein Suchproblem. dinecue ist für den Moment gemacht, in dem Bewertungen, Fotos und lange Listen nicht beantworten, ob ein Ort zu heute Abend passt." },
+      { "title": "Wie es funktioniert", "body": "Du beschreibst, welches Essen du möchtest. dinecue formt daraus eine kleine Auswahl an Orten oder Optionen, erklärt warum sie passen und bleibt ehrlich, wenn etwas unsicher ist." },
+      { "title": "Für Reisen und alltägliche Essensentscheidungen", "body": "dinecue hilft auf Reisen, beim Planen eines Abendessens, beim Vergleichen lokaler Orte, beim Prüfen ob ein Restaurant zur Stimmung passt oder wenn ein Menü verständlicher werden soll." },
+      { "title": "Kontakt / Creator", "body": "dinecue wird als fokussiertes Dining-Produkt mit warmer, praktischer Perspektive entwickelt. Kontakt- oder Creator-Informationen findest du auf burak-altintas.com." }
     ]
   },
   "placeholders": {
     "menuTitle": "Menüscan kommt als Nächstes",
     "menuBody": "Bald kannst du ein Menü in klarere Entscheidungen für Stimmung, Vorlieben und Tischkontext verwandeln.",
     "fitTitle": "Fit-Check kommt als Nächstes",
-    "fitBody": "Bald hilft dir DineCue zu verstehen, ob ein bestimmter Ort zu dir passt, bevor du dich entscheidest."
+    "fitBody": "Bald hilft dir dinecue zu verstehen, ob ein bestimmter Ort zu dir passt, bevor du dich entscheidest."
   },
   "errors": {
     "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
     "startRecommendation": "Wir konnten deine Empfehlungen nicht starten. Bitte versuche es erneut.",
-    "unreachable": "Wir konnten DineCue gerade nicht erreichen.",
+    "unreachable": "Wir konnten dinecue gerade nicht erreichen.",
     "signInAgain": "Bitte melde dich erneut an.",
     "validation": "Bitte prüfe das Formular und versuche es erneut.",
     "quotaExceeded": "Du hast deine kostenlosen Entscheidungen für diesen Monat genutzt. Nach der monatlichen Erneuerung kannst du weitermachen.",
     "proComingSoon": "Pro mit mehr monatlichen Entscheidungen kommt bald."
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "Dieser Tisch ist nicht gedeckt.",
+    "body": "Die gesuchte Seite gibt es nicht oder sie ist umgezogen. Deine Dining-Entscheidungen sind noch da, wo du sie gelassen hast.",
+    "cta": "Zurück zu dinecue"
   }
 }

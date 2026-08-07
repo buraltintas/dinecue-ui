@@ -13,7 +13,7 @@ export function generateMetadata(): Metadata {
     title: t.auth.seoTitle,
     description: t.auth.seoDescription,
     path: "/login",
-    imageAlt: "DineCue sign in",
+    imageAlt: "dinecue sign in",
     robots: { index: false, follow: false }
   });
 }
@@ -22,9 +22,11 @@ export default function LoginPage() {
   const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
   return (
-    <main className="min-h-screen bg-radial-table px-5 py-8 sm:px-8">
-      <BrandLink />
-      <section className="mx-auto grid min-h-[calc(100vh-6rem)] max-w-6xl items-center gap-10 py-12 lg:grid-cols-[1fr_.8fr]">
+    <main className="min-h-[100dvh] bg-radial-table pb-section-sm pt-8">
+      <div className="container-page">
+        <BrandLink />
+      </div>
+      <section className="container-page mt-12 grid items-center gap-12 lg:mt-20 lg:grid-cols-[1fr_auto] lg:gap-20">
         <LoginIntro />
         <LoginGate>
           <LoginForm googleClientId={googleClientId} />

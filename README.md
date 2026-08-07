@@ -1,6 +1,6 @@
-# DineCue UI
+# dinecue UI
 
-Production-quality Next.js frontend for DineCue, a smart dining assistant that helps people decide where to eat by mood, location, preferences, and context.
+Production-quality Next.js frontend for dinecue, a smart dining assistant that helps people decide where to eat by mood, location, preferences, and context.
 
 ## Stack
 
@@ -33,7 +33,7 @@ The sibling backend project `../dinecue` must be running on the configured backe
 
 ## BFF Architecture
 
-The browser only calls same-origin Next.js routes such as `/api/auth/email/start`, `/api/me`, and `/api/recommendation-sessions`. Next.js route handlers call the DineCue backend API server-side.
+The browser only calls same-origin Next.js routes such as `/api/auth/email/start`, `/api/me`, and `/api/recommendation-sessions`. Next.js route handlers call the dinecue backend API server-side.
 
 The browser must not call the ASP.NET backend, Google Places, OpenAI, or provider APIs directly.
 
