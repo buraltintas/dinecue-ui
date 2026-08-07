@@ -293,7 +293,9 @@
     "loadErrorTitle": "Seçimlerini yükleyemedik",
     "loadErrorBody": "Lütfen birazdan tekrar dene.",
     "failedTitle": "Önerilerin hazırlanırken bir şey ters gitti.",
-    "failedBody": "Başka bir ipucu dene ya da isteğini biraz değiştir."
+    "failedBody": "Başka bir ipucu dene ya da isteğini biraz değiştir.",
+    "checkFit": "Bu akşama uyar mı?",
+    "scanMenu": "Menüyü tara"
   },
   "home": {
     "eyebrow": "dinecue",
@@ -304,7 +306,7 @@
       { "title": "Bu akşamın eşleşmesini bul", "text": "Bir cümleyle başla; dinecue karar vermeye yarayan üç seçim hazırlasın." },
       { "title": "Eski ruh hallerine dön", "text": "Bir fikre geri dönmek istediğinde son öneri oturumlarını gör." },
       { "title": "Mekanları yakın tut", "text": "Hatırlamaya değer öneriler kaydedilenlerde görünür." },
-      { "title": "Menü tarama", "text": "Sıradaki yemek odaklı akış için hazırlanmış alan." }
+      { "title": "Menü tarama", "text": "Bir menünün fotoğrafını çek, sana uyan seçenekleri gör." }
     ]
   },
   "history": {
@@ -441,11 +443,80 @@
       { "title": "İletişim / Geliştirici", "body": "dinecue sıcak, pratik ve odaklı bir yemek ürünü olarak geliştirildi. İletişim veya geliştirici bilgisi için burak-altintas.com adresini ziyaret edebilirsin." }
     ]
   },
-  "placeholders": {
-    "menuTitle": "Menü tarama sırada",
-    "menuBody": "Yakında bir menüyü ruh haline, tercihlerine ve masanın bağlamına göre daha net seçimlere dönüştürebileceksin.",
-    "fitTitle": "Uygunluk kontrolü sırada",
-    "fitBody": "Yakında dinecue, belirli bir mekanın sana uygun olup olmadığını karar vermeden önce anlamana yardım edecek."
+  "shared": {
+    "contextOptional": "Hepsi isteğe bağlı. Alerjilerin, diyet notların ve tercihlerin profilinden geliyor."
+  },
+  "menuScan": {
+    "eyebrow": "Menü tarama",
+    "title": "Burada ne ısmarlasan?",
+    "body": "Menünün fotoğrafını çek; dinecue onu sana ve masaya uyan birkaç net seçeneğe dönüştürsün.",
+    "photosLabel": "Menü fotoğrafları",
+    "photosHint": "En fazla 3 sayfa. Kaç tane eklersen ekle, tek yemek kararı sayılır.",
+    "takePhoto": "Fotoğraf çek",
+    "choosePhoto": "Galeriden seç",
+    "removePhoto": "Bu fotoğrafı kaldır",
+    "uploading": "Fotoğraflar yükleniyor",
+    "submit": "Bu menüyü oku",
+    "needPhoto": "En az bir menü fotoğrafı ekle.",
+    "maxPhotos": "Bir tarama için sayfa sınırına ulaştın.",
+    "photoTooLarge": "Çok büyük",
+    "photoUnsupported": "JPEG, PNG veya WebP kullan",
+    "photoFailed": "Yüklenemedi",
+    "noteLabel": "Bu akşamla ilgili bir not?",
+    "notePlaceholder": "Masada çocuklar var, çok acı olmasın, hafif bir şey olsun.",
+    "startError": "Bu menüyü okumaya başlayamadık. Tekrar dener misin?",
+    "resultEyebrow": "Menün",
+    "resultTitle": "Sana uyanlar burada",
+    "suggestions": "Ismarlamaya değer",
+    "rerank": "Bana göre yenile",
+    "rerankHint": "Bu menüyü güncel profiline göre yeniden sıralar. Ücretsiz.",
+    "noSuggestionsTitle": "Güvenle önerebileceğim bir şey çıkmadı",
+    "noSuggestionsBody": "Bu menüde kayıtlı notlarına net uyan bir seçenek görünmüyor. Sipariş vermeden önce aşağıdaki seçenekleri personele sor.",
+    "warnings": "Sipariş vermeden önce",
+    "checkThis": "Şunu kontrol et",
+    "questions": "Personele sormaya değer",
+    "fullMenu": "Menünün tamamı",
+    "possibleAllergens": "İçerebilir",
+    "vegetarian": "Vejetaryen",
+    "kidFriendly": "Çocuğa uygun",
+    "spicy": "Acılı",
+    "scanAnother": "Başka bir menü tara",
+    "loadErrorTitle": "Bu taramayı açamadık",
+    "loadErrorBody": "Taramanın süresi geçmiş olabilir. Menüyü yeniden taramayı dene.",
+    "failedTitle": "Bu menüyü okuyamadık",
+    "failedBody": "Bizim tarafta bir şey ters gitti. Aylık kararın harcanmadı.",
+    "unreadableTitle": "Bu fotoğraf okunamadı",
+    "unreadableBody": "Menünün bir sayfasını iyi ışıkta ve karşıdan çekmeyi dene. Aylık kararın harcanmadı."
+  },
+  "fitCheck": {
+    "eyebrow": "Uygunluk kontrolü",
+    "title": "Bu mekan bu ana uyuyor mu?",
+    "body": "Bir restoran seç; dinecue bu akşam için uyup uymadığını ve gitmeden önce neyi kontrol etmen gerektiğini dürüstçe söylesin.",
+    "findPlace": "Hangi restoran?",
+    "queryPlaceholder": "Restoran adı",
+    "locationPlaceholder": "Semt veya şehir",
+    "search": "Ara",
+    "nearby": "Yakınımda",
+    "queryTooShort": "İsmin en az iki harfini yaz.",
+    "noResults": "Bu mekanı bulamadık. İsmi semt veya şehirle birlikte yazmayı dene.",
+    "searchError": "Şu anda arama yapamadık. Tekrar dener misin?",
+    "selectedPlace": "Kontrol edilen",
+    "changePlace": "Başka bir mekan seç",
+    "noteLabel": "Nasıl bir plan?",
+    "notePlaceholder": "İki aile, dört çocuk, sekiz civarı gidebiliriz.",
+    "visitAtLabel": "Ne zaman gidersin?",
+    "visitAtHint": "İsteğe bağlı, ama çalışma saatlerini planına göre kontrol etmemizi sağlar.",
+    "submit": "Uygunluğu kontrol et",
+    "checkError": "Bu mekanı kontrol edemedik. Tekrar dener misin?",
+    "resultEyebrow": "Uygunluk kontrolü",
+    "confidence": "Güven",
+    "pros": "İşe yarayanlar",
+    "cons": "Dikkat edilecekler",
+    "questions": "Sormaya değer",
+    "signals": "Skoru etkileyenler",
+    "reservationAdvice": "Masa bulmak",
+    "checkAnother": "Başka bir mekan kontrol et",
+    "scanItsMenu": "Menüsünü tara"
   },
   "errors": {
     "generic": "Bir şey ters gitti. Lütfen tekrar dene.",

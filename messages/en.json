@@ -293,7 +293,9 @@
     "loadErrorTitle": "We couldn’t load your picks",
     "loadErrorBody": "Please try again in a moment.",
     "failedTitle": "Something went wrong while preparing your recommendations.",
-    "failedBody": "Try another cue or adjust what you are looking for."
+    "failedBody": "Try another cue or adjust what you are looking for.",
+    "checkFit": "Does it fit tonight?",
+    "scanMenu": "Scan the menu"
   },
   "home": {
     "eyebrow": "dinecue",
@@ -304,7 +306,7 @@
       { "title": "Find tonight's fit", "text": "Start with a sentence and let dinecue prepare three decision-ready picks." },
       { "title": "Revisit past moods", "text": "See recent recommendation sessions when you want to return to an idea." },
       { "title": "Keep places close", "text": "Saved places appear here when a recommendation feels worth remembering." },
-      { "title": "Menu scan", "text": "A polished space for the next food-aware workflow." }
+      { "title": "Menu scan", "text": "Photograph a menu and get choices that fit you." }
     ]
   },
   "history": {
@@ -441,11 +443,80 @@
       { "title": "Contact / Creator", "body": "dinecue is created as a focused dining product with a warm, practical point of view. For contact or creator information, visit burak-altintas.com." }
     ]
   },
-  "placeholders": {
-    "menuTitle": "Menu scan is coming next",
-    "menuBody": "Soon you will be able to turn a menu into clearer choices for your mood, preferences, and table.",
-    "fitTitle": "Fit check is coming next",
-    "fitBody": "Soon dinecue will help you understand whether a specific place feels right for you before you commit."
+  "shared": {
+    "contextOptional": "All optional. Your allergies, dietary notes, and preferences already come from your profile."
+  },
+  "menuScan": {
+    "eyebrow": "Menu scan",
+    "title": "What should you order here?",
+    "body": "Photograph the menu and dinecue turns it into a few clear choices that fit you and the table.",
+    "photosLabel": "Menu photos",
+    "photosHint": "Up to 3 pages. However many you add, it counts as one dining decision.",
+    "takePhoto": "Take a photo",
+    "choosePhoto": "Choose from library",
+    "removePhoto": "Remove this photo",
+    "uploading": "Uploading photos",
+    "submit": "Read this menu",
+    "needPhoto": "Add at least one menu photo.",
+    "maxPhotos": "That is the maximum number of pages for one scan.",
+    "photoTooLarge": "Too large",
+    "photoUnsupported": "Use JPEG, PNG, or WebP",
+    "photoFailed": "Upload failed",
+    "noteLabel": "Anything about tonight?",
+    "notePlaceholder": "Kids at the table, nothing too spicy, something light.",
+    "startError": "We couldn’t start reading this menu. Please try again.",
+    "resultEyebrow": "Your menu",
+    "resultTitle": "Here’s what fits you",
+    "suggestions": "Worth ordering",
+    "rerank": "Refresh for me",
+    "rerankHint": "Re-ranks this menu against your current profile. Free.",
+    "noSuggestionsTitle": "Nothing stood out as a safe pick",
+    "noSuggestionsBody": "Nothing on this menu clearly fits your saved notes. Ask the staff about the options below before ordering.",
+    "warnings": "Before you order",
+    "checkThis": "Check this",
+    "questions": "Worth asking the staff",
+    "fullMenu": "The whole menu",
+    "possibleAllergens": "May contain",
+    "vegetarian": "Vegetarian",
+    "kidFriendly": "Kid friendly",
+    "spicy": "Spicy",
+    "scanAnother": "Scan another menu",
+    "loadErrorTitle": "We couldn’t load this scan",
+    "loadErrorBody": "The scan may have expired. Try scanning the menu again.",
+    "failedTitle": "We couldn’t read this menu",
+    "failedBody": "Something went wrong on our side. Your monthly decision was not used.",
+    "unreadableTitle": "That photo wasn’t readable",
+    "unreadableBody": "Try a straight-on photo of one menu page in good light. Your monthly decision was not used."
+  },
+  "fitCheck": {
+    "eyebrow": "Fit check",
+    "title": "Does this place suit the moment?",
+    "body": "Pick a restaurant and dinecue tells you honestly whether it works for tonight, and what to check before you go.",
+    "findPlace": "Which restaurant?",
+    "queryPlaceholder": "Restaurant name",
+    "locationPlaceholder": "Area or city",
+    "search": "Search",
+    "nearby": "Near me",
+    "queryTooShort": "Type at least two characters of the name.",
+    "noResults": "We couldn’t find that place. Try the name with a city or area.",
+    "searchError": "We couldn’t search right now. Please try again.",
+    "selectedPlace": "Checking",
+    "changePlace": "Choose a different place",
+    "noteLabel": "What’s the occasion?",
+    "notePlaceholder": "Two families, four kids, we can go around eight.",
+    "visitAtLabel": "When would you go?",
+    "visitAtHint": "Optional, but it lets us check the opening hours against your plan.",
+    "submit": "Check the fit",
+    "checkError": "We couldn’t check this place. Please try again.",
+    "resultEyebrow": "Fit check",
+    "confidence": "Confidence",
+    "pros": "What works",
+    "cons": "What to watch",
+    "questions": "Worth asking",
+    "signals": "What moved the score",
+    "reservationAdvice": "Getting a table",
+    "checkAnother": "Check another place",
+    "scanItsMenu": "Scan its menu"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

@@ -9,7 +9,7 @@ const cardMeta = [
   { href: "/app/find", icon: Search, soon: false },
   { href: "/app/history", icon: Clock, soon: false },
   { href: "/app/saved", icon: Bookmark, soon: false },
-  { href: "/app/menu-scan", icon: ScanLine, soon: true }
+  { href: "/app/menu-scan", icon: ScanLine, soon: false }
 ] as const;
 
 export default function AppHomePage() {

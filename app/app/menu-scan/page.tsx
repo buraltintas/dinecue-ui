@@ -1,15 +1,11 @@
-"use client";
-
-import { EmptyState } from "@/components/ui/empty-state";
-import { useI18n } from "@/components/providers/i18n-provider";
+import { Suspense } from "react";
+import { MenuScanForm } from "@/components/menu-scan/menu-scan-form";
 
 export default function MenuScanPage() {
-  const { t } = useI18n();
-
+  // The form reads an optional ?placeId, so it needs a Suspense boundary for useSearchParams.
   return (
-    <EmptyState
-      title={t.placeholders.menuTitle}
-      description={t.placeholders.menuBody}
-    />
+    <Suspense fallback={null}>
+      <MenuScanForm />
+    </Suspense>
   );
 }

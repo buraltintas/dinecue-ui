@@ -293,7 +293,9 @@
     "loadErrorTitle": "Wir konnten deine Empfehlungen nicht laden",
     "loadErrorBody": "Bitte versuche es gleich noch einmal.",
     "failedTitle": "Beim Vorbereiten deiner Empfehlungen ist etwas schiefgegangen.",
-    "failedBody": "Versuche einen anderen Hinweis oder passe deinen Wunsch an."
+    "failedBody": "Versuche einen anderen Hinweis oder passe deinen Wunsch an.",
+    "checkFit": "Passt es heute Abend?",
+    "scanMenu": "Karte scannen"
   },
   "home": {
     "eyebrow": "dinecue",
@@ -304,7 +306,7 @@
       { "title": "Treffer für heute finden", "text": "Starte mit einem Satz und dinecue bereitet drei entscheidungsfreundliche Vorschläge vor." },
       { "title": "Vergangene Stimmungen ansehen", "text": "Sieh frühere Empfehlungsideen, wenn du zu einem Gedanken zurückkehren möchtest." },
       { "title": "Orte behalten", "text": "Gespeicherte Orte erscheinen hier, wenn eine Empfehlung erinnernswert ist." },
-      { "title": "Menüscan", "text": "Ein vorbereiteter Raum für den nächsten food-aware Workflow." }
+      { "title": "Speisekarte scannen", "text": "Fotografiere eine Karte und sieh, was zu dir passt." }
     ]
   },
   "history": {
@@ -441,11 +443,80 @@
       { "title": "Kontakt / Creator", "body": "dinecue wird als fokussiertes Dining-Produkt mit warmer, praktischer Perspektive entwickelt. Kontakt- oder Creator-Informationen findest du auf burak-altintas.com." }
     ]
   },
-  "placeholders": {
-    "menuTitle": "Menüscan kommt als Nächstes",
-    "menuBody": "Bald kannst du ein Menü in klarere Entscheidungen für Stimmung, Vorlieben und Tischkontext verwandeln.",
-    "fitTitle": "Fit-Check kommt als Nächstes",
-    "fitBody": "Bald hilft dir dinecue zu verstehen, ob ein bestimmter Ort zu dir passt, bevor du dich entscheidest."
+  "shared": {
+    "contextOptional": "Alles optional. Allergien, Ernährungshinweise und Vorlieben kommen schon aus deinem Profil."
+  },
+  "menuScan": {
+    "eyebrow": "Speisekarte scannen",
+    "title": "Was solltest du hier bestellen?",
+    "body": "Fotografiere die Karte, und dinecue macht daraus ein paar klare Optionen, die zu dir und zum Tisch passen.",
+    "photosLabel": "Fotos der Karte",
+    "photosHint": "Bis zu 3 Seiten. Egal wie viele, es zählt als eine Essensentscheidung.",
+    "takePhoto": "Foto aufnehmen",
+    "choosePhoto": "Aus Galerie wählen",
+    "removePhoto": "Dieses Foto entfernen",
+    "uploading": "Fotos werden geladen",
+    "submit": "Karte lesen",
+    "needPhoto": "Füge mindestens ein Foto der Karte hinzu.",
+    "maxPhotos": "Mehr Seiten sind pro Scan nicht möglich.",
+    "photoTooLarge": "Zu groß",
+    "photoUnsupported": "Nutze JPEG, PNG oder WebP",
+    "photoFailed": "Upload fehlgeschlagen",
+    "noteLabel": "Etwas zu heute Abend?",
+    "notePlaceholder": "Kinder am Tisch, nichts zu Scharfes, gern etwas Leichtes.",
+    "startError": "Wir konnten diese Karte nicht lesen. Bitte versuche es erneut.",
+    "resultEyebrow": "Deine Karte",
+    "resultTitle": "Das passt zu dir",
+    "suggestions": "Lohnt sich",
+    "rerank": "Für mich aktualisieren",
+    "rerankHint": "Sortiert diese Karte nach deinem aktuellen Profil. Kostenlos.",
+    "noSuggestionsTitle": "Nichts war eindeutig passend",
+    "noSuggestionsBody": "Auf dieser Karte passt nichts klar zu deinen gespeicherten Angaben. Frag vor dem Bestellen beim Personal nach.",
+    "warnings": "Vor dem Bestellen",
+    "checkThis": "Bitte prüfen",
+    "questions": "Beim Personal nachfragen",
+    "fullMenu": "Die ganze Karte",
+    "possibleAllergens": "Kann enthalten",
+    "vegetarian": "Vegetarisch",
+    "kidFriendly": "Kindgerecht",
+    "spicy": "Scharf",
+    "scanAnother": "Andere Karte scannen",
+    "loadErrorTitle": "Wir konnten diesen Scan nicht laden",
+    "loadErrorBody": "Der Scan ist vielleicht abgelaufen. Scanne die Karte noch einmal.",
+    "failedTitle": "Wir konnten diese Karte nicht lesen",
+    "failedBody": "Bei uns ist etwas schiefgelaufen. Deine monatliche Entscheidung wurde nicht verbraucht.",
+    "unreadableTitle": "Das Foto war nicht lesbar",
+    "unreadableBody": "Fotografiere eine Seite frontal und bei gutem Licht. Deine monatliche Entscheidung wurde nicht verbraucht."
+  },
+  "fitCheck": {
+    "eyebrow": "Passt-es-Check",
+    "title": "Passt dieser Ort zum Moment?",
+    "body": "Wähle ein Restaurant, und dinecue sagt dir ehrlich, ob es für heute Abend passt und was du vorher klären solltest.",
+    "findPlace": "Welches Restaurant?",
+    "queryPlaceholder": "Name des Restaurants",
+    "locationPlaceholder": "Viertel oder Stadt",
+    "search": "Suchen",
+    "nearby": "In der Nähe",
+    "queryTooShort": "Gib mindestens zwei Zeichen des Namens ein.",
+    "noResults": "Wir haben den Ort nicht gefunden. Versuche den Namen mit Stadt oder Viertel.",
+    "searchError": "Die Suche hat gerade nicht funktioniert. Bitte versuche es erneut.",
+    "selectedPlace": "Wird geprüft",
+    "changePlace": "Anderen Ort wählen",
+    "noteLabel": "Worum geht es?",
+    "notePlaceholder": "Zwei Familien, vier Kinder, wir können gegen acht.",
+    "visitAtLabel": "Wann würdest du hingehen?",
+    "visitAtHint": "Optional, hilft uns aber, die Öffnungszeiten zu deinem Plan zu prüfen.",
+    "submit": "Passung prüfen",
+    "checkError": "Wir konnten diesen Ort nicht prüfen. Bitte versuche es erneut.",
+    "resultEyebrow": "Passt-es-Check",
+    "confidence": "Sicherheit",
+    "pros": "Was passt",
+    "cons": "Worauf achten",
+    "questions": "Nachfragen lohnt sich",
+    "signals": "Das hat den Wert bewegt",
+    "reservationAdvice": "Einen Tisch bekommen",
+    "checkAnother": "Anderen Ort prüfen",
+    "scanItsMenu": "Karte scannen"
   },
   "errors": {
     "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",

@@ -5,6 +5,8 @@ import { clearAuthCookies, getAccessToken, getRefreshToken, setAuthCookies } fro
 type BackendRequestOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE";
   body?: unknown;
+  /** Multipart payload, used for menu photo uploads. Mutually exclusive with `body`. */
+  formData?: FormData;
   auth?: boolean;
   retryOnUnauthorized?: boolean;
 };
@@ -175,22 +177,9 @@ export async function refreshAccessToken() {
 }
 
 export async function backendRequest<T>(path: string, options: BackendRequestOptions = {}): Promise<T> {
-  const token = options.auth ? getAccessToken() : undefined;
   const method = options.method || "GET";
   const url = backendUrl(path);
-  const headers: HeadersInit = {
-    Accept: "application/json"
-  };
-
-  if (options.body !== undefined) headers["Content-Type"] = "application/json";
-  if (options.auth && token) headers.Authorization = `Bearer ${token}`;
-
-  const response = await fetch(url, {
-    method,
-    headers,
-    body: options.body === undefined ? undefined : JSON.stringify(options.body),
-    cache: "no-store"
-  });
+  const response = await sendToBackend(path, url, method, options);
 
   if (response.status === 401 && options.auth && options.retryOnUnauthorized !== false) {
     const refreshed = await refreshAccessToken();
@@ -214,6 +203,58 @@ export async function backendRequest<T>(path: string, options: BackendRequestOpt
   }
 
   return parsedBody.json as T;
+}
+
+/**
+ * Streams a binary response (a stored menu photo) straight through to the browser. The backend keeps its
+ * bucket private and checks ownership, so this proxy is the only way an image is ever readable, and no
+ * storage URL is exposed to the client.
+ */
+export async function backendStream(path: string, options: BackendRequestOptions = {}): Promise<Response> {
+  const method = options.method || "GET";
+  const url = backendUrl(path);
+  const response = await sendToBackend(path, url, method, options);
+
+  if (response.status === 401 && options.auth && options.retryOnUnauthorized !== false) {
+    const refreshed = await refreshAccessToken();
+    if (refreshed) return backendStream(path, { ...options, retryOnUnauthorized: false });
+  }
+
+  if (!response.ok || !response.body) {
+    const parsedBody = await parseResponseBody(response);
+    logBackendFailure({ path, method, url, status: response.status, responseBody: parsedBody, requestBody: undefined });
+    throw new Response(JSON.stringify(sanitizeError(response.status, parsedBody.json)), {
+      status: sanitizeStatus(response.status),
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  return new Response(response.body, {
+    status: 200,
+    headers: {
+      "Content-Type": response.headers.get("content-type") || "application/octet-stream",
+      // The diner's own photo: cacheable in their browser, never in a shared cache.
+      "Cache-Control": "private, max-age=3600",
+      "Content-Disposition": "inline"
+    }
+  });
+}
+
+function sendToBackend(path: string, url: string, method: string, options: BackendRequestOptions) {
+  const token = options.auth ? getAccessToken() : undefined;
+  const headers: HeadersInit = {};
+
+  // Multipart bodies must keep the boundary fetch generates, so Content-Type is left unset for them.
+  if (options.formData === undefined) headers.Accept = "application/json";
+  if (options.body !== undefined) headers["Content-Type"] = "application/json";
+  if (options.auth && token) headers.Authorization = `Bearer ${token}`;
+
+  return fetch(url, {
+    method,
+    headers,
+    body: options.formData ?? (options.body === undefined ? undefined : JSON.stringify(options.body)),
+    cache: "no-store"
+  });
 }
 
 export function jsonResponse<T>(body: T, init?: ResponseInit) {

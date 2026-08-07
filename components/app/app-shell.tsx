@@ -21,8 +21,8 @@ const items = [
   { href: "/app/find", key: "find", icon: Search, soon: false },
   { href: "/app/history", key: "history", icon: History, soon: false },
   { href: "/app/saved", key: "saved", icon: Bookmark, soon: false },
-  { href: "/app/menu-scan", key: "menuScan", icon: ScanLine, soon: true },
-  { href: "/app/fit-check", key: "fitCheck", icon: Utensils, soon: true },
+  { href: "/app/menu-scan", key: "menuScan", icon: ScanLine, soon: false },
+  { href: "/app/fit-check", key: "fitCheck", icon: Utensils, soon: false },
   { href: "/app/profile", key: "profile", icon: Settings, soon: false }
 ] as const;
 

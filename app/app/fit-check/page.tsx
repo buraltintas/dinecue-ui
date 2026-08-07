@@ -1,15 +1,11 @@
-"use client";
-
-import { EmptyState } from "@/components/ui/empty-state";
-import { useI18n } from "@/components/providers/i18n-provider";
+import { Suspense } from "react";
+import { FitCheckForm } from "@/components/fit-check/fit-check-form";
 
 export default function FitCheckPage() {
-  const { t } = useI18n();
-
+  // The form reads an optional ?placeId, so it needs a Suspense boundary for useSearchParams.
   return (
-    <EmptyState
-      title={t.placeholders.fitTitle}
-      description={t.placeholders.fitBody}
-    />
+    <Suspense fallback={null}>
+      <FitCheckForm />
+    </Suspense>
   );
 }

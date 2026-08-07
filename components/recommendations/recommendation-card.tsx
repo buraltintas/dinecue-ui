@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Bookmark, BookmarkCheck, ExternalLink, MapPin, Navigation, Share2, Utensils, X } from "lucide-react";
+import { Bookmark, BookmarkCheck, ExternalLink, MapPin, Navigation, ScanLine, Share2, Utensils, X } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { saveRecommendation, unsaveRecommendation } from "@/lib/api/recommendations";
@@ -227,6 +228,25 @@ export function RecommendationCard({ card, index }: { card: RecommendationCardDt
           <Share2 size={16} aria-hidden />
         </Button>
       </div>
+
+      {/* The two follow-up decisions, deep-linked by place id so neither flow has to search again.
+          Rendered only when the backend actually gave us a place id to carry. */}
+      {card.providerPlaceId ? (
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <Link href={{ pathname: "/app/fit-check", query: { placeId: card.providerPlaceId } }} className="w-full sm:w-auto">
+            <Button type="button" variant="ghost" size="md" className="w-full sm:w-auto">
+              {t.recommendations.checkFit}
+              <Utensils size={15} aria-hidden />
+            </Button>
+          </Link>
+          <Link href={{ pathname: "/app/menu-scan", query: { placeId: card.providerPlaceId } }} className="w-full sm:w-auto">
+            <Button type="button" variant="ghost" size="md" className="w-full sm:w-auto">
+              {t.recommendations.scanMenu}
+              <ScanLine size={15} aria-hidden />
+            </Button>
+          </Link>
+        </div>
+      ) : null}
 
       {saveError ? (
         <p className="mt-4 rounded-card border border-wine/40 bg-wine/25 px-4 py-3 text-sm leading-6 text-ivory" role="alert">

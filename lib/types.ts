@@ -96,6 +96,8 @@ export type RecommendationCardDto = {
   headline: string;
   placeName: string;
   address: string;
+  /** Google place id. Lets a card start a fit check without searching for the place again. */
+  providerPlaceId: string;
   vibe: string;
   summary: string;
   whyThisPlace: string;
@@ -145,4 +147,129 @@ export type SavedPlaceDto = {
   address: string;
   note?: string | null;
   createdAt: string;
+};
+
+/**
+ * The context block shared by the find, menu scan, and fit check flows. Every field is optional:
+ * allergies, dietary restrictions, spice tolerance, kids, and budget already live in the stored
+ * taste/dining profiles, so what the diner types here is only the layer for this particular moment.
+ */
+export type MomentContext = {
+  partySize: number;
+  withKids: boolean;
+  mealMoment: string;
+};
+
+export type MenuImageUpload = {
+  objectName: string;
+  contentType: string;
+  sizeBytes: number;
+  uploadedAt: string;
+};
+
+export type MenuScanRequest = {
+  imageObjectNames: string[];
+  rawText?: string | null;
+  selectedCues?: string[] | null;
+  restaurantPlaceId?: string | null;
+  language?: SupportedLanguage;
+  context?: Record<string, unknown> | null;
+};
+
+export type MenuScanAccepted = {
+  menuScanId: string;
+  status: string;
+  statusUrl: string;
+};
+
+export type MenuSectionDto = {
+  name: string;
+  itemNames: string[];
+};
+
+export type MenuItemDto = {
+  name: string;
+  description: string;
+  category: string;
+  priceText?: string | null;
+  possibleAllergens: string[];
+  isKidFriendly: boolean;
+  isVegetarian: boolean;
+  isSpicy: boolean;
+};
+
+export type MenuRecommendationDto = {
+  itemName: string;
+  reason: string;
+  /** 0..1, where 1 is an excellent fit for this diner. */
+  suitabilityScore: number;
+  warnings: string[];
+};
+
+export type MenuScanDetail = {
+  menuScanId: string;
+  detectedLanguage: SupportedLanguage;
+  summary: string;
+  sections: MenuSectionDto[];
+  items: MenuItemDto[];
+  recommendedItems: MenuRecommendationDto[];
+  warnings: string[];
+  questionsToAskStaff: string[];
+  status: "queued" | "running" | "completed" | "failed" | string;
+  currentStep?: string | null;
+  errorCode?: string | null;
+  errorMessage?: string | null;
+  createdAt?: string | null;
+  completedAt?: string | null;
+  imageCount: number;
+  restaurantPlaceId?: string | null;
+};
+
+export type RestaurantSearchRequest = {
+  query: string;
+  location?: LocationInput | null;
+  language?: SupportedLanguage;
+};
+
+export type RestaurantSearchResultDto = {
+  provider: string;
+  providerPlaceId: string;
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  rating?: number | null;
+  ratingCount?: number | null;
+  priceLevel?: number | null;
+  reservation: ReservationDto;
+};
+
+export type RestaurantDetailsDto = RestaurantSearchResultDto & {
+  websiteUrl?: string | null;
+  googleMapsUri?: string | null;
+  phoneNumber?: string | null;
+};
+
+export type RestaurantFitCheckRequest = {
+  rawText?: string | null;
+  language?: SupportedLanguage;
+  context?: Record<string, unknown> | null;
+};
+
+export type RestaurantFitCheckResponse = {
+  fitScore: number;
+  verdict: string;
+  summary: string;
+  pros: string[];
+  cons: string[];
+  questionsToAsk: string[];
+  /** 0..1, mirroring recommendation confidence. */
+  confidence: number;
+  /**
+   * Which signals moved the score. The live analyzer returns `{ value, impact }` per signal; the local
+   * mock returns bare scalars, so read it defensively rather than assuming a shape.
+   */
+  relevantSignals: Record<string, unknown>;
+  reservationAdvice: string;
+  reservation: ReservationDto;
 };
