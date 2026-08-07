@@ -153,8 +153,14 @@ a {
 
    Two things happen. On load the Fraunces SOFT and WONK axes settle over
    700ms: nothing shifts and nothing fades, so the LCP element is legible from
-   the first frame. Then, every fourteen seconds, a soft warm band drifts
-   across the type and the page goes still again — a gust, not a metronome.
+   the first frame. Then a soft warm band crosses the type, rests, and returns
+   the way it came — light moving over a page, not a loop restarting.
+
+   The band sweeps both ways on purpose. A one-way pass spent most of its cycle
+   parked off-screen waiting to snap back invisibly, so the effect read as rare
+   rather than ambient. Going there and back uses the same travel time twice and
+   never needs a hidden reset, which is why the rests can be short without the
+   motion feeling like a metronome.
 
    The base layer of the gradient stack is solid ivory, so the text is always
    painted even mid-animation, and the whole clipped treatment sits behind an
@@ -170,14 +176,22 @@ a {
   }
 }
 
+/* Percentages over an 18s cycle: rest ~1.6s, cross ~5.4s, rest ~2.5s, return
+   ~5.4s, rest ~3.1s. Each leg eases in and out of its own rest, so neither
+   direction starts or stops abruptly. Ending where it began means the loop
+   point is invisible without parking the band off-screen for half the cycle. */
 @keyframes slogan-gust {
   0%,
-  14% {
+  9% {
     background-position: 150% 0, 0 0;
   }
-  58%,
-  100% {
+  39%,
+  53% {
     background-position: -50% 0, 0 0;
+  }
+  83%,
+  100% {
+    background-position: 150% 0, 0 0;
   }
 }
 
@@ -188,8 +202,10 @@ a {
 @supports (background-clip: text) or (-webkit-background-clip: text) {
   .slogan-alive {
     color: transparent;
+    /* A narrower, warmer band than the original wash: it reads as a defined
+       edge of light rather than the whole line briefly changing temperature. */
     background-image:
-      linear-gradient(102deg, transparent 41%, rgba(255, 209, 138, 0.55) 50%, transparent 59%),
+      linear-gradient(102deg, transparent 43%, rgba(255, 205, 128, 0.78) 50%, transparent 57%),
       linear-gradient(#f4efe4, #f4efe4);
     background-repeat: no-repeat;
     background-size: 200% 100%, 100% 100%;
@@ -197,7 +213,7 @@ a {
     background-clip: text;
     animation:
       warm-display 700ms cubic-bezier(0.22, 1, 0.36, 1) both,
-      slogan-gust 14s cubic-bezier(0.42, 0, 0.3, 1) 1.6s infinite;
+      slogan-gust 18s cubic-bezier(0.4, 0, 0.35, 1) 1.2s infinite;
   }
 }
 
