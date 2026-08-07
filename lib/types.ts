@@ -223,6 +223,9 @@ export type MenuScanDetail = {
   completedAt?: string | null;
   imageCount: number;
   restaurantPlaceId?: string | null;
+  /** What the diner typed and selected for this scan. Part of the record, not just our answer. */
+  rawText?: string | null;
+  selectedCues?: string[] | null;
 };
 
 export type RestaurantSearchRequest = {
@@ -272,4 +275,43 @@ export type RestaurantFitCheckResponse = {
   relevantSignals: Record<string, unknown>;
   reservationAdvice: string;
   reservation: ReservationDto;
+  /** Present on a stored check, so it can be linked to and reopened. */
+  id: string;
+  providerPlaceId: string;
+  placeName: string;
+  address: string;
+  rawText?: string | null;
+  createdAt?: string | null;
+};
+
+/** One entry in the diner's history, whichever flow produced it. */
+export type ActivityKind = "recommendation" | "menu_scan" | "fit_check";
+
+export type ActivityItemDto = {
+  kind: ActivityKind;
+  id: string;
+  status: "queued" | "running" | "completed" | "failed" | string;
+  title: string;
+  subtitle?: string | null;
+  highlights: string[];
+  /** Fit score for a fit check; null for the other flows. */
+  score?: number | null;
+  imageCount: number;
+  errorCode?: string | null;
+  createdAt: string;
+};
+
+export type MenuScanListItemDto = {
+  menuScanId: string;
+  status: string;
+  language: SupportedLanguage;
+  rawText?: string | null;
+  restaurantPlaceId?: string | null;
+  summary: string;
+  imageCount: number;
+  itemCount: number;
+  suggestedItems: string[];
+  errorCode?: string | null;
+  createdAt: string;
+  completedAt?: string | null;
 };

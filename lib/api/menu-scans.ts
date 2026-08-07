@@ -1,5 +1,5 @@
 import { ApiClientError, apiFetch } from "./http";
-import type { MenuImageUpload, MenuScanAccepted, MenuScanDetail, MenuScanRequest } from "@/lib/types";
+import type { MenuImageUpload, MenuScanAccepted, MenuScanDetail, MenuScanListItemDto, MenuScanRequest } from "@/lib/types";
 
 /**
  * Uploads one menu photo. Deliberately separate from creating the scan: uploads cost no monthly decision,
@@ -24,6 +24,10 @@ export function createMenuScan(input: MenuScanRequest) {
     method: "POST",
     body: JSON.stringify(input)
   });
+}
+
+export function getMenuScanHistory() {
+  return apiFetch<MenuScanListItemDto[]>("/api/menu-scans");
 }
 
 export function getMenuScan(menuScanId: string) {

@@ -310,7 +310,24 @@
     "title": "Letzte Dining-Entscheidungen",
     "loading": "Verlauf wird geladen",
     "emptyTitle": "Noch kein Empfehlungsverlauf",
-    "emptyBody": "Wenn du Empfehlungen erstellst, erscheinen deine letzten Ideen hier."
+    "emptyBody": "Wenn du Empfehlungen erstellst, erscheinen deine letzten Ideen hier.",
+      "groupLabel": "Verlauf filtern",
+      "groupAll": "Alles",
+      "groupRecommendations": "Orte",
+      "groupMenuScans": "Karten",
+      "groupFitChecks": "Passung",
+      "kinds": {
+        "recommendation": "Ort",
+        "menu_scan": "Karte",
+        "fit_check": "Passung"
+      },
+      "failed": "nicht abgeschlossen",
+      "inProgress": "läuft",
+      "untitled": "Ohne Titel",
+      "errorTitle": "Wir konnten deinen Verlauf nicht laden",
+      "errorBody": "Bitte versuche es in einem Moment erneut.",
+      "emptyGroupTitle": "Hier ist noch nichts",
+      "emptyGroupBody": "Sobald du das nutzt, erscheint es hier."
   },
   "saved": {
     "eyebrow": "Gespeichert",
@@ -477,7 +494,9 @@
     "failedTitle": "Wir konnten diese Karte nicht lesen",
     "failedBody": "Bei uns ist etwas schiefgelaufen. Deine monatliche Entscheidung wurde nicht verbraucht.",
     "unreadableTitle": "Das Foto war nicht lesbar",
-    "unreadableBody": "Fotografiere eine Seite frontal und bei gutem Licht. Deine monatliche Entscheidung wurde nicht verbraucht."
+    "unreadableBody": "Fotografiere eine Seite frontal und bei gutem Licht. Deine monatliche Entscheidung wurde nicht verbraucht.",
+      "yourPhotos": "Deine Fotos",
+      "whatYouAsked": "Was du gefragt hast"
   },
   "fitCheck": {
     "eyebrow": "Passt-es-Check",
@@ -507,7 +526,11 @@
     "signals": "Das hat den Wert bewegt",
     "reservationAdvice": "Einen Tisch bekommen",
     "checkAnother": "Anderen Ort prüfen",
-    "scanItsMenu": "Karte scannen"
+    "scanItsMenu": "Karte scannen",
+      "askedOn": "Gefragt am",
+      "whatYouAsked": "Was du gefragt hast",
+      "loadErrorTitle": "Wir konnten diesen Passt-es-Check nicht laden",
+      "loadErrorBody": "Er wurde vielleicht entfernt. Prüfe den Ort noch einmal."
   },
   "preferences": {
     "save": "Einstellungen speichern",

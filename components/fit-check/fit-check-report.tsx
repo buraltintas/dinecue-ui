@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CheckCircle2, ExternalLink, HelpCircle, MapPin, Minus, Phone, ScanLine, TriangleAlert } from "lucide-react";
+import { CheckCircle2, ExternalLink, HelpCircle, MapPin, Minus, Phone, ScanLine, Share2, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/providers/i18n-provider";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import type { RestaurantFitCheckResponse } from "@/lib/types";
 
 export function FitCheckReport({
@@ -13,12 +13,17 @@ export function FitCheckReport({
   placeName,
   address,
   placeId,
+  askedAt,
+  askedText,
   onCheckAnother
 }: {
   report: RestaurantFitCheckResponse;
   placeName: string;
   address: string;
   placeId: string;
+  /** Set when reopened from history, so the entry reads as a record rather than a fresh answer. */
+  askedAt?: string | null;
+  askedText?: string | null;
   onCheckAnother: () => void;
 }) {
   const { t } = useI18n();
@@ -29,6 +34,25 @@ export function FitCheckReport({
   const confidencePercent = Math.round(Math.min(Math.max(report.confidence, 0), 1) * 100);
   const signals = readSignals(report.relevantSignals);
 
+  /**
+   * Shares a short summary through the device share sheet, the same way a recommendation card does.
+   * Deliberately text, not a link: publishing a shareable URL would put the verdict outside the account.
+   */
+  async function share() {
+    const lines = [
+      `${placeName} — ${report.verdict} (${score}/100)`,
+      report.summary,
+      report.cons.length > 0 ? `${t.fitCheck.cons}: ${report.cons.join(" ")}` : null
+    ].filter(Boolean) as string[];
+    const text = lines.join("\n\n");
+
+    if (navigator.share) {
+      await navigator.share({ title: placeName, text }).catch(() => null);
+      return;
+    }
+    await navigator.clipboard?.writeText(text).catch(() => null);
+  }
+
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="glass rounded-panel p-5 sm:p-8">
       <header>
@@ -38,6 +62,17 @@ export function FitCheckReport({
           <MapPin className="mt-0.5 shrink-0 text-copper" size={16} aria-hidden />
           {address}
         </p>
+        {askedAt ? (
+          <p className="mt-3 font-mono text-xs text-faint">
+            {t.fitCheck.askedOn} <time dateTime={askedAt}>{formatDate(askedAt)}</time>
+          </p>
+        ) : null}
+        {askedText ? (
+          <p className="mt-4 rounded-card border border-ivory/10 bg-black/25 px-4 py-3 text-sm leading-6 text-muted">
+            <span className="eyebrow block text-faint">{t.fitCheck.whatYouAsked}</span>
+            <span className="mt-2 block text-ivory/85 text-pretty">{askedText}</span>
+          </p>
+        ) : null}
       </header>
 
       <section className="mt-7 border-t border-ivory/10 pt-5" aria-label={`${report.verdict} ${score}`}>
@@ -177,6 +212,10 @@ export function FitCheckReport({
       <div className="mt-8 flex flex-col gap-3 border-t border-ivory/10 pt-6 sm:flex-row sm:flex-wrap">
         <Button type="button" variant="secondary" size="lg" className="w-full sm:w-auto" onClick={onCheckAnother}>
           {t.fitCheck.checkAnother}
+        </Button>
+        <Button type="button" variant="ghost" size="lg" className="w-full sm:w-auto" onClick={share}>
+          {t.common.share}
+          <Share2 size={16} aria-hidden />
         </Button>
         {/* Natural next step: they are deciding on this place, and the menu is the other half of that decision. */}
         <Link href={{ pathname: "/app/menu-scan", query: { placeId } }} className="w-full sm:w-auto">

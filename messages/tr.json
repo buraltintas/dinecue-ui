@@ -310,7 +310,24 @@
     "title": "Son yemek kararları",
     "loading": "Geçmiş yükleniyor",
     "emptyTitle": "Henüz öneri geçmişi yok",
-    "emptyBody": "Oturum oluşturduğunda son yemek fikirlerin burada görünecek."
+    "emptyBody": "Oturum oluşturduğunda son yemek fikirlerin burada görünecek.",
+      "groupLabel": "Geçmişi filtrele",
+      "groupAll": "Hepsi",
+      "groupRecommendations": "Mekanlar",
+      "groupMenuScans": "Menüler",
+      "groupFitChecks": "Uygunluk",
+      "kinds": {
+        "recommendation": "mekan",
+        "menu_scan": "menü",
+        "fit_check": "uygunluk"
+      },
+      "failed": "tamamlanmadı",
+      "inProgress": "sürüyor",
+      "untitled": "Başlıksız",
+      "errorTitle": "Geçmişini yükleyemedik",
+      "errorBody": "Biraz sonra tekrar dene.",
+      "emptyGroupTitle": "Burada henüz bir şey yok",
+      "emptyGroupBody": "Bunu kullandığında burada görünecek."
   },
   "saved": {
     "eyebrow": "Kaydedilenler",
@@ -477,7 +494,9 @@
     "failedTitle": "Bu menüyü okuyamadık",
     "failedBody": "Bizim tarafta bir şey ters gitti. Aylık kararın harcanmadı.",
     "unreadableTitle": "Bu fotoğraf okunamadı",
-    "unreadableBody": "Menünün bir sayfasını iyi ışıkta ve karşıdan çekmeyi dene. Aylık kararın harcanmadı."
+    "unreadableBody": "Menünün bir sayfasını iyi ışıkta ve karşıdan çekmeyi dene. Aylık kararın harcanmadı.",
+      "yourPhotos": "Fotoğrafların",
+      "whatYouAsked": "Sorduğun şey"
   },
   "fitCheck": {
     "eyebrow": "Uygunluk kontrolü",
@@ -507,7 +526,11 @@
     "signals": "Skoru etkileyenler",
     "reservationAdvice": "Masa bulmak",
     "checkAnother": "Başka bir mekan kontrol et",
-    "scanItsMenu": "Menüsünü tara"
+    "scanItsMenu": "Menüsünü tara",
+      "askedOn": "Sorduğun tarih",
+      "whatYouAsked": "Sorduğun şey",
+      "loadErrorTitle": "Bu uygunluk kontrolünü açamadık",
+      "loadErrorBody": "Kaldırılmış olabilir. Mekanı tekrar kontrol etmeyi dene."
   },
   "preferences": {
     "save": "Tercihleri kaydet",

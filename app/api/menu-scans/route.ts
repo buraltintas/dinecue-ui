@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { backendRequest, errorResponse, jsonResponse } from "@/lib/server/backendClient";
 import { languageSchema, readJson, validationError } from "@/lib/server/validation";
-import type { MenuScanAccepted } from "@/lib/types";
+import type { MenuScanAccepted, MenuScanListItemDto } from "@/lib/types";
 
 // Menus span several pages, so a scan takes a few photos. The backend caps this too
 // (Storage:MaxImagesPerScan); keeping the limits aligned means the diner gets a clear message here first.
@@ -27,6 +27,14 @@ export async function POST(request: NextRequest) {
     return jsonResponse(response, { status: 202 });
   } catch (error) {
     if (error instanceof z.ZodError) return validationError();
+    return errorResponse(error);
+  }
+}
+
+export async function GET() {
+  try {
+    return jsonResponse(await backendRequest<MenuScanListItemDto[]>("/menu-scans", { auth: true }));
+  } catch (error) {
     return errorResponse(error);
   }
 }

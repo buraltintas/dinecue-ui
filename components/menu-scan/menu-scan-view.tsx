@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { AlertTriangle, Baby, Flame, HelpCircle, Leaf, RefreshCw, Utensils } from "lucide-react";
-import { getMenuScan, recommendFromMenuScan } from "@/lib/api/menu-scans";
+import { AlertTriangle, Baby, Flame, HelpCircle, Leaf, RefreshCw, Share2, Utensils } from "lucide-react";
+import { getMenuScan, menuScanImageUrl, recommendFromMenuScan } from "@/lib/api/menu-scans";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { GenerationScreen } from "@/components/recommendations/generation-screen";
 import { useI18n } from "@/components/providers/i18n-provider";
+import { formatDate } from "@/lib/utils";
 import type { MenuItemDto, MenuRecommendationDto, MenuScanDetail } from "@/lib/types";
 
 export function MenuScanView({ menuScanId }: { menuScanId: string }) {
@@ -27,6 +28,29 @@ export function MenuScanView({ menuScanId }: { menuScanId: string }) {
     mutationFn: () => recommendFromMenuScan(menuScanId),
     onSuccess: (updated) => queryClient.setQueryData<MenuScanDetail>(["menu-scan", menuScanId], updated)
   });
+
+  /**
+   * Shares a short summary through the device share sheet, matching the recommendation cards.
+   * Text rather than a link, on purpose: a shareable URL would put the menu photos and the diner's
+   * dietary notes outside their account.
+   */
+  async function share() {
+    const data = scan.data;
+    if (!data) return;
+    const lines = [
+      data.summary,
+      data.recommendedItems.length > 0
+        ? `${t.menuScan.suggestions}: ${data.recommendedItems.map((item) => item.itemName).join(", ")}`
+        : null
+    ].filter(Boolean) as string[];
+    const text = lines.join("\n\n");
+
+    if (navigator.share) {
+      await navigator.share({ title: t.menuScan.resultTitle, text }).catch(() => null);
+      return;
+    }
+    await navigator.clipboard?.writeText(text).catch(() => null);
+  }
 
   if (scan.isLoading) return <GenerationScreen />;
 
@@ -68,8 +92,48 @@ export function MenuScanView({ menuScanId }: { menuScanId: string }) {
       <header className="mb-10">
         <p className="eyebrow text-copper">{t.menuScan.resultEyebrow}</p>
         <h1 className="mt-4 max-w-3xl font-display text-display-2 text-ivory text-balance">{t.menuScan.resultTitle}</h1>
+        {data.createdAt ? (
+          <p className="mt-3 font-mono text-xs text-faint">
+            <time dateTime={data.createdAt}>{formatDate(data.createdAt)}</time>
+          </p>
+        ) : null}
         {data.summary ? (
           <p className="mt-4 max-w-measure text-lead text-ivory/90 text-pretty">{data.summary}</p>
+        ) : null}
+
+        {/* Their own photos and words, so a scan reopened from history is the whole record. */}
+        {data.imageCount > 0 ? (
+          <div className="mt-7">
+            <p className="eyebrow text-faint">{t.menuScan.yourPhotos}</p>
+            <ul className="mt-3 flex flex-wrap gap-3">
+              {Array.from({ length: data.imageCount }, (_, index) => (
+                <li key={index}>
+                  <a
+                    href={menuScanImageUrl(menuScanId, index)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block overflow-hidden rounded-card border border-ivory/10 transition hover:border-amber/40"
+                  >
+                    {/* Served through our own ownership-checked proxy, so the bucket stays private. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={menuScanImageUrl(menuScanId, index)}
+                      alt={`${t.menuScan.yourPhotos} ${index + 1}`}
+                      className="h-28 w-24 object-cover"
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {data.rawText ? (
+          <p className="mt-6 max-w-measure rounded-card border border-ivory/10 bg-black/25 px-4 py-3 text-sm leading-6">
+            <span className="eyebrow block text-faint">{t.menuScan.whatYouAsked}</span>
+            <span className="mt-2 block text-ivory/85 text-pretty">{data.rawText}</span>
+          </p>
         ) : null}
       </header>
 
@@ -173,7 +237,11 @@ export function MenuScanView({ menuScanId }: { menuScanId: string }) {
         </section>
       ) : null}
 
-      <div className="mt-10 flex flex-col gap-3 border-t border-ivory/10 pt-6 sm:flex-row">
+      <div className="mt-10 flex flex-col gap-3 border-t border-ivory/10 pt-6 sm:flex-row sm:flex-wrap">
+        <Button type="button" variant="ghost" size="lg" className="w-full sm:w-auto" onClick={share}>
+          {t.common.share}
+          <Share2 size={16} aria-hidden />
+        </Button>
         <Link href="/app/menu-scan" className="w-full sm:w-auto">
           <Button variant="secondary" size="lg" className="w-full sm:w-auto">
             {t.menuScan.scanAnother}

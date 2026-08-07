@@ -310,7 +310,24 @@
     "title": "Recent dining decisions",
     "loading": "Loading history",
     "emptyTitle": "No recommendation history yet",
-    "emptyBody": "Once you create sessions, your recent dining ideas will appear here."
+    "emptyBody": "Once you create sessions, your recent dining ideas will appear here.",
+      "groupLabel": "Filter history",
+      "groupAll": "Everything",
+      "groupRecommendations": "Places",
+      "groupMenuScans": "Menus",
+      "groupFitChecks": "Fit checks",
+      "kinds": {
+        "recommendation": "place",
+        "menu_scan": "menu",
+        "fit_check": "fit check"
+      },
+      "failed": "didn’t finish",
+      "inProgress": "in progress",
+      "untitled": "Untitled",
+      "errorTitle": "We couldn’t load your history",
+      "errorBody": "Please try again in a moment.",
+      "emptyGroupTitle": "Nothing here yet",
+      "emptyGroupBody": "Once you use this, it will show up here."
   },
   "saved": {
     "eyebrow": "Saved",
@@ -477,7 +494,9 @@
     "failedTitle": "We couldn’t read this menu",
     "failedBody": "Something went wrong on our side. Your monthly decision was not used.",
     "unreadableTitle": "That photo wasn’t readable",
-    "unreadableBody": "Try a straight-on photo of one menu page in good light. Your monthly decision was not used."
+    "unreadableBody": "Try a straight-on photo of one menu page in good light. Your monthly decision was not used.",
+      "yourPhotos": "Your photos",
+      "whatYouAsked": "What you asked"
   },
   "fitCheck": {
     "eyebrow": "Fit check",
@@ -507,7 +526,11 @@
     "signals": "What moved the score",
     "reservationAdvice": "Getting a table",
     "checkAnother": "Check another place",
-    "scanItsMenu": "Scan its menu"
+    "scanItsMenu": "Scan its menu",
+      "askedOn": "Asked on",
+      "whatYouAsked": "What you asked",
+      "loadErrorTitle": "We couldn’t load this fit check",
+      "loadErrorBody": "It may have been removed. Try checking the place again."
   },
   "preferences": {
     "save": "Save preferences",
