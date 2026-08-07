@@ -122,8 +122,8 @@
         "features": [
           "Ayda 5 yemek kararı",
           "Ruh haline ve bağlamına göre mekan bulma",
-          "Temel menü tarama (yakında)",
-          "Temel uygunluk kontrolü (yakında)",
+          "Temel menü tarama",
+          "Temel uygunluk kontrolü",
           "Kaydedilenler ve geçmiş"
         ]
       },
@@ -199,7 +199,6 @@
     "verify": "dinecue'ya gir",
     "sent": "Kodu e-postana gönderdik.",
     "google": "Google ile devam et",
-    "googleSoon": "Google ile giriş yakında",
     "googleUnavailable": "Google ile giriş şu anda kullanılamıyor.",
     "googleDevelopmentWarning": "Yerelde Google ile girişi açmak için Google client ID ekle.",
     "developmentOtp": "Geliştirme OTP",

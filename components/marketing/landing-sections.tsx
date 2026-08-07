@@ -137,26 +137,16 @@ function Capabilities() {
         </SectionTitle>
 
         <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-10">
-          {t.landing.capabilities.map((capability, index) => {
-            // Only "find a restaurant" ships today.
-            const comingSoon = index > 0;
-            return (
-              <article key={capability.title} className={cn("border-t border-ivory/12 pt-7", comingSoon && "opacity-70")}>
-                <div className="h-16" aria-hidden>
-                  {artifacts[index]}
-                </div>
-                <h3 className="mt-8 flex items-baseline gap-3 font-display text-xl text-ivory">
-                  {capability.title}
-                  {comingSoon ? (
-                    <span className="font-mono text-[0.625rem] lowercase tracking-[0.16em] text-faint">
-                      {t.common.comingSoon}
-                    </span>
-                  ) : null}
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-muted text-pretty">{capability.text}</p>
-              </article>
-            );
-          })}
+          {/* All three capabilities ship now: finding a place, scanning a menu, checking a place's fit. */}
+          {t.landing.capabilities.map((capability, index) => (
+            <article key={capability.title} className="border-t border-ivory/12 pt-7">
+              <div className="h-16" aria-hidden>
+                {artifacts[index]}
+              </div>
+              <h3 className="mt-8 font-display text-xl text-ivory">{capability.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-muted text-pretty">{capability.text}</p>
+            </article>
+          ))}
         </div>
       </div>
     </Section>

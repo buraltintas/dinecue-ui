@@ -122,8 +122,8 @@
         "features": [
           "5 dining decisions per month",
           "Find places for your mood and context",
-          "Basic menu scan (coming soon)",
-          "Basic restaurant fit check (coming soon)",
+          "Basic menu scan",
+          "Basic restaurant fit check",
           "Saved places and history"
         ]
       },
@@ -199,7 +199,6 @@
     "verify": "Enter dinecue",
     "sent": "We sent a code to your email.",
     "google": "Continue with Google",
-    "googleSoon": "Google login is coming soon",
     "googleUnavailable": "Google sign-in is unavailable right now.",
     "googleDevelopmentWarning": "Add a Google client ID to enable Google sign-in locally.",
     "developmentOtp": "Development OTP",

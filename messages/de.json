@@ -122,8 +122,8 @@
         "features": [
           "5 Essensentscheidungen pro Monat",
           "Orte passend zu Stimmung und Kontext finden",
-          "Einfacher Menüscan (bald verfügbar)",
-          "Einfacher Restaurant-Fit-Check (bald verfügbar)",
+          "Einfacher Menüscan",
+          "Einfacher Restaurant-Fit-Check",
           "Gespeicherte Orte und Verlauf"
         ]
       },
@@ -199,7 +199,6 @@
     "verify": "dinecue öffnen",
     "sent": "Wir haben dir einen Code gesendet.",
     "google": "Mit Google fortfahren",
-    "googleSoon": "Google Login kommt bald",
     "googleUnavailable": "Google-Anmeldung ist gerade nicht verfügbar.",
     "googleDevelopmentWarning": "Füge eine Google Client-ID hinzu, um Google-Anmeldung lokal zu aktivieren.",
     "developmentOtp": "Entwicklungs-OTP",
