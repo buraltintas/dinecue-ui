@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { AlertTriangle, Baby, Flame, HelpCircle, Leaf, RefreshCw, Share2, Utensils } from "lucide-react";
+import { AlertTriangle, Baby, Flame, HelpCircle, Leaf, RefreshCw, Utensils } from "lucide-react";
 import { getMenuScan, menuScanImageUrl, recommendFromMenuScan } from "@/lib/api/menu-scans";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -29,28 +29,6 @@ export function MenuScanView({ menuScanId }: { menuScanId: string }) {
     onSuccess: (updated) => queryClient.setQueryData<MenuScanDetail>(["menu-scan", menuScanId], updated)
   });
 
-  /**
-   * Shares a short summary through the device share sheet, matching the recommendation cards.
-   * Text rather than a link, on purpose: a shareable URL would put the menu photos and the diner's
-   * dietary notes outside their account.
-   */
-  async function share() {
-    const data = scan.data;
-    if (!data) return;
-    const lines = [
-      data.summary,
-      data.recommendedItems.length > 0
-        ? `${t.menuScan.suggestions}: ${data.recommendedItems.map((item) => item.itemName).join(", ")}`
-        : null
-    ].filter(Boolean) as string[];
-    const text = lines.join("\n\n");
-
-    if (navigator.share) {
-      await navigator.share({ title: t.menuScan.resultTitle, text }).catch(() => null);
-      return;
-    }
-    await navigator.clipboard?.writeText(text).catch(() => null);
-  }
 
   if (scan.isLoading) return <GenerationScreen />;
 
@@ -237,11 +215,7 @@ export function MenuScanView({ menuScanId }: { menuScanId: string }) {
         </section>
       ) : null}
 
-      <div className="mt-10 flex flex-col gap-3 border-t border-ivory/10 pt-6 sm:flex-row sm:flex-wrap">
-        <Button type="button" variant="ghost" size="lg" className="w-full sm:w-auto" onClick={share}>
-          {t.common.share}
-          <Share2 size={16} aria-hidden />
-        </Button>
+      <div className="mt-10 flex flex-col gap-3 border-t border-ivory/10 pt-6 sm:flex-row">
         <Link href="/app/menu-scan" className="w-full sm:w-auto">
           <Button variant="secondary" size="lg" className="w-full sm:w-auto">
             {t.menuScan.scanAnother}
