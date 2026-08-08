@@ -47,7 +47,8 @@ const config: Config = {
         "section-md": "clamp(4rem, 2.5rem + 6vw, 7rem)",
         "section-lg": "clamp(5rem, 3rem + 8vw, 9rem)",
         gutter: "clamp(1.25rem, 0.6rem + 2.4vw, 3rem)",
-        safe: "env(safe-area-inset-bottom, 0px)"
+        safe: "env(safe-area-inset-bottom, 0px)",
+        "safe-top": "env(safe-area-inset-top, 0px)"
       },
       maxWidth: {
         measure: "68ch"

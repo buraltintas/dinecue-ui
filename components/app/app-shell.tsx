@@ -26,6 +26,10 @@ const items = [
   { href: "/app/profile", key: "profile", icon: Settings, soon: false }
 ] as const;
 
+// The five that belong in a thumb-reach bar: home, the three things a diner actually does, and history.
+// Saved and profile stay in the sidebar and on the app home, which both list everything.
+const mobileItems = ["/app", "/app/find", "/app/menu-scan", "/app/fit-check", "/app/history"] as const;
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -135,7 +139,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <main className="pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:pb-0 md:pl-20 lg:pl-72">
-        <div className="sticky top-0 z-20 border-b border-ivory/10 bg-night/90 backdrop-blur-xl md:hidden">
+        <div className="sticky top-0 z-20 border-b border-ivory/10 bg-night/95 pt-safe-top backdrop-blur-xl md:hidden">
           <div className="container-page flex h-16 items-center justify-between gap-4">
             <BrandLink href="/app/find" size="sm" />
             <div className="flex min-w-0 items-center gap-3">
@@ -151,11 +155,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </main>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-ivory/10 bg-void/85 pb-safe backdrop-blur-xl md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-ivory/10 bg-void/95 pb-safe backdrop-blur-xl md:hidden"
         aria-label={t.common.mobileNavigation}
       >
         <div className="mx-auto grid max-w-lg grid-cols-5 gap-1 px-2 py-1.5">
-          {items.slice(0, 5).map((item) => {
+          {mobileItems.map((href) => items.find((item) => item.href === href)!).map((item) => {
             const active = pathname === item.href;
             const Icon = item.icon;
             return (
