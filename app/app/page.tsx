@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Bookmark, Clock, ScanLine, Search } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bookmark, Clock, ScanLine, Search, Utensils } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/providers/i18n-provider";
 
@@ -9,7 +9,9 @@ const cardMeta = [
   { href: "/app/find", icon: Search, soon: false },
   { href: "/app/history", icon: Clock, soon: false },
   { href: "/app/saved", icon: Bookmark, soon: false },
-  { href: "/app/menu-scan", icon: ScanLine, soon: false }
+  { href: "/app/menu-scan", icon: ScanLine, soon: false },
+  // Fit check was missing here entirely, so the flow had no route in from the app home.
+  { href: "/app/fit-check", icon: Utensils, soon: false }
 ] as const;
 
 export default function AppHomePage() {

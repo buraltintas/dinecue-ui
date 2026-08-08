@@ -6,6 +6,7 @@ import { CheckCircle2, ExternalLink, HelpCircle, MapPin, Minus, Phone, ScanLine,
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { cn, formatDate } from "@/lib/utils";
+import { fitSignalValueToken, humanizeFitSignalKey, readFitSignals } from "@/lib/fit-signals";
 import type { RestaurantFitCheckResponse } from "@/lib/types";
 
 export function FitCheckReport({
@@ -32,7 +33,7 @@ export function FitCheckReport({
   const strength = score >= 82 ? "strong" : score >= 68 ? "good" : "possible";
   // confidence is a 0..1 fraction, exactly like a recommendation card's.
   const confidencePercent = Math.round(Math.min(Math.max(report.confidence, 0), 1) * 100);
-  const signals = readSignals(report.relevantSignals);
+  const signals = readFitSignals(report.relevantSignals);
 
 
   return (
@@ -141,29 +142,38 @@ export function FitCheckReport({
         <section className="mt-6">
           <h2 className="eyebrow text-faint">{t.fitCheck.signals}</h2>
           <ul className="mt-4 flex flex-wrap gap-2">
-            {signals.map((signal) => (
-              <li
-                key={signal.name}
-                className={cn(
-                  "inline-flex items-center gap-2 rounded-pill border px-3 py-1.5 text-xs",
-                  signal.impact === "positive"
-                    ? "border-sage/35 bg-sage/[0.1] text-ivory"
-                    : signal.impact === "negative"
-                      ? "border-wine/45 bg-wine/[0.18] text-ivory"
-                      : "border-ivory/12 bg-ivory/[0.05] text-muted"
-                )}
-              >
-                {signal.impact === "positive" ? (
-                  <CheckCircle2 size={12} aria-hidden />
-                ) : signal.impact === "negative" ? (
-                  <TriangleAlert size={12} aria-hidden />
-                ) : (
-                  <Minus size={12} aria-hidden />
-                )}
-                <span className="font-mono">{signal.name}</span>
-                {signal.value ? <span className="text-faint">{signal.value}</span> : null}
-              </li>
-            ))}
+            {signals.map((signal) => {
+              // Labelled before display: the raw keys are our own metadata identifiers, and the product
+              // does not put backend language in front of a diner.
+              const label = t.fitCheck.signalLabels[signal.key as keyof typeof t.fitCheck.signalLabels]
+                ?? humanizeFitSignalKey(signal.key);
+              const token = fitSignalValueToken(signal.value);
+              const value = token ? t.fitCheck.signalValues[token] : signal.value;
+
+              return (
+                <li
+                  key={signal.key}
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-pill border px-3 py-1.5 text-xs",
+                    signal.impact === "positive"
+                      ? "border-sage/35 bg-sage/[0.1] text-ivory"
+                      : signal.impact === "negative"
+                        ? "border-wine/45 bg-wine/[0.18] text-ivory"
+                        : "border-ivory/12 bg-ivory/[0.05] text-muted"
+                  )}
+                >
+                  {signal.impact === "positive" ? (
+                    <CheckCircle2 size={12} aria-hidden />
+                  ) : signal.impact === "negative" ? (
+                    <TriangleAlert size={12} aria-hidden />
+                  ) : (
+                    <Minus size={12} aria-hidden />
+                  )}
+                  <span>{label}</span>
+                  {value ? <span className="text-faint">{value}</span> : null}
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}
@@ -207,22 +217,3 @@ export function FitCheckReport({
   );
 }
 
-type Signal = { name: string; value?: string; impact: "positive" | "negative" | "neutral" };
-
-/**
- * The live analyzer returns `{ value, impact }` per signal; the local mock returns bare scalars.
- * Read both shapes rather than assuming one.
- */
-function readSignals(raw: Record<string, unknown>): Signal[] {
-  return Object.entries(raw || {})
-    .map(([name, value]) => {
-      if (value && typeof value === "object" && !Array.isArray(value)) {
-        const record = value as { value?: unknown; impact?: unknown };
-        const impact: Signal["impact"] =
-          record.impact === "positive" || record.impact === "negative" ? record.impact : "neutral";
-        return { name, value: record.value == null ? undefined : String(record.value), impact };
-      }
-      return { name, value: value == null ? undefined : String(value), impact: "neutral" as const };
-    })
-    .slice(0, 8);
-}

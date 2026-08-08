@@ -38,6 +38,13 @@ export function HistoryList() {
     fit_check: t.history.groupFitChecks
   };
 
+  const emptyAction =
+    group === "menu_scan"
+      ? { href: "/app/menu-scan" as const, label: t.nav.menuScan }
+      : group === "fit_check"
+        ? { href: "/app/fit-check" as const, label: t.nav.fitCheck }
+        : { href: "/app/find" as const, label: t.common.findAPlace };
+
   return (
     <div>
       <div className="flex flex-wrap gap-2" role="tablist" aria-label={t.history.groupLabel}>
@@ -70,8 +77,10 @@ export function HistoryList() {
             title={group === "all" ? t.history.emptyTitle : t.history.emptyGroupTitle}
             description={group === "all" ? t.history.emptyBody : t.history.emptyGroupBody}
             action={
-              <Link href="/app/find">
-                <Button>{t.common.findAPlace}</Button>
+              // The way out has to match the group being looked at: an empty fit-check tab should offer a
+              // fit check, not send the diner off to search for a place.
+              <Link href={emptyAction.href}>
+                <Button>{emptyAction.label}</Button>
               </Link>
             }
           />
