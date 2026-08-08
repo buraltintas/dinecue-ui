@@ -4,7 +4,9 @@ import { FormEvent, useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getDiningProfile, getProfile, getTasteProfile, updateProfile } from "@/lib/api/profile";
 import type { ProfileDto } from "@/lib/types";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSignOut } from "@/components/providers/use-sign-out";
 import { Input } from "@/components/ui/input";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
@@ -43,6 +45,7 @@ export function ProfilePanel() {
     distanceUnit: "km"
   });
   const [saveError, setSaveError] = useState("");
+  const { signOut, signingOut } = useSignOut();
 
   useEffect(() => {
     if (profile.data) setForm(profile.data);
@@ -145,6 +148,14 @@ export function ProfilePanel() {
         <Button className="mt-6" disabled={mutation.isPending}>
           {mutation.isPending ? t.profile.saving : t.profile.save}
         </Button>
+
+        {/* Signing out lived only in the desktop sidebar, so on a phone there was no way to do it. */}
+        <div className="mt-8 border-t border-ivory/10 pt-6">
+          <Button type="button" variant="secondary" disabled={signingOut} onClick={() => void signOut()}>
+            {signingOut ? t.common.working : t.common.signOut}
+            <LogOut size={16} aria-hidden />
+          </Button>
+        </div>
       </form>
 
       <div className="space-y-4">

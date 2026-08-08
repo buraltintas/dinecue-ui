@@ -13,7 +13,16 @@ const options: { value: SupportedLanguage; label: string }[] = [
   { value: "de", label: "de" }
 ];
 
-export function LanguageSwitcher({ compact = false, refreshOnChange = false }: { compact?: boolean; refreshOnChange?: boolean }) {
+export function LanguageSwitcher({
+  compact = false,
+  refreshOnChange = false,
+  align = "down"
+}: {
+  compact?: boolean;
+  refreshOnChange?: boolean;
+  /** "up" for a trigger near the bottom of the viewport, where a downward menu would run off the page. */
+  align?: "down" | "up";
+}) {
   const router = useRouter();
   const { language, setLanguage, t } = useI18n();
   const [open, setOpen] = useState(false);
@@ -64,7 +73,10 @@ export function LanguageSwitcher({ compact = false, refreshOnChange = false }: {
         <div
           role="listbox"
           aria-label={t.common.language}
-          className="absolute right-0 z-50 mt-2 min-w-full overflow-hidden rounded-card border border-ivory/12 bg-charcoal/95 p-1 shadow-glass backdrop-blur-xl"
+          className={cn(
+            "absolute right-0 z-50 min-w-full overflow-hidden rounded-card border border-ivory/12 bg-charcoal/95 p-1 shadow-glass backdrop-blur-xl",
+            align === "up" ? "bottom-full mb-2" : "mt-2"
+          )}
         >
           {options.map((option) => (
             <button

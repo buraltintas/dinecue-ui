@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Bookmark, History, Home, LogOut, ScanLine, Search, Settings, Utensils } from "lucide-react";
-import { getMe, logout } from "@/lib/api/auth";
+import { getMe } from "@/lib/api/auth";
 import { updatePreferredLanguage } from "@/lib/api/profile";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/components/providers/i18n-provider";
@@ -13,6 +13,7 @@ import type { UserDto } from "@/lib/types";
 import { BrandLink } from "@/components/brand/brand-link";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { useSessionHint } from "@/components/providers/session-hint-provider";
+import { useSignOut } from "@/components/providers/use-sign-out";
 
 // `soon` marks features the backend does not serve yet, so the navigation
 // never implies they are usable.
@@ -36,6 +37,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const { language, t, applyAuthenticatedLanguage, lastChangeSource } = useI18n();
   const { hasAuthSessionHint, setAuthSessionHint } = useSessionHint();
+  const { signOut } = useSignOut();
   const me = useQuery({ queryKey: ["me"], queryFn: getMe, retry: false, enabled: hasAuthSessionHint });
   const languageMutation = useMutation({
     mutationFn: updatePreferredLanguage,
@@ -70,13 +72,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     if (me.isError) setAuthSessionHint(false);
   }, [me.isError, setAuthSessionHint]);
 
-  async function signOut() {
-    await logout().catch(() => null);
-    setAuthSessionHint(false);
-    queryClient.clear();
-    router.replace("/");
-    router.refresh();
-  }
 
   return (
     <div className="min-h-[100dvh] bg-night text-ivory">
@@ -125,7 +120,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           ) : null}
           <div className="hidden lg:block">
-            <LanguageSwitcher compact />
+            <LanguageSwitcher compact align="up" />
           </div>
           <button
             onClick={signOut}
@@ -147,6 +142,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <span className="hidden max-w-[12rem] truncate font-mono text-xs text-faint sm:inline">{me.data.email}</span>
               ) : null}
               <LanguageSwitcher compact />
+              <Link
+                href="/app/profile"
+                aria-label={t.nav.profile}
+                aria-current={pathname === "/app/profile" ? "page" : undefined}
+                className={cn(
+                  "grid min-h-11 min-w-11 place-items-center rounded-pill border border-ivory/12 bg-black/25 transition hover:border-ivory/25 hover:bg-ivory/[0.08]",
+                  pathname === "/app/profile" ? "text-amber" : "text-muted"
+                )}
+              >
+                <Settings size={18} aria-hidden />
+              </Link>
             </div>
           </div>
         </div>
